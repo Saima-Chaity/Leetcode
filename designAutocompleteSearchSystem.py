@@ -40,6 +40,7 @@ have prefix the same as the part of sentence already typed.'''
 # Operation: input('a')
 # Output: []
 
+
 class Trie:
     def __init__(self):
         self.node = dict()
@@ -61,7 +62,7 @@ class AutocompleteSystem:
             if char not in trie.node:
                 trie.node[char] = Trie()
             trie = trie.node[char]
-            trie.words.append(sentence)
+            trie.words.append(sentence) #This approach requires extra space as I am storing word for each character
         return True
 
     def findSentence(self, keyword):
@@ -88,6 +89,63 @@ class AutocompleteSystem:
             self.keyword = ''
         return []
 
-# Your AutocompleteSystem object will be instantiated and called as such:
+
+###Another aproach
+#For each input character, I am searching all the sentences using self.keyword as prefix and sort them as frequency and
+#lexicograph.
+
+from collections import Counter
+class AutocompleteSystem:
+
+    def __init__(self, sentences: List[str], times: List[int]):
+        self.keyword = ""
+        self.trie = {}
+        self.count = Counter()
+        for sentence, time in zip(sentences, times):
+            self.buildTrie(sentence, time)
+        self.node = self.trie
+
+    def buildTrie(self, sentence, time):
+        trie = self.trie
+        for char in sentence:
+            if char not in trie:
+                trie[char] = {}
+            trie = trie[char]
+        trie["end"] = 1
+        self.count[sentence] += time
+
+    def reset(self):
+        self.buildTrie(self.keyword, 1)
+        self.keyword = ""
+        self.node = self.trie
+
+    def input(self, c: str) -> List[str]:
+
+        def findSentence(node, keyword):
+            if "end" in node:
+                result.append(keyword)
+            for nextChar in node:
+                if nextChar != "end":
+                    findSentence(node[nextChar], keyword + nextChar)
+            return
+
+        result = []
+
+        if c == "#":
+            self.reset()
+            self.keyword = ""
+            return []
+        elif c not in self.node:
+            self.keyword += c
+            self.node = {}
+            return []
+        else:
+            self.keyword += c
+            self.node = self.node[c]
+            findSentence(self.node, self.keyword)
+            result.sort(key=lambda x: (-self.count[x], x))
+            return result[:3]
+
+# AutocompleteSystem object will be instantiated and called as such:
 # obj = AutocompleteSystem(sentences, times)
 # param_1 = obj.input(c)
