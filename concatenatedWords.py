@@ -38,3 +38,41 @@ class Solution:
         return output
 
 
+# Using Trie
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words):
+
+        self.trie = {}
+
+        def buildTrie(word):
+            t = self.trie
+            for char in word:
+                if char not in t:
+                    t[char] = {}
+                t = t[char]
+            t["#"] = "#"
+
+        for word in words:
+            buildTrie(word)
+
+        result = []
+        for word in words:
+            if self.helper(word, 0, len(word) - 1, 0):
+                result.append(word)
+        return result
+
+    def helper(self, word, start, end, count):
+        t = self.trie
+        for i in range(start, end + 1):
+            if word[i] in t:
+                t = t[word[i]]
+                if "#" in t:
+                    if i == end:
+                        return count >= 1
+                    elif self.helper(word, i + 1, end, count + 1):
+                        return True
+            else:
+                break
+        return False
+
+
