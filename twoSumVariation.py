@@ -274,3 +274,100 @@ class Solution:
                     left += 1
                     right -= 1
         return result
+
+
+# 4Sum - https://leetcode.com/problems/4sum/
+'''
+Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? 
+Find all unique quadruplets in the array which gives the sum of target.
+
+Note:
+
+The solution set must not contain duplicate quadruplets.
+
+Example:
+
+Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.
+
+A solution set is:
+[
+  [-1,  0, 0, 1],
+  [-2, -1, 1, 2],
+  [-2,  0, 0, 2]
+]'''
+
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        n = len(nums)
+        if n < 4:
+            return []
+
+        results = set()
+        nums.sort()
+        for i in range(len(nums) - 3):
+            if i == 0 or nums[i] != nums[i - 1]:
+                threeSumResult = self.threeSum(nums[i + 1:], target - nums[i])
+                for items in threeSumResult:
+                    results.add(((nums[i],) + items))
+        return map(list, results)
+
+    def threeSum(self, nums, target):
+
+        result = set()
+        for i in range(len(nums) - 2):
+            left = i + 1
+            right = len(nums) - 1
+            newTarget = target - nums[i]
+            if i == 0 or nums[i] != nums[i - 1]:
+                while left < right:
+                    total = nums[left] + nums[right]
+                    if total < newTarget:
+                        left += 1
+                    elif total > newTarget:
+                        right -= 1
+                    else:
+                        result.add((nums[i], nums[left], nums[right]))
+                        while left < right and nums[left] == nums[left + 1]:
+                            left += 1
+                        while left < right and nums[right] == nums[right - 1]:
+                            right -= 1
+                        left += 1
+                        right -= 1
+        return result
+
+
+# N - sum where N >= 2 solution:
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        results = []
+        self.findNSum(nums, target, 4, [], results)
+        return results
+
+    def findNSum(self, nums, target, N, result, results):
+        if N < 2 or len(nums) < N:
+            return
+        if N == 2:
+            left = 0
+            right = len(nums)-1
+            while left < right:
+                total = nums[left] + nums[right]
+                if total < target:
+                    left += 1
+                elif total > target:
+                    right -= 1
+                else:
+                    results.append(result + [nums[left], nums[right]])
+                    while left < right and nums[left] == nums[left + 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+                    left += 1
+                    right -= 1
+        else:
+            for i in range(0, len(nums)-N + 1):
+                if target < nums[i]*N or target > nums[-1]*N:
+                    break
+                if i == 0 or i > 0 and nums[i-1] != nums[i]:
+                    self.findNSum(nums[i+1:], target-nums[i], N-1, result+[nums[i]], results)
+        return
