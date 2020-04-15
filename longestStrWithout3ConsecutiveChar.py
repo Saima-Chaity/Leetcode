@@ -2,14 +2,11 @@
 There can be at max A 'a', B 'b' and C 'c'.'''
 
 import  heapq
-from collections import defaultdict
 class Solution(object):
     def longestStr(self, A, B, C):
 
         heap = []
         result = ""
-        temp = {}
-        count = 0
 
         for char, freq in ('a', A), ('b', B), ('c', C):
             heapq.heappush(heap, (-freq, char))
