@@ -96,27 +96,26 @@ class Solution:
     if not s:
       return 0
 
+    if len(s) < 3:
+      return len(s)
+
     right = 0
     left = 0
-    freq = defaultdict(int)
-    counter = 0
-    maxLength = 0
+    freq = defaultdict()
+    maxLength = 2
 
     while right < len(s):
-      freq[s[right]] += 1
-      if freq[s[right]] == 1:
-        counter += 1
-      right += 1
-
-      while left < right and counter > 2:
-        freq[s[left]] -= 1
-        if freq[s[left]] == 0:
-          counter -= 1
-        left += 1
+      if len(freq) < 3:
+        freq[s[right]] = right
+        right += 1
+      if len(freq) == 3:
+        lowestIndex = min(freq.values())
+        del freq[s[lowestIndex]]
+        left = lowestIndex + 1
       maxLength = max(maxLength, right - left)
     return maxLength
 
-print(Solution.lengthOfLongestSubstringTwoDistinct((), "eceba"))
+print(Solution.lengthOfLongestSubstringTwoDistinct((), "eebaceba"))
 
 # Longest Substring with At Most K Distinct Characters - https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
 
@@ -129,26 +128,22 @@ print(Solution.lengthOfLongestSubstringTwoDistinct((), "eceba"))
 class Solution:
   def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
 
-    if not s or not k:
+    if not s or k <= 0:
       return 0
 
     right = 0
     left = 0
-    freq = defaultdict(int)
-    counter = 0
-    maxLength = 0
+    freq = defaultdict()
+    maxLength = -1
 
     while right < len(s):
-      freq[s[right]] += 1
-      if freq[s[right]] == 1:
-        counter += 1
-      right += 1
-
-      while left < right and counter > k:
-        freq[s[left]] -= 1
-        if freq[s[left]] == 0:
-          counter -= 1
-        left += 1
+      if len(freq) < k + 1:
+        freq[s[right]] = right
+        right += 1
+      if len(freq) == k + 1:
+        lowestIndex = min(freq.values())
+        del freq[s[lowestIndex]]
+        left = lowestIndex + 1
       maxLength = max(maxLength, right - left)
     return maxLength
 
