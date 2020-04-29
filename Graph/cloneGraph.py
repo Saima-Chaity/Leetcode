@@ -18,15 +18,14 @@ Explanation: There are 4 nodes in the graph.
 4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
 '''
 
-"""
+
 # Definition for a Node.
 class Node:
     def __init__(self, val = 0, neighbors = None):
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
-"""
 
-
+#BFS
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
 
@@ -47,3 +46,21 @@ class Solution:
         return visited[node]
 
 
+#DFS
+class Solution:
+    def __init__(self):
+        self.visited = {}
+
+    def cloneGraph(self, node: 'Node') -> 'Node':
+
+        if not node:
+            return node
+
+        if node in self.visited:
+            return self.visited[node]
+
+        clonedNode = Node(node.val, [])
+        self.visited[node] = clonedNode
+        if node.neighbors:
+            clonedNode.neighbors = [self.cloneGraph(neighbour) for neighbour in node.neighbors]
+        return clonedNode
