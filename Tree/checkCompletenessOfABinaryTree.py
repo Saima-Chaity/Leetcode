@@ -26,7 +26,6 @@ class Solution:
             return False
 
         q = [root]
-        count = 0
         while q[0] != None:
             node = q.pop(0)
             q.append(node.left)
