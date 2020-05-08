@@ -52,3 +52,31 @@ class Solution:
             output[i] = mapping.get(nums1[i])
 
         return output
+
+
+# Next Greater Element II - https://leetcode.com/problems/next-greater-element-ii/
+'''Given a circular array (the next element of the last element is the first element of the array), print the Next 
+Greater Number for every element. The Next Greater Number of a number x is the first greater number to its 
+traversing-order next in the array, which means you could search circularly to find its next greater number. 
+If it doesn't exist, output -1 for this number.
+
+Example 1:
+Input: [1,2,1]
+Output: [2,-1,2]'''
+
+
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return []
+
+        stack = []
+        result = [-1] * len(nums)
+
+        for i in range(2 * len(nums), -1, -1):
+            while stack and nums[stack[-1]] <= nums[(i) % len(nums)]:
+                stack.pop()
+            result[(i) % len(nums)] = nums[stack[-1]] if stack else -1
+            stack.append((i) % len(nums))
+
+        return result
