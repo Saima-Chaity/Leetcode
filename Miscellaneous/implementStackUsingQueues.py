@@ -27,19 +27,19 @@ class MyStack:
         """
         Push element x onto stack.
         """
-        self.queue.append(x)
+        self.queue.appendleft(x)
 
     def pop(self) -> int:
         """
         Removes the element on top of the stack and returns that element.
         """
-        return self.queue.pop()
+        return self.queue.popleft()
 
     def top(self) -> int:
         """
         Get the top element.
         """
-        return self.queue[-1]
+        return self.queue[0]
 
     def empty(self) -> bool:
         """
@@ -48,7 +48,7 @@ class MyStack:
         return len(self.queue) == 0
 
 
-# MyStack object will be instantiated and called as such:
+# Your MyStack object will be instantiated and called as such:
 # obj = MyStack()
 # obj.push(x)
 # param_2 = obj.pop()
