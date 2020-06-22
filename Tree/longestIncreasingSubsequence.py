@@ -11,6 +11,22 @@ Explanation: The longest increasing subsequence is [2,3,7,101], therefore the le
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
 
+        output = [1] * len(nums)
+
+        for i in range(1, len(nums)):
+            for j in range(0, i):
+                if nums[j] < nums[i] and output[i] < output[j] + 1:
+                    output[i] = output[j] + 1
+
+        maxValue = 0
+        for i in range(len(output)):
+            maxValue = max(output[i], maxValue)
+        return maxValue
+
+# Using patience sort and binery search
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+
         if len(nums) == 0:
             return 0
 
