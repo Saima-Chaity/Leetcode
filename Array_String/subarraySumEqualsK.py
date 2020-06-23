@@ -15,6 +15,9 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
 
+        # Single scan. Given the current sum and the k, we check if (sum-k) existsed before at an earlier stage
+        # (at a smaller window size). Keep expanding the sum while checking whether we have seen (sum - k) before
+
         mapping = {}
         mapping[0] = 1
         total = 0
