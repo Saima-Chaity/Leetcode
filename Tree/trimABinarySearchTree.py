@@ -18,13 +18,13 @@ Output:
        2
 '''
 
-
+#Recursive
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution:
     def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
@@ -42,3 +42,41 @@ class Solution:
             return node
 
         return trim(root)
+
+#Iterative
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        #Preorder Traversal
+        if not root:
+            return None
+        nodeWithinRange = []
+        stack = []
+        while root or stack:
+            while root:
+                if L <= root.val <= R:
+                    nodeWithinRange.append(root.val)
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            root = root.right
+
+        #Construct Binary Search Tree from Preorder Traversal
+        root = TreeNode(nodeWithinRange[0])
+        stack = [root, ]
+        for i in range(1, len(nodeWithinRange)):
+            node, child = stack[-1], TreeNode(nodeWithinRange[i])
+            while stack and stack[-1].val < child.val:
+                node = stack.pop()
+            if node.val < child.val:
+                node.right = child
+            else:
+                node.left = child
+            stack.append(child)
+        return root
