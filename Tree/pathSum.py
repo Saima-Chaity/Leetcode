@@ -85,3 +85,94 @@ class Solution:
             if node.right:
                 queue.append((node.right, total+node.right.val, path+[node.right.val]))
         return output
+
+
+# Path Sum III - https://leetcode.com/problems/path-sum-iii/
+'''You are given a binary tree in which each node contains an integer value.
+
+Find the number of paths that sum to a given value.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards 
+(traveling only from parent nodes to child nodes).
+
+The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
+
+root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+Return 3. The paths that sum to 8 are:
+
+1.  5 -> 3
+2.  5 -> 2 -> 1
+3. -3 -> 11'''
+
+# Iterative
+from collections import defaultdict
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+
+        if not root:
+            return 0
+
+        count = 0
+        sum_dict = defaultdict(int)
+        sum_dict[0] = 1
+        stack = [(root, 0, False)]
+        while stack:
+            node, currentSum, backTrack = stack.pop()
+            if backTrack:
+                sum_dict[currentSum] -= 1
+                continue
+            currentSum += node.val
+            count += sum_dict[currentSum - sum]
+            sum_dict[currentSum] += 1
+            stack.append((None, currentSum, True))
+            if node.left:
+                stack.append((node.left, currentSum, False))
+            if node.right:
+                stack.append((node.right, currentSum, False))
+        return count
+
+# Recursive
+from collections import defaultdict
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+
+        if not root:
+            return 0
+
+        self.count = 0
+        self.sum_dict = defaultdict(int)
+        self.sum_dict[0] = 1
+        self.dfs(root, sum, 0)
+        return self.count
+
+    def dfs(self, node, target, currentSum):
+        if not node:
+            return
+        currentSum += node.val
+        self.count += self.sum_dict[currentSum - target]
+        self.sum_dict[currentSum] += 1
+        self.dfs(node.left, target, currentSum)
+        self.dfs(node.right, target, currentSum)
+        self.sum_dict[currentSum] -= 1
