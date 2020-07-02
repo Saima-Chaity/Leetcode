@@ -10,7 +10,6 @@ Input: root = [2,1,3], p = 1
 Output: 2
 Explanation: 1's in-order successor node is 2. Note that both p and the return value is of TreeNode type.'''
 
-
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -43,12 +42,28 @@ class Solution:
 
         return None
 
-        # current = root
-        # candidate = None
-        # while current:
-        #     if current.val > p.val:
-        #         candidate = current
-        #         current = current.left
-        #     else:
-        #         current = current.right
-        # return candidate
+# Another approach
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+
+        if not root:
+            return None
+
+        stack = []
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            if root.val > p.val:
+                return root
+            else:
+                root = root.right
+        return None
