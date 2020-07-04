@@ -16,31 +16,58 @@ To take course 1 you should have finished course 0. So it is possible.'''
 from collections import deque
 from collections import defaultdict
 
-
+# Topologyical sort - DFS
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
 
-        course = {i: set() for i in range(numCourses)}
-        preCourse = defaultdict(set)
+        # 0 = unvisited, 1 = visiting, 2 = visited
+        
+        self.edges = defaultdict(list)
+        self.visited = [False] * numCourses
+        for course, pre_course in prerequisites:
+            self.edges[pre_course].append(course)
 
-        for i, j in prerequisites:
-            course[i].add(j)
-            preCourse[j].add(i)
+        for course in range(numCourses):
+            if not self.dfs(course):
+                return False
+        return True
+    
+    def dfs(self, course):
+        if self.visited[course] == 1:
+            return False
+        if self.visited[course] == 2:
+            return True
+        self.visited[course] = 1
+        for neighbor in self.edges[course]:
+            if not self.dfs(neighbor):
+                return False
+        self.visited[course] = 2
+        return True
 
-        queue = deque([])
-        for key, value in course.items():
-            if len(value) == 0:
-                queue.append(key)
 
+# Topologyical sort - BFS
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        edges = defaultdict(list)
+        degree = [0] * numCourses
+        for course, pre_course in prerequisites:
+            edges[pre_course].append(course)
+            degree[course] += 1
+
+        queue = deque()
+        for course in range(numCourses):
+            if not degree[course]:
+                queue.append(course)
+        
+        courseCount = 0
         while queue:
-            item = queue.popleft()
-            for i in preCourse[item]:
-                course[i].remove(item)
-                if len(course[i]) == 0:
-                    queue.append(i)
-            course.pop(item)
-        return len(course) == 0
-
+            course = queue.popleft()
+            courseCount += 1
+            for next_course in edges[course]:
+                degree[next_course] -= 1
+                if not degree[next_course]:
+                    queue.append(next_course)
+        return courseCount == numCourses
 
 
 # Course Schedule II - https://leetcode.com/problems/course-schedule-ii/
@@ -62,31 +89,58 @@ Output: [0,1]
 Explanation: There are a total of 2 courses to take. To take course 1 you should have finished   
 course 0. So the correct course order is [0,1] .'''
 
+# Topologyical sort - DFS
 from collections import defaultdict
 class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        # 0 = unvisited, 1 = visiting, 2 = visited
+        
+        self.edges = defaultdict(list)
+        self.visited = [False] * numCourses
+        self.courseOrder = []
+        for course, pre_course in prerequisites:
+            self.edges[pre_course].append(course)
 
-    def findOrder(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: List[int]
-        """
+        for course in range(numCourses):
+            if not self.dfs(course):
+                return []
+        return self.courseOrder
+    
+    def dfs(self, course):
+        if self.visited[course] == 1:
+            return False
+        if self.visited[course] == 2:
+            return True
+        self.visited[course] = 1
+        for neighbor in self.edges[course]:
+            if not self.dfs(neighbor):
+                return False
+        self.visited[course] = 2
+        self.courseOrder.insert(0, course)
+        return True
 
-        adj_list = defaultdict(list)
-        indegree = {}
-        for i, j in prerequisites:
-            adj_list[j].append(i)
-            indegree[i] = indegree.get(i, 0) + 1
 
-        zero_indegree_queue = [k for k in range(numCourses) if k not in indegree]
-        topological_sorted_order = []
+# Topologyical sort - BFS
+from collections import defaultdict
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        edges = defaultdict(list)
+        degree = [0] * numCourses
+        for course, pre_course in prerequisites:
+            edges[pre_course].append(course)
+            degree[course] += 1
 
-        while zero_indegree_queue:
-            vertex = zero_indegree_queue.pop(0)
-            topological_sorted_order.append(vertex)
-            if vertex in adj_list:
-                for i in adj_list[vertex]:
-                    indegree[i] -= 1
-                    if indegree[i] == 0:
-                        zero_indegree_queue.append(i)
-        return topological_sorted_order if len(topological_sorted_order) == numCourses else []
+        queue = deque()
+        for course in range(numCourses):
+            if not degree[course]:
+                queue.append(course)
+        
+        courseOrder = []
+        while queue:
+            course = queue.popleft()
+            courseOrder.append(course)
+            for next_course in edges[course]:
+                degree[next_course] -= 1
+                if not degree[next_course]:
+                    queue.append(next_course)
+        return courseOrder if len(courseOrder) == numCourses else []
