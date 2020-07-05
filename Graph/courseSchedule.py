@@ -15,7 +15,6 @@ To take course 1 you should have finished course 0. So it is possible.'''
 
 from collections import deque
 from collections import defaultdict
-
 # Topologyical sort - DFS
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
