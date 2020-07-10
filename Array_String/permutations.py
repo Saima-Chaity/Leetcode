@@ -24,3 +24,34 @@ class Solution:
         numLength  = len(nums)
         backTrack()
         return output
+
+# Permutations II - https://leetcode.com/problems/permutations-ii/
+'''Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+Input: [1,1,2]
+Output:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]'''
+
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        def backTrack(nums, path, visited):
+            if len(path) == len(nums):
+                output.append(path[:])
+                return
+            for i in range(0, len(nums)):
+                if not visited[i]:
+                    if i > 0 and not visited[i-1] and nums[i] == nums[i-1]:
+                        continue
+                    else:
+                        visited[i] = True
+                        backTrack(nums, path+[nums[i]], visited)
+                        visited[i] = False
+        output = []
+        nums.sort()
+        visited = [False] * len(nums)
+        backTrack(nums, [], visited)
+        return output
