@@ -16,3 +16,19 @@ class Solution:
         for step in range(3, n + 1):
             mapping[step] = mapping[step - 1] + mapping[step - 2]
         return mapping[n]
+
+# Recursion with Memoization
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        self.memo = [0] * (n + 1)
+        return self.climb_stairs(0, n)
+
+    def climb_stairs(self, step, n):
+        if step > n:
+            return 0
+        if step == n:
+            return 1
+        if self.memo[step] > 0:
+            return self.memo[step]
+        self.memo[step] = self.climb_stairs(step + 1, n) + self.climb_stairs(step + 2, n)
+        return self.memo[step]
