@@ -29,14 +29,7 @@ Output: True'''
 
 class Solution:
     def validPalindrome(self, s: str) -> bool:
-
-        def isPalindrome(outputStr):
-            resultStr = ""
-            for char in outputStr:
-                if char.isalpha():
-                    resultStr += char
-            return resultStr
-
+        
         if s == s[::-1]:
             return True
 
