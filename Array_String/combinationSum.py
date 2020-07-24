@@ -55,6 +55,22 @@ class Solution:
         backTrack(candidates, target, [], 0)
         return output
 
+# BFS
+from collections import deque
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        q = deque([(target, [], 0)])
+        output = []
+        while q:
+            target, current, index = q.popleft()
+            for i in range(index, len(candidates)):
+                nextTarget = target - candidates[i]
+                if nextTarget == 0:
+                    output.append((current+[candidates[i]]))
+                if nextTarget > 0:
+                    q.append((nextTarget, current + [candidates[i]], i))
+        return output
+
 
 # Combination Sum II - https://leetcode.com/problems/combination-sum-ii/
 '''Given a collection of candidate numbers (candidates) and a target number (target), find all unique 
@@ -72,7 +88,6 @@ A solution set is:
   [2, 6],
   [1, 1, 6]
 ]'''
-
 
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
@@ -102,7 +117,6 @@ The solution set must not contain duplicate combinations.
 
 Input: k = 3, n = 7
 Output: [[1,2,4]]'''
-
 
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
