@@ -10,27 +10,23 @@ Output: 3
 Explanation: 11 = 5 + 5 + 1'''
 
 from collections import deque
-
-
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
 
         if not amount:
             return 0
         q = deque([(0, 0)])
-        visited = [True] + [False] * amount
-
+        visited = [False] * (amount + 1)
+        visited[0] = True
         while q:
-            totalCoins, currentValue = q.popleft()
-            totalCoins += 1
+            currentValue, count = q.popleft()
+            if currentValue == amount:
+                return count
             for coin in coins:
                 nextValue = currentValue + coin
-
-                if nextValue == amount:
-                    return totalCoins
-                if nextValue < amount and not visited[nextValue]:
+                if nextValue <= amount and not visited[nextValue]:
                     visited[nextValue] = True
-                    q.append((totalCoins, nextValue))
+                    q.append((nextValue, count + 1))
         return -1
 
 # Dynamic programming
