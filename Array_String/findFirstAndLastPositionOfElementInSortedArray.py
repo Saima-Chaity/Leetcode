@@ -12,7 +12,6 @@ Example 1:
 Input: nums = [5,7,7,8,8,10], target = 8
 Output: [3,4]'''
 
-
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
 
@@ -33,5 +32,25 @@ class Solution:
             return [-1, -1]
         rightIndex = search(nums, target, False)
         return [leftIndex, rightIndex - 1]
+
+# Another approach
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] < target:
+                left = mid + 1
+            elif nums[mid] > target:
+                right = mid - 1
+            else:
+                while left < right and nums[left] < nums[mid]:
+                    left += 1
+                while left < right and nums[right] > nums[mid]:
+                    right -= 1
+                return [left, right]
+        return [-1, -1]
 
 
