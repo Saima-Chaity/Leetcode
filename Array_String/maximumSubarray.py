@@ -47,3 +47,15 @@ class Solution:
             currSum += nums[i]
             rightSum = max(rightSum, currSum)
         return leftSum + rightSum
+
+# Sliding window
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        current = 0
+        result = float('-inf')
+        for num in nums:
+            current += num
+            if current < num:
+                current = num
+            result = max(result, current)
+        return result
