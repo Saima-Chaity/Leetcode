@@ -42,6 +42,11 @@ class Solution:
         return dummy.next
 
 
+# Complexity Analysis
+# Time complexity : O(max(m, n)). Assume that m and n represents the length of l1 and l2 respectively, the algorithm above iterates at most max(m, n) times.
+# Space complexity : O(max(m, n)). The length of the new list is at most max(m,n)+1.
+
+
 # Add Two Numbers II - https://leetcode.com/problems/add-two-numbers-ii/
 '''You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
 
@@ -98,40 +103,29 @@ class Solution:
 #Using stack
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        def reverse(node):
-            if not node:
-                return None
-            current = node
-            prev = None
-            while current:
-                nextNode = current.next
-                current.next = prev
-                prev = current
-                current = nextNode
-            return prev
-
         carry = 0
-        resultList = dummy = ListNode(0)
-        stack1 = []
-        stack2 = []
-
-        while l1:
-            stack1.append(l1.val)
-            l1 = l1.next
-
-        while l2:
-            stack2.append(l2.val)
-            l2 = l2.next
-
+        dummy = None
+        
+        stack1 = self.fillUpStack(l1, [])
+        stack2 = self.fillUpStack(l2, [])
+        
         while stack1 or stack2:
             x = stack1.pop() if stack1 else 0
             y = stack2.pop() if stack2 else 0
-            summation = x + y + carry
-            carry = summation // 10
-            resultList.next = ListNode(summation % 10)
-            resultList = resultList.next
-
-        if carry > 0:
-            resultList.next = ListNode(carry)
-            resultList = resultList.next
-        return reverse(dummy.next)
+            total = x + y + carry
+            carry = total // 10
+            resultList = ListNode(total % 10)
+            resultList.next = dummy
+            dummy = resultList
+        
+        if carry:
+            resultList = ListNode(carry)
+            resultList.next = dummy
+            dummy = resultList
+        return dummy
+    
+    def fillUpStack(self, node, stack):
+        while node:
+            stack.append(node.val)
+            node = node.next
+        return stack
