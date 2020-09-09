@@ -211,3 +211,22 @@ class Solution:
                     queue.append(node.right)
             level += 1
         return output[::-1]
+
+# Another solution - using array.insert()
+class Solution:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+
+        q = [root]
+        output = []
+        while q:
+            output.insert(0, [])
+            for i in range(len(q)):
+                node = q.pop(0)
+                output[0].append(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+        return output
