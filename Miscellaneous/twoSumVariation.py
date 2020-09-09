@@ -60,7 +60,7 @@ class Solution:
 
         bucket = [0] * 1000
         for i in A:
-            bucket[i - 1] = +1
+            bucket[i - 1] += 1 # Duplicate numbers
 
         sortedA = []
         for index, value in enumerate(bucket):
@@ -244,37 +244,34 @@ A solution set is:
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
-        if n < 3:
-            return []
-
-        result = set()
+        self.results = []
         nums.sort()
-        for index, value in enumerate(nums[:-2]):
-            if value > 0:
+        for i in range(len(nums)):
+            if nums[i] > 0:
                 break
-            if index != 0 and value == nums[index - 1]:
-                continue
-
-            left = index + 1
-            right = n - 1
-
-            while left < right:
-                total = nums[left] + nums[right] + value
-                if total < 0:
+            if i == 0 or nums[i] != nums[i-1]:
+                self.findTwoSum(nums, 0, i)
+        return self.results
+    
+    def findTwoSum(self, nums, target, i):
+        left = i + 1
+        right = len(nums)-1
+        
+        while left < right:
+            total = nums[left] + nums[right] + nums[i]
+            if total < target:
+                left += 1
+            elif total > target:
+                right -= 1
+            else:
+                self.results.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left+1]:
                     left += 1
-                elif total > 0:
+                while left < right and nums[right] == nums[right-1]:
                     right -= 1
-                else:
-                    result.add((value, nums[left], nums[right]))
-                    while left < right and nums[left] == nums[left + 1]:
-                        left += 1
-                    while left < right and nums[right] == nums[right - 1]:
-                        right -= 1
-                    left += 1
-                    right -= 1
-        return result
-
+                left += 1
+                right -= 1
+                
 
 # 4Sum - https://leetcode.com/problems/4sum/
 '''
@@ -340,34 +337,38 @@ class Solution:
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
+        return self.kSum(nums, target, 4)
+    
+    def kSum(self, nums, target, k):  
         results = []
-        self.findNSum(nums, target, 4, [], results)
+        if len(nums) == 0 or nums[0]*k > target or nums[-1]*k < target:
+            return results
+        
+        if k == 2:
+            return self.findTwoSum(nums, target)
+        
+        for i in range(len(nums)):
+            if i == 0 or nums[i] != nums[i-1]:
+                for path in self.kSum(nums[i+1:], target - nums[i], k-1):
+                    results.append([nums[i]] + path)
         return results
-
-    def findNSum(self, nums, target, N, result, results):
-        if N < 2 or len(nums) < N:
-            return
-        if N == 2:
-            left = 0
-            right = len(nums)-1
-            while left < right:
-                total = nums[left] + nums[right]
-                if total < target:
+    
+    def findTwoSum(self, nums, target):
+        results = []
+        left = 0
+        right = len(nums)-1
+        while left < right:
+            total = nums[left] + nums[right]
+            if total < target:
+                left += 1
+            elif total > target:
+                right -= 1
+            else:
+                results.append([nums[left], nums[right]])
+                while left < right and nums[left] == nums[left+1]:
                     left += 1
-                elif total > target:
+                while left < right and nums[right] == nums[right-1]:
                     right -= 1
-                else:
-                    results.append(result + [nums[left], nums[right]])
-                    while left < right and nums[left] == nums[left + 1]:
-                        left += 1
-                    while left < right and nums[right] == nums[right - 1]:
-                        right -= 1
-                    left += 1
-                    right -= 1
-        else:
-            for i in range(0, len(nums)-N + 1):
-                if target < nums[i]*N or target > nums[-1]*N:
-                    break
-                if i == 0 or i > 0 and nums[i-1] != nums[i]:
-                    self.findNSum(nums[i+1:], target-nums[i], N-1, result+[nums[i]], results)
-        return
+                left += 1
+                right -= 1
+        return results
