@@ -26,32 +26,28 @@ class TreeNode:
 class BSTIterator:
 
     def __init__(self, root: TreeNode):
+        self.stack = []
+        self.leftMostInorder(root)
 
-        stack = []
-        current = root
-        self.output = []
-
-        while current or stack:
-            while current:
-                stack.append(current)
-                current = current.left
-
-            current = stack.pop()
-            self.output.append(current.val)
-            current = current.right
+    def leftMostInorder(self, root):
+        while root:
+            self.stack.append(root)
+            root = root.left
 
     def next(self) -> int:
         """
         @return the next smallest number
         """
-        return self.output.pop(0)
+        topMostNode = self.stack.pop()
+        if topMostNode.right:
+            self.leftMostInorder(topMostNode.right)
+        return topMostNode.val
 
     def hasNext(self) -> bool:
         """
         @return whether we have a next smallest number
         """
-        return len(self.output) > 0
-
+        return len(self.stack) > 0
 
 # BSTIterator object will be instantiated and called as such:
 # obj = BSTIterator(root)
