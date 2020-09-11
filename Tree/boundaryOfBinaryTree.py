@@ -70,3 +70,54 @@ class Solution(object):
         dfs_leafNode(root)
         dfs_rightmost(root.right)
         return boundary
+
+# Another approach
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def boundaryOfBinaryTree(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        result = []
+
+        def isLeaf(node):
+            return not node.left and not node.right
+
+        def addLeafNodes(node):
+            if isLeaf(node):
+                result.append(node.val)
+            else:
+                if node.left:
+                    addLeafNodes(node.left)
+                if node.right:
+                    addLeafNodes(node.right)
+
+        if not isLeaf(root):
+            result.append(root.val)
+        current = root.left
+        while current:
+            if not isLeaf(current):
+                result.append(current.val)
+            if current.left:
+                current = current.left
+            else:
+                current = current.right
+
+        addLeafNodes(root)
+
+        current = root.right
+        stack = []
+        while current:
+            if not isLeaf(current):
+                stack.append(current.val)
+            if current.right:
+                current = current.right
+            else:
+                current = current.left
+        while stack:
+            result.append(stack.pop())
+        return result
