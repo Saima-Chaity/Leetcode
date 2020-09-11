@@ -108,14 +108,17 @@ class Solution:
 
         while stack or root:
             while root:
+                # push nodes: right -> node -> left
                 if root.right:
                     stack.append(root.right)
                 stack.append(root)
                 root = root.left
             node = stack.pop()
+            # if the right subtree is not yet processed
             if stack and stack[-1] is node.right:
                 root = stack.pop()
                 stack.append(node)
+            # if we're on the leftmost leaf
             else:
                 output.append(node.val)
         return output
