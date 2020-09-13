@@ -25,6 +25,27 @@ class Solution:
         backTrack()
         return output
 
+
+# Another approach
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        
+        output = []
+        def backTrack(path, visited):
+            if len(path) == len(nums):
+                output.append(path[:])
+                return
+            for i in range(0, len(nums)):
+                if not visited[i]:
+                    visited[i] = True
+                    backTrack(path+[nums[i]], visited)
+                    visited[i] = False
+
+        visited = [False] * len(nums)
+        backTrack([], visited)
+        return output
+
+
 # Permutations II - https://leetcode.com/problems/permutations-ii/
 '''Given a collection of numbers that might contain duplicates, return all possible unique permutations.
 

@@ -99,9 +99,9 @@ class Solution:
                 output.append(currentList[:])
                 return
             for i in range(index, len(candidates)):
-                if i > index and candidates[i] == candidates[i - 1]:
+                if i > index and candidates[i] == candidates[i - 1]: # Avoid duplicate
                     continue
-                backTrack(candidates, target - candidates[i], currentList + [candidates[i]], i + 1)
+                backTrack(candidates, target - candidates[i], currentList + [candidates[i]], i + 1) # next_index will be i+1 to Avoid duplicate
         output = []
         candidates.sort()
         backTrack(candidates, target, [], 0)
@@ -126,8 +126,45 @@ class Solution:
                 output.append(currentList[:])
                 return
             for i in range(index, 10):
-                backTrack(K - 1, target - i, currentList + [i], i + 1)
+                backTrack(K - 1, target - i, currentList + [i], i + 1) # next_index will be i+1 to Avoid duplicate
         output = []
         backTrack(k, n, [], 1)
         return output
 
+
+# Combination Sum IV - https://leetcode.com/problems/combination-sum-iv/
+'''Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
+Example:
+nums = [1, 2, 3]
+target = 4
+The possible combination ways are:
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+
+Note that different sequences are counted as different combinations.
+Therefore the output is 7.'''
+
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+    
+        mapping = {}
+        def backTrack(currentSum, combination):
+            if currentSum > target:
+                return 0
+            if currentSum == target:
+                return 1
+            if currentSum in mapping:
+                return mapping[currentSum]
+            result = 0
+            for i in range(0, len(nums)):
+                result += backTrack(currentSum+nums[i], combination+[nums[i]])
+            mapping[currentSum] = result
+            return mapping[currentSum]
+        return backTrack(0, [])   
+    
+            
