@@ -22,9 +22,8 @@ filled with INF.'''
 #   1  -1   2  -1
 #   0  -1   3   4
 
+#BFS
 from collections import deque
-
-
 class Solution:
   def wallsAndGates(self, rooms: List[List[int]]) -> None:
     """
@@ -54,3 +53,32 @@ class Solution:
           rooms[xi][yj] = rooms[x][y] + 1
           visited.add((xi, yj))
           q.append((xi, yj))
+
+
+#DFS
+class Solution:
+    def wallsAndGates(self, rooms: List[List[int]]) -> None:
+        """
+        Do not return anything, modify rooms in-place instead.
+        """
+        if not rooms:
+            return 
+        
+        row = len(rooms)
+        col = len(rooms[0])
+        self.direction = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+        for i in range(row):
+            for j in range(col):
+                if rooms[i][j] == 0:
+                    self.dfs(rooms, i, j)
+
+    def dfs(self, rooms, i, j):
+        if i < 0 or j < 0 or i == len(rooms) or j == len(rooms[0]) or rooms[i][j] == -1:
+            return
+
+        for (x, y) in self.direction:
+            xi = x + i
+            yj = y + j
+            if xi >= 0 and xi < len(rooms) and yj >= 0 and yj < len(rooms[0]) and rooms[xi][yj] > rooms[i][j]:
+                rooms[xi][yj] = rooms[i][j] + 1
+                self.dfs(rooms, xi, yj)
