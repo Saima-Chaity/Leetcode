@@ -101,3 +101,31 @@ class Solution:
                 else:
                     return True
         return False
+
+
+# Time complexity : 0(m+n)
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix or not matrix[0]:
+            return False
+        
+        row = len(matrix)
+        col = len(matrix[0])
+        
+        i = row - 1
+        j = 0
+        while i >= 0 and j < col:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] > target:
+                i -= 1
+            else:
+                j += 1
+        return False
+                
+            
