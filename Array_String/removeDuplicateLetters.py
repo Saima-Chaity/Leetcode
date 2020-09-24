@@ -19,10 +19,32 @@ class Solution:
 		last_occurance = {char:index for index, char in enumerate(s)}
 		
 		for index, char in enumerate(s):
-				if char not in visited:
-						while stack and char < stack[-1] and index < last_occurance[stack[-1]]: # Check if the character is greater than the current characters																																		
-								visited.discard(stack.pop())																				# if the character can be removed because it occurs later on
-						stack.append(char)
-						visited.add(char)
+			if char not in visited:
+				while stack and char < stack[-1] and index < last_occurance[stack[-1]]: # Check if the character is greater than the current characters																																		
+					visited.discard(stack.pop())										# if the character can be removed because it occurs later on
+				stack.append(char)
+				visited.add(char)
 		return "".join(stack)
-							
+
+
+# Similar question
+# Smallest Subsequence of Distinct Characters - https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/
+'''Return the lexicographically smallest subsequence of text that contains all the distinct characters of text exactly once.
+Example 1:
+Input: "cdadabcc"
+Output: "adbc"
+'''
+
+class Solution:
+	def smallestSubsequence(self, text: str) -> str:
+		stack = []
+		visited = set()
+		last_occurance = {char:index for index, char in enumerate(text)}
+		
+		for index, char in enumerate(text):
+			if char not in visited:
+				while stack and char < stack[-1] and index < last_occurance[stack[-1]]:
+					visited.discard(stack.pop())
+				stack.append(char)
+				visited.add(char)
+		return "".join(stack)

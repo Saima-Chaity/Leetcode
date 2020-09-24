@@ -9,13 +9,11 @@ Explanation: [4,-1,2,1] has the largest sum = 6.'''
 # Dynamic programming
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        maxSoFar = nums[0]
-        output = nums[0]
-
+        dp = [0] * len(nums)
+        dp[0] = nums[0]
         for i in range(1, len(nums)):
-            maxSoFar = max(maxSoFar + nums[i], nums[i])
-            output = max(output, maxSoFar)
-        return output
+            dp[i] = max(nums[i], dp[i-1]+nums[i])
+        return max(dp)
 
 
 # Divide and conquer
