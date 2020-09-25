@@ -108,6 +108,27 @@ class Solution:
         return output
 
 
+# BFS
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        if not target:
+            return 0
+        candidates.sort()
+        q = deque([(0, [], 0)])
+        output = []
+        while q:
+            total, path, index = q.popleft()
+            if total == target:
+                output.append(path)
+            for i in range(index, len(candidates)):
+                if i > index and candidates[i] == candidates[i-1]:
+                    continue
+                nextValue = candidates[i] + total
+                if nextValue <= target:
+                    q.append((nextValue, path+[candidates[i]], i+1))
+        return output
+
+
 # Combination Sum III - https://leetcode.com/problems/combination-sum-iii/
 '''Find all possible combinations of k numbers that add up to a number n, given that only numbers 
 from 1 to 9 can be used and each combination should be a unique set of numbers.

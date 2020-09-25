@@ -31,12 +31,12 @@ class Solution:
             nums[i], nums[j] = nums[j], nums[i]
 
         i = len(nums) - 2
-        while i >= 0 and nums[i] >= nums[i + 1]:
+        while i >= 0 and nums[i] >= nums[i + 1]: # Find first decreasing number
             i -= 1
 
         if i >= 0:
             j = len(nums) - 1
-            while j >= 0 and nums[j] <= nums[i]:
+            while j >= 0 and nums[j] <= nums[i]: # Find increasing number greater than number at i
                 j -= 1
             swap(nums, i, j)
         reverse(nums, i + 1)

@@ -47,13 +47,16 @@ Output:
 
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        
         output = [[]]
         nums.sort()
         def backTrack(index, path):
-            if index > 0 and index <= len(nums) and path not in output:
+            if path:
                 output.append(path)
-            
+                
             for i in range(index, len(nums)):
+                if i > index and nums[i] == nums[i-1]:
+                    continue
                 backTrack(i+1, path+[nums[i]])
             
         backTrack(0, [])
