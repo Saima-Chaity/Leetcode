@@ -26,7 +26,7 @@ class Solution:
             graph[i][1].append(j)
 
         result = [float('inf') for _ in range(n)]
-        result[0] = 0
+        result[0] = 0 # Starting both nodes with 0
         minLength = 0
 
         visited = set()
@@ -42,11 +42,11 @@ class Solution:
                 if (node, color) not in visited:
                     visited.add((node, color))
                     if color == 'r':
-                        for child in graph[node][1]:
+                        for child in graph[node][1]: # Blue node
                             q.append((child, 'b'))
                             result[child] = min(minLength, result[child])
                     if color == 'b':
-                        for child in graph[node][0]:
+                        for child in graph[node][0]: # Red node
                             q.append((child, 'r'))
                             result[child] = min(minLength, result[child])
         for i in range(n):
