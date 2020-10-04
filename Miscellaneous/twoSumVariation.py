@@ -223,56 +223,6 @@ class Solution:
         return False
 
 
-# 3Sum - https://leetcode.com/problems/3sum/
-'''Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique 
-triplets in the array which gives the sum of zero.
-
-Note:
-
-The solution set must not contain duplicate triplets.
-
-Example:
-
-Given array nums = [-1, 0, 1, 2, -1, -4],
-
-A solution set is:
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]'''
-
-
-class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        self.results = []
-        nums.sort()
-        for i in range(len(nums)):
-            if nums[i] > 0:
-                break
-            if i == 0 or nums[i] != nums[i-1]:
-                self.findTwoSum(nums, 0, i)
-        return self.results
-    
-    def findTwoSum(self, nums, target, i):
-        left = i + 1
-        right = len(nums)-1
-        
-        while left < right:
-            total = nums[left] + nums[right] + nums[i]
-            if total < target:
-                left += 1
-            elif total > target:
-                right -= 1
-            else:
-                self.results.append([nums[i], nums[left], nums[right]])
-                while left < right and nums[left] == nums[left+1]:
-                    left += 1
-                while left < right and nums[right] == nums[right-1]:
-                    right -= 1
-                left += 1
-                right -= 1
-                
-
 # 4Sum - https://leetcode.com/problems/4sum/
 '''
 Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? 
