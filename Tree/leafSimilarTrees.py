@@ -19,28 +19,28 @@ class TreeNode:
 class Solution:
     def leafSimilar(self, root1: TreeNode, root2: TreeNode) -> bool:
 
-        leafNodesOfRoot1 = []
-        stack1 = []
-        while stack1 or root1:
-            while root1:
-                stack1.append(root1)
-                root1 = root1.left
-            root1 = stack1.pop()
-            if not root1.left and not root1.right:
-                leafNodesOfRoot1.append(root1.val)
-            root1 = root1.right
+        if not root1 or not root2:
+            return False
+        
+        def getLeafNodes(root):
+            stack = []
+            current = root
+            output = []
 
-        stack2 = []
-        index = 0
-        while stack2 or root2:
-            while root2:
-                stack2.append(root2)
-                root2 = root2.left
-            root2 = stack2.pop()
-            if not root2.left and not root2.right and root2.val != leafNodesOfRoot1[index]:
-                return False
-            elif not root2.left and not root2.right and root2.val == leafNodesOfRoot1[index]:
-                if index < len(leafNodesOfRoot1) - 1:
-                    index += 1
-            root2 = root2.right
-        return True
+            while current or stack:
+                while current:
+                    stack.append(current)
+                    current = current.left
+
+                current = stack.pop()
+                if not current.left and not current.right:
+                    output.append(current.val)
+                current = current.right
+            return output
+                
+        
+        root1_leafNodes = getLeafNodes(root1)
+        root2_leafNodes = getLeafNodes(root2)
+        
+        return root1_leafNodes == root2_leafNodes
+        

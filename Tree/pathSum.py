@@ -149,30 +149,49 @@ class Solution:
 # Recursive
 from collections import defaultdict
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> int:
-
         if not root:
             return 0
-
+        
+        def preOrder(root, current_sum):
+            if not root:
+                return
+            
+            # current prefix sum
+            current_sum += root.val
+            
+            # situation 1:
+            # continuous subarray starts 
+            # from the beginning of the array
+            if current_sum == target:
+                self.count += 1
+            
+            # situation 2:
+            # number of times the curr_sum − k has occurred already, 
+            # determines the number of times a path with sum k 
+            # has occurred up to the current node
+            self.count += mapping[current_sum - target]
+            
+            # add the current sum into hashmap
+            # to use it during the child nodes processing
+            mapping[current_sum]  += 1
+            
+            preOrder(root.left, current_sum)
+            preOrder(root.right, current_sum)
+            
+            # remove the current sum from the hashmap
+            # in order not to use it during 
+            # the parallel subtree processing
+            mapping[current_sum] -= 1
+        
         self.count = 0
-        self.sum_dict = defaultdict(int)
-        self.sum_dict[0] = 1
-        self.dfs(root, sum, 0)
+        target = sum
+        mapping = defaultdict(int)
+        preOrder(root, 0)
         return self.count
-
-    def dfs(self, node, target, currentSum):
-        if not node:
-            return
-        currentSum += node.val
-        self.count += self.sum_dict[currentSum - target]
-        self.sum_dict[currentSum] += 1
-        self.dfs(node.left, target, currentSum)
-        self.dfs(node.right, target, currentSum)
-        self.sum_dict[currentSum] -= 1
