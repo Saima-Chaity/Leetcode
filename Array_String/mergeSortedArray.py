@@ -19,21 +19,21 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-
-        pointer1 = m - 1
-        pointer2 = n - 1
-        lastIndex = m + n - 1
-
-        while pointer1 >= 0 and pointer2 >= 0:
-            if nums1[pointer1] > nums2[pointer2]:
-                nums1[lastIndex] = nums1[pointer1]
-                pointer1 -= 1
+        
+        p1 = m-1
+        p2 = n-1
+        lastIndex = len(nums1) -1
+        while p1 >= 0 and p2 >= 0:
+            if nums1[p1] < nums2[p2]:
+                nums1[lastIndex] = nums2[p2]
+                p2 -=1
             else:
-                nums1[lastIndex] = nums2[pointer2]
-                pointer2 -= 1
+                nums1[lastIndex] = nums1[p1]
+                p1 -=1
             lastIndex -= 1
-        while pointer1 < 0 and pointer2 >= 0:
-            nums1[pointer2] = nums2[pointer2]
-            pointer2 -= 1
 
+        while p1 < 0 and p2 >= 0:
+            nums1[lastIndex] = nums2[p2]
+            lastIndex -= 1
+            p2 -= 1 
 

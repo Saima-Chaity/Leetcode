@@ -55,3 +55,60 @@ class Solution:
                 resultList = resultList.next
                 l2 = l2.next
         return dummy.next
+
+
+# Merge Sort
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        nodes = []
+        current = head 
+        while current:
+            nodes.append(current.val)
+            current = current.next
+        
+        self.mergeSort(0, len(nodes)-1, nodes)
+        resultList = dummy = ListNode(0)
+        for node in nodes:
+            resultList.next = ListNode(node)
+            resultList = resultList.next
+        return dummy.next
+    
+    def mergeSort(self, low, high, nodes):
+        if low < high:
+            mid = low + (high - low) // 2
+            self.mergeSort(low, mid, nodes)
+            self.mergeSort(mid + 1, high, nodes)
+            self.merge(low, mid, high, nodes)
+        return nodes
+    
+    def merge(self, low, mid, high, nodes):
+        left = nodes[low:mid+1]
+        right = nodes[mid+1:high+1]
+        i = 0
+        j = 0
+        k = low
+        
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                nodes[k] = left[i]
+                i += 1
+            else:
+                nodes[k] = right[j]
+                j += 1
+            k += 1
+            
+        while i < len(left):
+            nodes[k] = left[i]
+            i += 1
+            k += 1
+
+        while j < len(right):
+            nodes[k] = right[j]
+            j += 1
+            k += 1
+        return nodes
