@@ -29,20 +29,19 @@ class Solution:
 # Another approach
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        
         output = []
-        def backTrack(path, visited):
+        def backTrack(path):
             if len(path) == len(nums):
-                output.append(path[:])
+                output.append(path)
                 return
             for i in range(0, len(nums)):
                 if not visited[i]:
                     visited[i] = True
-                    backTrack(path+[nums[i]], visited)
+                    backTrack(path+[nums[i]])
                     visited[i] = False
-
+        
         visited = [False] * len(nums)
-        backTrack([], visited)
+        backTrack([])
         return output
 
 
@@ -59,9 +58,10 @@ Output:
 
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        def backTrack(nums, path, visited):
+        output = []
+        def backTrack(path):
             if len(path) == len(nums):
-                output.append(path[:])
+                output.append(path)
                 return
             for i in range(0, len(nums)):
                 if not visited[i]:
@@ -69,10 +69,9 @@ class Solution:
                         continue
                     else:
                         visited[i] = True
-                        backTrack(nums, path+[nums[i]], visited)
+                        backTrack(path+[nums[i]])
                         visited[i] = False
-        output = []
         nums.sort()
         visited = [False] * len(nums)
-        backTrack(nums, [], visited)
+        backTrack([])
         return output

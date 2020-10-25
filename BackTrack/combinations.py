@@ -14,13 +14,12 @@ Output:
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
         output = []
-        def backTrack(currentNumber, path):
-            if len(path) == k:
-                output.append(path[:])
+        def backTrack(index, combination):
+            if len(combination) == k:
+                output.append(combination)
                 return
-            for i in range(currentNumber, n+1):
-                path.append(i)
-                backTrack(i+1, path)
-                path.pop()
+            for i in range(index, n+1):
+                backTrack(i+1, combination+[i])
+            
         backTrack(1, [])
         return output

@@ -42,17 +42,18 @@ class Solution:
 # BackTracking
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        def backTrack(candidates, target, currentList, index):
+        output = []
+        def backTrack(index, combination, target):
             if target < 0:
                 return
             if target == 0:
-                output.append(currentList[:])
+                output.append(combination)
                 return
             for i in range(index, len(candidates)):
-                backTrack(candidates, target - candidates[i], currentList + [candidates[i]], i)
-        output = []
+                backTrack(i, combination+[candidates[i]], target-candidates[i])
+        
         candidates.sort()
-        backTrack(candidates, target, [], 0)
+        backTrack(0, [], target)
         return output
 
 # BFS
