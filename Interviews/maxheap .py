@@ -43,6 +43,10 @@ class Solution:
         for i in range(startIndex, -1, -1):
             Solution.heapify(arr, n, i)
         
+        for i in range(n-1, 0, -1):
+            arr[i], arr[0] = arr[0], arr[i]
+            Solution.heapify(arr, i, 0)
+        
     def printHeap(arr, n): 
         print("Array representation of Heap is:"); 
     
