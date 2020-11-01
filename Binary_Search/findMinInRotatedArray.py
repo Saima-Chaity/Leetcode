@@ -45,29 +45,28 @@ Find the minimum element.
 
 The array may contain duplicates.'''
 
-
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-
         if len(nums) == 1:
             return nums[0]
-        left = 0
-        right = len(nums) - 1
-        return self.findMinValue(nums, left, right)
-
-    def findMinValue(self, nums, left, right):
-
-        if nums[right] > nums[0]:
+        
+        low = 0
+        high = len(nums) - 1
+        
+        if nums[high] > nums[0]:
             return nums[0]
 
-        while left <= right:
-            mid = left + (right - left) // 2
-            if nums[mid] > nums[right]:
-                left = mid + 1
-            elif nums[mid] < nums[right]:
-                right = mid
+        while low < high:
+            mid = low + (high - low) // 2
+            if nums[mid] == nums[high]: 
+                if nums[mid] == nums[low]: # [10, 5, 10, 10, 10] or [10, 10, 10, 5, 10] 
+                    low += 1 # or high = high-1 # min could be on either side，we just narrow the interval
+                else:
+                    high = mid
+            elif nums[mid] > nums[high]: 
+                low = mid + 1
             else:
-                right -= 1
-        return nums[left]
+                high = mid
+        return nums[low]
 
 
