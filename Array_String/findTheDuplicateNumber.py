@@ -7,25 +7,19 @@ Example 1:
 Input: [1,3,4,2,2]
 Output: 2'''
 
-
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
         # Find the intersection point of the two runners.
-        slow = nums[0]
-        first = nums[0]
-
+        slow = fast = nums[0]
         while True:
             slow = nums[slow]
-            first = nums[nums[first]]
-
-            if slow == first:
+            fast = nums[nums[fast]]
+            if slow == fast:
                 break
-
+        
         # Find the "entrance" to the cycle.
-        pointer1 = nums[0]
-        pointer2 = slow
-
-        while pointer1 != pointer2:
-            pointer1 = nums[pointer1]
-            pointer2 = nums[pointer2]
-        return pointer1
+        slow = nums[0]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
+        return fast

@@ -29,6 +29,36 @@ class Solution:
         return output
 
 
+# 0(n) time and 0(1) space
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1.sort()
+        nums2.sort()
+        intersections = set()
+        i = 0
+        j = 0
+        while i < len(nums1) and j < len(nums2): 
+            # skip duplicates
+            while i > 0 and i < len(nums1) and nums1[i] == nums1[i-1]:
+                    i += 1
+            while j > 0 and j < len(nums2) and nums2[j] == nums2[j-1]:
+                j += 1
+                
+            # still valid
+            if i < len(nums1) and j < len(nums2):
+                firstNumber = nums1[i]
+                secondNumber = nums2[j]
+                if firstNumber == secondNumber:
+                    intersections.add(secondNumber)
+                    i += 1
+                    j += 1
+                elif firstNumber > secondNumber:
+                    j += 1
+                else:
+                    i += 1
+        return intersections
+
+
 # Intersection of Two Arrays II - https://leetcode.com/problems/intersection-of-two-arrays-ii/
 '''Given two arrays, write a function to compute their intersection.
 Example 1:
@@ -59,3 +89,27 @@ class Solution:
                 if count[num] == 0:
                     del count[num]
         return output
+
+
+# 0(n) time and 0(1) space
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1.sort()
+        nums2.sort()
+        intersections = []
+        i = 0
+        j = 0
+        while i < len(nums1) and j < len(nums2): 
+            firstNumber = nums1[i]
+            secondNumber = nums2[j]
+            if firstNumber == secondNumber:
+                intersections.append(secondNumber)
+                i += 1
+                j += 1
+            elif firstNumber > secondNumber:
+                j += 1
+            else:
+                i += 1
+        return intersections
+                
+                
