@@ -27,3 +27,27 @@ class Solution:
                 mapping[num] = index + 1
             else:
                 return [mapping[secondNum], index + 1]
+
+
+# Binary Search
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        left = 0
+        right = len(numbers) - 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+            total = numbers[left] + numbers[right]
+            if total == target:
+                return [left+1, right+1]
+            elif total < target:
+                if numbers[mid] + numbers[right] < target:
+                    left = mid
+                else:
+                    left += 1
+            else:
+                if numbers[mid] + numbers[left] > target:
+                    right = mid
+                else:
+                    right -= 1
+        return [-1, -1]
