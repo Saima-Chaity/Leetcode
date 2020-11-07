@@ -54,7 +54,24 @@ Output: 58
 Explanation: 
 We can use 34 and 24 to sum 58 which is less than 60.'''
 
+class Solution:
+    def twoSumLessThanK(self, A: List[int], K: int) -> int:
+        
+        A.sort()
+        i = 0
+        j = len(A)-1
+        maxSum = float('-inf')
+        while i < j:
+            sum = A[i]+A[j]
+            if sum < K:
+                maxSum = max(maxSum, sum)
+                i += 1
+            else:
+                j -= 1
+        return maxSum if maxSum != float('-inf') else -1
 
+
+#Using Bucket sort
 class Solution:
     def twoSumLessThanK(self, A: List[int], K: int) -> int:
 
