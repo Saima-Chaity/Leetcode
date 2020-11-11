@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debouncing in JavaScript</title>
+</head>
+<body>
+    <p>Debouncing in JavaScript</p>
+    <button id='button'>Click here</button>
+    <div id="content"></div>
+    <script>
+        var button = document.getElementById('button')
+        var content = document.getElementById('content')
+        button.addEventListener('click', debounce(function() {
+            content.innerHTML += '\n ' + 'Hello\nNo matter how many times you click the debounce button, I get executed once every 3 seconds!!'
+        }, 3000))
+        function debounce(func, wait) {
+            var debounceTimeOut;
+            return function() {
+                var context = this
+                const args = arguments 
+                clearTimeout(debounceTimeOut)
+                debounceTimeOut = setTimeout(()=> {
+                    func.apply(this, args)
+                }, wait)
+            }
+        }
+    </script>
+</body>
+</html>

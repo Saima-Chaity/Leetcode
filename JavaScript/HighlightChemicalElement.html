@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>If user input a name in input, You have to highlight the chemical element if it consist in his name.
+        eg. If input name is "Casper" Then highlight "Ca".  
+    </p>
+    <br>
+    <input type="text" id="inputField" value="" onchange="submit()"/>
+    <button onclick="submit()">Submit</button>
+    <br/>
+    <div>Value from input field: <span id="inputValue"></span></div>
+    <script>
+
+        function submit() {
+            var userInput = document.getElementById('inputField').value;
+            var find = "Ca"
+            var re = new RegExp(find, 'g')
+            var result = userInput.replace(re, `<span style='color:red;'>` + find + `</span>`) 
+            document.getElementById('inputValue').innerHTML = result;
+        }
+
+    </script>
+  </body>
+</html>

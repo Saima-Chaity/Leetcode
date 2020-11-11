@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <style>
+      #container {
+        border-radius: 3em; 
+        border: 2px solid black; 
+        width: 50em; 
+        height: 40px;
+        position: relative;
+        top: 1em;
+      }
+
+      #loadingPercentage {
+        font-weight: bold;
+        font-size: 2em;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 50%;
+      }
+
+      #loadingBar {
+        border-radius: 3em;
+        background-color: green;
+        width: 0%;
+        height: 40px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      
+  </style>  
+  <body>
+    <p> 1. Implement a loading bar that animates from 0 to 100% in 3 seconds<br/>
+        2. Start loading bar animation upon a button click<br/>
+        3. Queue multiple loading bars if the button is clicked more than once. 
+        Loading bar N starts animating with loading bar N-1 is done animating.
+    </p>
+    <button onclick="startAnimation()">Start loading bar animation</button>
+    <br/>
+    <div id="container">
+        <div id='loadingBar'></div>
+        <div id='loadingPercentage'>0%</div>
+    </div>
+    <script>
+
+        var store = []
+        var sequence = 0
+        var topValue = 0
+        var animating = false
+
+        const animateBar = (element, text, seq, percentage) => {
+            return new Promise(resolve => {
+                intervalId = setInterval(() => {
+                    if (percentage < 100){
+                        percentage ++;
+                    } else {
+                        clearInterval(intervalId)
+                        animating = false;
+                        resolve();
+                    }
+                    if(seq >= 1) {
+                        document.getElementById(element.id).style.width = 1 * percentage + '%'
+                        document.getElementById(text.id).innerHTML = percentage +  "%"
+                    } else {
+                        document.getElementById(element).style.width = 1 * percentage + '%'
+                        document.getElementById(text).innerHTML = percentage +  "%"
+                    }
+                }, 3000 / 100);
+            })
+        }
+
+        function next() {
+            if (store.length && !animating) {
+                var div = store.shift();
+                runTask(div[0], div[1], div[2]);
+            }
+        }
+
+        function runTask(element, text, seq) {
+            animating = true
+            animateBar(element, text, seq, 0).then(()=> {
+                next();
+            })
+        }
+
+        function startAnimation() {
+            if (sequence == 0) {
+                runTask('loadingBar', 'loadingPercentage', sequence);
+                sequence ++;
+            } else if (sequence > 0) {
+                topValue += 50;
+                var div = document.createElement('div')
+                div.id = 'loadingBar' + sequence;
+                div.style.width = '0%'
+                div.style.height = '40px'
+                div.style.position = 'absolute',
+                div.style.top = topValue + 'px';
+                div.style.borderRadius = '3em'
+                div.style.border = '2px solid black'
+                div.style.backgroundColor = 'green';
+                document.getElementById('container').appendChild(div)
+
+                var text = document.createElement('div')
+                text.id = 'loadingPercentage' + sequence;
+                text.innerText = '0%'
+                text.style.textAlign = 'center';
+                text.style.fontSize = '2em';
+                text.style.fontWeight = 'bold';
+                text.style.position = 'absolute',
+                text.style.top = topValue + 'px';
+                text.style.left = '50px';
+                document.getElementById('container').appendChild(text)
+
+                store.push([div, text, sequence])
+                sequence ++;
+                if (!animating) {
+                    next();
+                }
+            } else if (!animating) {
+                next();
+            }
+        }
+
+    </script>
+  </body>
+</html>

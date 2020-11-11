@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button onclick="findAndReplace()">Find and replace a set of substrings within a string.</button>
+    <script>
+
+        function findAndReplace() {
+            var find = "abc"
+            var string = "abd abvsabc bvsh abcd"
+            var re = new RegExp(find, 'g')
+            var result = string.replace(re, "")
+            console.log(result)
+        }
+
+    </script>
+  </body>
+</html>

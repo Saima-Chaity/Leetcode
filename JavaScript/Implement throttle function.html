@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implement throttle function</title>
+</head>
+<body>
+    <p>Implement throttle and debounce function</p>
+    <input type="text" id = "textInput" />
+    <div>
+        <p>Throttle count</p>
+        <span id="throttleCount"></span>
+        <p>Debounce count</p>
+        <span id="debounceCount"></span>
+    </div>
+
+    <script>
+        var textInput = document.getElementById('textInput')
+        var throttleCount = document.getElementById('throttleCount')
+        var debounceCount = document.getElementById('debounceCount')
+        var throttleTimer;
+        var debounceTimer;
+        function makeApiCallUsingDebounce() {
+            var count = debounceCount.innerHTML || 0
+            debounceCount.innerHTML = parseInt(count) + 1
+        }
+        function makeApiCallUsingThrottle() {
+            var count = throttleCount.innerHTML || 0
+            throttleCount.innerHTML = parseInt(count) + 1
+        }
+
+        var debounce = function(func, wait) {
+            clearTimeout(debounceTimer)
+            debounceTimer = setTimeout(func, wait)
+        }
+
+        var throttle = function(func, wait) {
+            if (throttleTimer) {
+                return
+            }
+            throttleTimer = setTimeout(() => {
+                func()
+                throttleTimer = undefined
+            }, wait)
+        }
+
+        textInput.addEventListener('input', function() {
+            throttle(makeApiCallUsingThrottle, 200)
+            debounce(makeApiCallUsingDebounce, 200)
+        })
+        
+    </script>
+</body>
+</html>

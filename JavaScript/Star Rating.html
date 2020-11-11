@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Star Rating</title>
+</head>
+<style>
+    .grey {
+    color: grey;
+    }
+
+    .gold {
+        color: gold;
+    }
+
+    #container {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #container:hover i {
+        color: gold;
+    }
+
+    #container i:hover ~ i {
+        color: grey;
+    }
+
+    #textInput {
+        margin-bottom: 10px;
+    }
+</style>
+<body>
+    <div>
+        <p>Star Rating</p> 
+        <input type="number" id = "textInput"/>
+        <div id="container"></div>
+    </div>
+    <script>
+        window.addEventListener('load', (event) => {
+            var container = document.getElementById('container')
+            var textInput = document.getElementById('textInput')
+            textInput.addEventListener('keyup', (event) => {
+                container.innerHTML = ""
+                var input = event.target.value
+                if ((input != null) || (input != undefined)) {
+                    for (let i=0; i < input; i++) {
+                        let starElement = document.createElement('i')
+                        starElement.className = 'fa fa-star grey'
+                        starElement.addEventListener('click', (event) => {
+                            for(let index = 0; index < input; index++) {
+                                container.children[index].className = 'fa fa-star grey'
+                            }
+                            starElement.className = 'fa fa-star gold'
+                            for(let j = 0; j < i; j++) {
+                                container.children[j].className = 'fa fa-star gold'
+                            }
+                        })
+                        container.appendChild(starElement)
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+</html>

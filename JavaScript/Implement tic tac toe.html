@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implement tic tac toe</title>
+</head>
+<style>
+    .gameContainer {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        width: 300px;
+        margin: 50px aut0;
+    }
+
+    .cell {
+        border: 1px solid black;
+        border-radius: 2px;
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    .resetButton {
+        margin-top: 20px;
+    }
+
+</style>
+<body>
+    <p>Implement tic tac toe</p>
+    <div class="gameContainer">
+        <div data-cell-index='0' class="cell"></div>
+        <div data-cell-index='1' class="cell"></div>
+        <div data-cell-index='2' class="cell"></div>
+        <div data-cell-index='3' class="cell"></div>
+        <div data-cell-index='4' class="cell"></div>
+        <div data-cell-index='5' class="cell"></div>
+        <div data-cell-index='6' class="cell"></div>
+        <div data-cell-index='7' class="cell"></div>
+        <div data-cell-index='8' class="cell"></div>
+    </div>
+    <div style="margin-top: 20px;">Game Status : <span class="gameStatus"></span></div>
+    <button class="resetButton" onclick="resetGame()">Reset</button>
+
+    <script>
+        var gameStatus = document.getElementsByClassName('gameStatus')['0']
+        var resetButton = document.getElementsByClassName('resetButton')['0']
+        var isGameActive = true
+        var currentPlayer = 'X'
+        var winningFlow = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7], 
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ]
+        const currentPlayerTurn = () => `It's ${currentPlayer}'s turn!`
+        const winningMessage = () => `${currentPlayer} has won the game!`
+        const drawMessage = () => `Game ended in a draw!`
+        var gameState = ["", "", "", "", "", "", "", "", ""]
+        gameStatus.innerHTML = currentPlayerTurn()
+        document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClickEvent))
+
+        function handleCellClickEvent(event) {
+            var clickedCell = event.target
+            var cellIndex = clickedCell.getAttribute('data-cell-index')
+            if (gameState[cellIndex] != "" || !isGameActive) {
+                return
+            }
+            gameState[cellIndex] = currentPlayer
+            clickedCell.innerHTML = currentPlayer
+            validateGame()
+        }
+
+        function validateGame() {
+            var roundWon = false
+            for(let i=0; i < winningFlow.length; i++) {
+                var item = winningFlow[i]
+                var a = gameState[item[0]]
+                var b = gameState[item[1]]
+                var c = gameState[item[2]]
+                if (a == "" || b == "" || c == "") {
+                    continue
+                }
+                if (a == b && b == c) {
+                    roundWon = true
+                    break
+                }
+            }
+            if (roundWon) {
+                gameStatus.innerHTML = winningMessage()
+                isGameActive = false
+                return
+            }
+            let roundDraw = !gameState.includes("")
+            if (roundDraw) {
+                gameStatus.innerHTML = drawMessage()
+                isGameActive = false
+                return 
+            }
+
+            handlePlayerChange()
+        }
+        
+        function handlePlayerChange() {
+            currentPlayer = currentPlayer == 'X' ? '0' : 'X'
+            gameStatus.innerHTML = currentPlayerTurn()
+        }
+
+        function resetGame() {
+            isGameActive = true
+            gameState = ["", "", "", "", "", "", "", "", ""]
+            currentPlayer = "X"
+            gameStatus.innerHTML = currentPlayerTurn()
+            document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "")
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>Write a scheduler in JavaScript that accepts max number of concurrent tasks as a 
+        parameter and schedules tasks (each task may take arbitrary time to complete).
+    </p>
+    <script>
+
+        const exampleTask = (name, time) => new Promise(resolve => {
+            setTimeout(()=> {
+                console.log(`Task ${name} Done`);
+                resolve();
+            }, time)
+        })
+
+        function scheduleTask(taskCount) {
+            this.limit = taskCount;
+            this.active = 0;
+            this.store = [];
+
+            scheduleTask.prototype.next = () => {
+                if (this.store.length > 0) {
+                    this.runTask(...this.store.shift())
+                }
+            }
+
+            scheduleTask.prototype.runTask = (task, name, time) => {
+                this.active ++;
+                console.log(`Scheduling task ${name} current active: ${this.active}`)
+                task(name, time).then(() => {
+                    this.active --;
+                    console.log(`Task ${name} returned, current active: ${this.active}`)
+                    this.next();
+                })
+            }
+
+            scheduleTask.prototype.push = (task, name, time) => {
+                if (this.active < this.limit) {
+                    this.runTask(task, name, time)
+                } else {
+                    console.log(`queuing task ${name}`)
+                    this.store.push([task, name, time])
+                }
+            }
+        }
+
+        var task = new scheduleTask(3);
+        task.push(exampleTask, 1, 1000)
+        task.push(exampleTask, 2, 8000)
+        task.push(exampleTask, 3, 1000)
+        task.push(exampleTask, 4, 500)
+        task.push(exampleTask, 5, 10)
+        task.push(exampleTask, 6, 6000)
+
+    </script>
+  </body>
+</html>

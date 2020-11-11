@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementation of Priority Queue in Javascript</title>
+</head>
+<body>
+    <p>Implementation of Priority Queue in Javascript</p>
+    <script>
+        class QElement  {
+            constructor(value, priority) {
+                this.value = value
+                this.priority = priority
+            }
+        }
+
+        class PriorityQueue  {
+            constructor () {
+                this.items = []
+            }
+
+            swap(x, y) {
+                let temp = this.items[x]
+                this.items[x] = this.items[y]
+                this.items[y] = temp
+                return this.items
+            }
+
+            bubbleUp() {
+                let index = this.items.length - 1
+                while (index > 0) {
+                    let parentIndex = Math.floor((index-1) / 2)
+                    if (this.items[parentIndex].priority <= this.items[index].priority) {
+                        this.swap(index, parentIndex)
+                        index = parentIndex
+                    } else {
+                        break
+                    }
+                }
+                return this.items
+            }
+
+            enqueue(value, priority) {
+                let node = new QElement(value, priority)
+                this.items.push(node)
+                this.bubbleUp()
+                return this.items
+            }
+
+            bubbleDown() {
+                let max = this.items[0]
+                let popppedNode = this.items.pop()
+                this.items[0] = popppedNode
+
+                let parentIndex = 0
+                const length = this.items.length
+                const elementPriority = this.items[0].priority
+
+                while (true) {
+                    let indexToSwap = null
+                    let leftIndex = (2 * parentIndex) + 1
+                    let rightIndex = (2 * parentIndex) + 2
+                    let leftChildPriority, rightChildPriority;
+                    if (leftIndex < length) {
+                        leftChildPriority = this.items[leftIndex].priority
+                        if (leftChildPriority > elementPriority) {
+                            indexToSwap = leftIndex
+                        }
+                    }
+
+                    if (rightIndex < length) {
+                        rightChildPriority = this.items[rightIndex].priority
+                        if ((rightChildPriority > elementPriority && indexToSwap == null) || 
+                            (rightChildPriority > leftChildPriority && indexToSwap != null)) {
+                            indexToSwap = rightIndex
+                        }
+                    }
+
+                    if (indexToSwap == null) {
+                        break
+                    }
+
+                    this.swap(parentIndex, indexToSwap)
+                    parentIndex = indexToSwap
+                }
+                return max;
+            }
+
+            dequeue() {
+                return this.bubbleDown()
+            }
+        }
+
+        var priorityQueue = new PriorityQueue(); 
+
+        // Adding another element to the queue 
+        priorityQueue.enqueue("Sumit", 2); 
+        priorityQueue.enqueue("Gourav", 3); 
+        priorityQueue.enqueue("Piyush", 4); 
+        priorityQueue.enqueue("Sunny", 6); 
+        priorityQueue.enqueue("Sheru", 3); 
+        console.log(priorityQueue.dequeue()); 
+        console.log(priorityQueue.dequeue());  
+        console.log(priorityQueue.dequeue());  
+        console.log(priorityQueue.dequeue());  3
+        console.log(priorityQueue.dequeue());
+
+    </script>
+</body>
+</html>

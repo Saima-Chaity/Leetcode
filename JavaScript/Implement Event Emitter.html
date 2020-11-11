@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implement Event Emitter</title>
+</head>
+<body>
+    <p>Implement Event Emitter</p>
+
+    <script>
+        class CustomEventEmitter {
+            constructor() {
+                this.events = {}
+            }
+
+            on(event, listener) {
+                if(typeof this.events[event] != 'object') {
+                    this.events[event] = []
+                }
+                this.events[event].push(listener)
+            }
+            
+            removeListener(event, listener) {
+                if(typeof this.events[event] == 'object') {
+                    var index = this.events[event].indexOf(listener)
+                    if (index > -1) {
+                        this.events[event].splice(index, 1)
+                    }
+                }
+            }
+
+            emit(event, ...args) {
+                console.log(this.events)
+                if(typeof this.events[event] == 'object') {
+                    this.events[event].forEach(listener=>listener.apply(this, args))
+                }
+            }
+
+            once(event, listener) {
+                const remove = this.on(event, (...args)=> {
+                    remove();
+                    listener.apply(this, args)
+                })
+            }
+        }
+
+        var event = new CustomEventEmitter()
+        event.on('load', function() {
+            alert('click')
+        })
+        event.on('load', function() {
+            alert('click1')
+        })
+
+        event.removeListener('load', function() {
+            alert('click1')
+        })
+        event.emit('load', console.log("done"))
+        event.once('load', function() {
+            alert('click1')
+        })
+    
+    </script>
+</body>
+</html>

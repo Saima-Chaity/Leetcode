@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button onclick="createMap()">Show Map</button>
+    <button onclick="createReduce()">Show Reduce</button>
+    <button onclick="createFilter()">Show Filter</button>
+    <script>
+
+        function createMap () {
+            test = [1, 2, 3, 4, 5];
+            function customMap(test, operation) {
+                newArr = [];
+                for (let i = 0; i < test.length; i++) {
+                    newArr.push(operation(test[i]));
+                }
+                return newArr;
+            }
+
+            const mapElements = customMap(test, function (index) {
+                return index * 2;
+            });
+            console.log(mapElements);
+        }
+
+        function createReduce () {
+            test = [1, 2, 3, 4, 5];
+            function customReducer(test, operation, initialValue) {
+                accumulator = initialValue === undefined ? 0 : initialValue
+                for (let i = 0; i < test.length; i++) {
+                    accumulator = operation(accumulator, test[i])
+                }
+                return accumulator;
+            }
+
+            const elements = customReducer(test, function (a, b) {
+                return a + b;
+            });
+            console.log(elements);
+
+            const elements1 = customReducer(test, function (a, b) {
+                return a + b;
+            }, 10);
+            console.log(elements1);
+        }
+
+        function createFilter () {
+            test = [1, 2, 3, 4, 5];
+            function customFilter(test, operation) {
+                newArr = [];
+                for (let i = 0; i < test.length; i++) {
+                    if (operation(test[i])) {
+                        newArr.push(test[i]);
+                    }
+                }
+                return newArr;
+            }
+
+            const elements = customFilter(test, function (index) {
+                return index % 2 == 0;
+            });
+            console.log(elements);
+        }
+    </script>
+  </body>
+</html>

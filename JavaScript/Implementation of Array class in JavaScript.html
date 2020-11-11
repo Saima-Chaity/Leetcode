@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementation of Array class in JavaScript</title>
+</head>
+<body>
+    <p>Implementation of Array class in JavaScript</p>
+    <script>
+        class Array {
+            constructor() {
+                this.length = 0
+                this.items = {}
+            }
+
+            push(value) {
+                this.items[this.length] = value
+                this.length++
+                return this.length
+            }
+
+            pop() {
+                const lastItem = this.items[this.length-1]
+                delete this.items[this.length-1]
+                this.length--
+                return this.items
+            }
+
+            insertAt(value, position) {
+                if (this.length < position) {
+                    return "Index out of range"
+                } else {
+                    for (var i = this.length; i >= position; i--) {
+                        this.items[i] = this.items[i-1]
+                    }
+                    this.items[position] = value
+                    this.length++
+                    return this.items
+                }
+            }
+
+            deleteAt(position) {
+                if (this.length < position) {
+                    return "Index out of range"
+                } else {
+                    for (var i = position; i < this.length - 1; i++) {
+                        this.items[i] = this.items[i+1]
+                    }
+                    delete this.items[this.length-1]
+                    this.length--
+                    return this.items
+                }
+            }
+
+            getElementAtIndex(position) {
+                return this.items[position]
+            }
+        }
+
+        const array= new Array(); 
+        array.push(12); 
+        array.push(13); 
+        array.push(14); 
+        array.push(10); 
+        array.push(989); 
+        document.write("<div>Print element in an array</div>"); 
+        for(var key in array.items){ 
+            document.write("<span>"+array.items[key]+" "+"</span>");  
+        } 
+
+        document.write("<div>Pop element in an array</div>"); 
+        array.pop(); //Popping element 989 
+        for(var key in array.items){ 
+            document.write("<span>"+array.items[key]+" "+"</span>");  
+        }
+        document.write("<div>Inserting element at position 2</div>"); 
+        array.insertAt(456, 2); //Inserting element 456 
+        for(var key in array.items){ 
+        document.write("<span>"+array.items[key]+" "+"</span>");  
+        } 
+        
+        document.write("<div>deleting element at position 3</div>"); 
+        array.deleteAt(1); //Deleting 14 
+        for(var key in array.items){ 
+        document.write("<span>"+array.items[key]+" "+"</span>");  
+        } 
+        
+        document.write("<div>Getting  element at position 2</div>"); 
+        document.write("<div>"+array.getElementAtIndex(2)+"</div>"); 
+
+        array.create2DArray()
+
+    </script>
+</body>
+</html>

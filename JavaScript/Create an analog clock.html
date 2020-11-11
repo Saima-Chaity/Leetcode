@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an analog clock</title>
+</head>
+<style>
+    .container{
+        width: 30rem;
+        height: 30rem;
+        border: 20px solid wheat;
+        margin: 50px auto;
+        border-radius: 100%;
+        position: relative;
+        padding: 2rem;
+    }
+    .clock-body {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-3px);
+    }
+    .hour, .minutes, .seconds {
+        width: 50%;
+        height: 6px;
+        background: black;
+        position: absolute;
+        top: 50%;
+        transform-origin: 100%;
+        transform: rotate(90deg);
+        transition: 0.3s all;
+        transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+</style>
+<body>
+    <p>Create an analog clock</p>
+    <div class="container">
+        <div class="clock-body">
+            <div class="hour"></div>
+            <div class="minutes"></div>
+            <div class="seconds"></div>
+        </div>
+    </div>
+    <div id='translation'></div>
+    
+    <script>
+        function getTime() {
+            var hourHand = document.getElementsByClassName('hour')[0]
+            var minutesHand = document.getElementsByClassName('minutes')[0]
+            var secondsHand = document.getElementsByClassName('seconds')[0]
+
+            var now = new Date()
+            var second = now.getSeconds()
+            var minute = now.getMinutes()
+            var hour = now.getHours()
+
+            var secondsInDegree = ((second / 60) * 360) + 90
+            var minutesInDegree = ((minute / 60) * 360) + 90
+            var hourInDegree = ((hour / 60) * 360) + 90
+
+            hourHand.style.transform = `rotate(${hourInDegree}deg)`
+            minutesHand.style.transform = `rotate(${minutesInDegree}deg)`
+            secondsHand.style.transform = `rotate(${secondsInDegree}deg)`
+        }
+
+        setInterval(() => {
+            getTime()
+        }, 1000);
+    </script>
+</body>
+</html>

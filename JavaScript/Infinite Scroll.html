@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Scroll</title>
+</head>
+<body>
+    <div id="text">Infinite Scroll</div>
+    <div id="scrollContainer" style="height: 400px; overflow: auto;">
+        <div id="content"></div>
+    </div>
+    <script>
+        var moreContent = '<div style="background:#EEE; height: 1000px"></div>'
+        var wrapper = document.getElementById('scrollContainer')
+        var content = document.getElementById('content')
+        var text = document.getElementById('text')
+        content.innerHTML = moreContent;
+        wrapper.addEventListener('scroll', scroller, false)
+        function scroller() {
+            text.innerHTML = wrapper.scrollTop + " + " + wrapper.offsetHeight + " + 100 > " + content.offsetHeight;
+            if (wrapper.scrollTop + wrapper.offsetHeight + 100 > content.offsetHeight) {
+                content.innerHTML += moreContent
+            }
+        }
+    </script>
+</body>
+</html>

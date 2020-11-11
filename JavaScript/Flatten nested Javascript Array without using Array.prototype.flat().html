@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flatten nested Javascript Array without using Array.prototype.flat()</title>
+</head>
+<body>
+    <p>Flatten nested Javascript Array without using Array.prototype.flat()</p>
+
+    <script>
+        let input = [1,[2,[3,5,[7]]]];
+        console.log("Recurseive: ", flattenRecursive(input));
+        console.log("Iterative : ", flattenIterative(input));
+        function flattenRecursive(input) {
+            let result = [];
+            for(let i=0; i< input.length ; i++) {
+                if(input[i] instanceof Array) {
+                result.push(...flattenRecursive(input[i])); 
+                } else {
+                result.push(input[i]); 
+                }
+            }
+            return result;  
+        }
+
+        function flattenIterative(input) {
+            let stack =[];
+            let result = [];
+            stack = [...input];
+            while(stack.length) {
+                let value = stack.shift();
+                if(value instanceof Array) {
+                stack.unshift(...value);
+                } else {
+                result.unshift(value);
+                }
+            }
+            return result.reverse();
+        }
+    </script>
+</body>
+</html>

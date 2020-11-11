@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementation of Graph in JavaScript</title>
+</head>
+<body>
+    <p>Implementation of Graph in JavaScript</p>
+    <script>
+        class Graph {
+            constructor(noOfVertices) {
+                this.noOfVertices = noOfVertices
+                this.adjacentList = new Map()
+            }
+
+            // functions to be implemented
+            // addVertex(v)
+            addVertex(v) {
+                this.adjacentList.set(v, [])
+            }
+            // addEdge(v, w)
+            addEdge(v, w) {
+                this.adjacentList.get(v).push(w)
+                this.adjacentList.get(w).push(v)
+            }
+            // printGraph()
+            printGraph() {
+                var keys = this.adjacentList.keys()
+                for (var i of keys) {
+                    var values = this.adjacentList.get(i)
+                    var items = ""
+                    for (var j of values) {
+                        items += j + " "
+                    }
+                    console.log(i + "->" + items)
+                }
+            }
+        
+            // bfs(v)
+            bfs(startingNode) {
+                var q = []
+                q.push(startingNode)
+                var visited = {}
+                visited[startingNode] = true
+                while (q.length > 0) {
+                    var node = q.shift()
+                    console.log(node)
+                    var adjList = this.adjacentList.get(node)
+                    for (var item in adjList) {
+                        var neighbour = adjList[item]
+                        if (!visited[neighbour]) {
+                            visited[neighbour] = true
+                            q.push(neighbour)
+                        } 
+                    }
+                }
+
+            }
+            // dfs(v)
+            dfs(startingNode) {
+                var visited = {}
+                this.dfsUtil(startingNode, visited)
+            }
+
+            dfsUtil(node, visited) {
+                visited[node] = true
+                console.log(node)
+                var adjList = this.adjacentList.get(node)
+                for (var item in adjList) {
+                    var neighbour = adjList[item]
+                    if (!visited[neighbour]) {
+                        this.dfsUtil(neighbour, visited)
+                    } 
+                }
+            }
+        }
+
+        var g = new Graph(6);
+        var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
+        // adding vertices
+        for (var i = 0; i < vertices.length; i++) {
+            g.addVertex(vertices[i])
+        }
+        // adding edges
+        g.addEdge('A', 'B');
+        g.addEdge('A', 'D');
+        g.addEdge('A', 'E');
+        g.addEdge('B', 'C');
+        g.addEdge('D', 'E');
+        g.addEdge('E', 'F');
+        g.addEdge('E', 'C');
+        g.addEdge('C', 'F');
+
+        // prints all vertex and
+        // its adjacency list
+        // A -> B D E
+        // B -> A C
+        // C -> B E F
+        // D -> A E
+        // E -> A D F C
+        // F -> E C
+        g.printGraph();
+
+        // prints
+        // BFS
+        // A B D E C F
+        console.log("BFS");
+        g.bfs('A');
+
+        // prints
+        // DFS
+        // A B C E D F
+        console.log("DFS");
+        g.dfs('A');
+
+    </script>
+</body>
+</html>
