@@ -31,7 +31,6 @@
             }
 
             emit(event, ...args) {
-                console.log(this.events)
                 if(typeof this.events[event] == 'object') {
                     this.events[event].forEach(listener=>listener.apply(this, args))
                 }
