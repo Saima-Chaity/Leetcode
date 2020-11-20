@@ -26,3 +26,27 @@ class Solution:
             left = lowestIndex + 1
         maxLength = max(maxLength, right - left)
     return maxLength
+
+
+#Using defaultdict
+from collections import defaultdict
+class Solution:
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        if not s or not k:
+            return 0
+        
+        freq = defaultdict()
+        right = 0
+        left = 0
+        maxLength = 1
+
+        while right < len(s):
+            char = s[right]
+            freq[char] = right
+            right += 1
+            if len(freq) == k+1:
+                lowestIndex = min(freq.values())
+                left = lowestIndex + 1
+                del freq[s[lowestIndex]] 
+            maxLength = max(maxLength, right-left)
+        return maxLength
