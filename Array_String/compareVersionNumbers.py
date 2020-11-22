@@ -22,29 +22,42 @@ Output: -1'''
 class Solution:
     def compareVersion(self, version1: str, version2: str) -> int:
 
-        def nextChunk(version, lengthOfV1, i):
+        def getNextChunk(pointer, version_length, version):
+            if pointer > version_length - 1:  # if pointer is set to the end of string return 0
+                return pointer, 0
 
-            if i > lengthOfV1 - 1:
-                return 0, i
-            current = i
-            while current < lengthOfV1 and version[current] != ".":
-                current += 1
-            number = int(version[i:current]) if current != lengthOfV1 - 1 else int(version[current:lengthOfV1])
-            i = current + 1
-            return number, i
+            pointer_end = pointer
+            while pointer_end < version_length and version[pointer_end] != ".":
+                pointer_end += 1
+            number = int(version[pointer:pointer_end]) if pointer_end != version_length - 1 else \
+                    version[pointer:version_length]
+            pointer = pointer_end + 1  # beginning of next chunk
+            return pointer, number
+
+        version1_length = len(version1)
+        version2_length = len(version2)
+        pointer1 = pointer2 = 0
+
+        while pointer1 < version1_length or pointer2 < version2_length:
+            pointer1, version1_char = getNextChunk(pointer1, version1_length, version1)
+            pointer2, version2_char = getNextChunk(pointer2, version2_length, version2)
+            if version1_char != version2_char:
+                return 1 if version1_char > version2_char else -1
+        return 0
 
 
-        lengthOfV1 = len(version1)
-        lengthOfV2 = len(version2)
+# Split + Parse, Two Pass
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
 
-        i = 0
-        j = 0
+        version1 = version1.split(".")
+        version2 = version2.split(".")
 
-        while i < lengthOfV1 or j < lengthOfV2:
-            item1, i = nextChunk(version1, lengthOfV1, i)
-            item2, j = nextChunk(version2, lengthOfV2, j)
-            if item1 > item2:
-                return 1
-            elif item1 < item2:
-                return -1
+        for i in range(max(len(version1), len(version2))):
+
+            version1_char = int(version1[i]) if i < len(version1) else 0
+            version2_char = int(version2[i]) if i < len(version2) else 0
+
+            if version1_char != version2_char:
+                return 1 if version1_char > version2_char else -1
         return 0

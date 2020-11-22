@@ -17,6 +17,7 @@ Output: 16
 '''
 
 
+# BFS
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
         row = len(grid)
@@ -41,4 +42,24 @@ class Solution:
                         perimeter += 1
                 if xi == -1 or yj == -1 or xi == row or yj == col:
                     perimeter += 1
+        return perimeter
+
+
+# DFS
+class Solution:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        row = len(grid)
+        col = len(grid[0])
+        direction = [(0, 1), (1, 0), (0,-1), (-1, 0)]
+        perimeter = 0
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] == 1:
+                    for dx, dy in direction:
+                        x = dx + i
+                        y = dy + j
+                        if 0 <= x < row and 0 <= y < col and grid[x][y] != 1:
+                            perimeter += 1
+                        if x < 0 or y < 0 or x == row or y == col:
+                            perimeter += 1
         return perimeter

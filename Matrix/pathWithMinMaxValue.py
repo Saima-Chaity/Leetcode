@@ -13,8 +13,6 @@ directions (north, east, west, south).
 # Output: 4
 
 import heapq
-
-
 class Solution:
   def maximumMinimumPath(self, A: List[List[int]]) -> int:
     rows = len(A)
@@ -39,46 +37,47 @@ class Solution:
           heapq.heappush(q, (-A[xi][yj], xi, yj))
           A[xi][yj] = -1
 
-  #Binary Search and DFS
-  class Solution:
-    def maximumMinimumPath(self, A: List[List[int]]) -> int:
-      rows = len(A)
-      cols = len(A[0])
-      direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
-      def check(value):
-        memo = [[0 for _ in range(cols)] for _ in range(rows)]
+#Binary Search and DFS
+class Solution:
+  def maximumMinimumPath(self, A: List[List[int]]) -> int:
+    rows = len(A)
+    cols = len(A[0])
+    direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
-        def dfs(i, j):
-          if i == rows - 1 and j == cols - 1:
+    def check(value):
+      memo = [[0 for _ in range(cols)] for _ in range(rows)]
+
+      def dfs(i, j):
+        if i == rows - 1 and j == cols - 1:
+          return True
+
+        memo[i][j] = 1
+        for x, y in direction:
+          xi = x + i
+          yj = y + j
+          if 0 <= xi < rows and 0 <= yj < cols and not memo[xi][yj] and A[xi][yj] >= value and dfs(xi, yj):
             return True
+        return False
 
-          memo[i][j] = 1
-          for x, y in direction:
-            xi = x + i
-            yj = y + j
-            if 0 <= xi < rows and 0 <= yj < cols and not memo[xi][yj] and A[xi][yj] >= value and dfs(xi, yj):
-              return True
-          return False
+      return dfs(0, 0)
 
-        return dfs(0, 0)
+    minValue = min(A[0][0], A[rows - 1][cols - 1])
+    unique = set()
+    for i in range(rows):
+      for j in range(cols):
+        if A[i][j] <= minValue:
+          unique.add(A[i][j])
 
-      minValue = min(A[0][0], A[rows - 1][cols - 1])
-      unique = set()
-      for i in range(rows):
-        for j in range(cols):
-          if A[i][j] <= minValue:
-            unique.add(A[i][j])
-
-      arr = sorted(unique)
-      left = 0
-      right = len(arr) - 1
-      while left <= right:
-        mid = left + (right - left) // 2
-        if check(arr[mid]):
-          left = mid + 1
-        else:
-          right = mid - 1
-      return arr[right]
+    arr = sorted(unique)
+    left = 0
+    right = len(arr) - 1
+    while left <= right:
+      mid = left + (right - left) // 2
+      if check(arr[mid]):
+        left = mid + 1
+      else:
+        right = mid - 1
+    return arr[right]
 
 
