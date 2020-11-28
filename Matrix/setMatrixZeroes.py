@@ -69,5 +69,36 @@ class Solution:
                 matrix[i][0] = 0
 
 
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
 
+        def setRowToZero(rowIndex, colIndex):
+            if rowIndex > 0:
+                rowIndex = 0
+            for i in range(rowIndex, row):
+                if matrix[i][colIndex] != 0:
+                    matrix[i][colIndex] = 0
+                    visited.add((i, colIndex))
+
+        def setColToZero(rowIndex, colIndex):
+            if colIndex > 0:
+                colIndex = 0
+            for j in range(colIndex, col):
+                if matrix[rowIndex][j] != 0:
+                    matrix[rowIndex][j] = 0
+                    visited.add((rowIndex, j))
+
+        row = len(matrix)
+        col = len(matrix[0])
+        visited = set()
+
+        for i in range(row):
+            for j in range(col):
+                if matrix[i][j] == 0 and (i, j) not in visited:
+                    visited.add((i, j))
+                    setRowToZero(i, j)
+                    setColToZero(i, j)
 
