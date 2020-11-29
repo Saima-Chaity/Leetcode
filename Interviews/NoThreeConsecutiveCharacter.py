@@ -27,3 +27,6 @@ def getCount(s):
     return count
 
 getCount('aabbbccc')
+getCount('baaaaa')
+getCount('baaabbaabbba')
+getCount('baabab')
