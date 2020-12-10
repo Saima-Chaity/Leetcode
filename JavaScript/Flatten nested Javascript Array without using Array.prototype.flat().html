@@ -16,9 +16,9 @@
             let result = [];
             for(let i=0; i< input.length ; i++) {
                 if(input[i] instanceof Array) {
-                result.push(...flattenRecursive(input[i])); 
+                    result.push(...flattenRecursive(input[i])); 
                 } else {
-                result.push(input[i]); 
+                    result.push(input[i]); 
                 }
             }
             return result;  

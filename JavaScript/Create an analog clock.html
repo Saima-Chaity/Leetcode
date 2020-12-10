@@ -24,13 +24,22 @@
     .hour, .minutes, .seconds {
         width: 50%;
         height: 6px;
-        background: black;
         position: absolute;
         top: 50%;
         transform-origin: 100%;
         transform: rotate(90deg);
         transition: 0.3s all;
         transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+
+    .hour {
+        background: black;
+    }
+    .minutes {
+        background: rgb(3, 147, 204);
+    }
+    .seconds {
+        background: rgb(223, 208, 7);
     }
 </style>
 <body>
@@ -42,7 +51,6 @@
             <div class="seconds"></div>
         </div>
     </div>
-    <div id='translation'></div>
     
     <script>
         function getTime() {

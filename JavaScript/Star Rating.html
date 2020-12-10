@@ -49,12 +49,14 @@
                     for (let i=0; i < input; i++) {
                         let starElement = document.createElement('i')
                         starElement.className = 'fa fa-star grey'
+                        starElement.id = i+1
                         starElement.addEventListener('click', (event) => {
+                            let currentId = event.target.id
                             for(let index = 0; index < input; index++) {
                                 container.children[index].className = 'fa fa-star grey'
                             }
                             starElement.className = 'fa fa-star gold'
-                            for(let j = 0; j < i; j++) {
+                            for(let j = 0; j < currentId; j++) {
                                 container.children[j].className = 'fa fa-star gold'
                             }
                         })

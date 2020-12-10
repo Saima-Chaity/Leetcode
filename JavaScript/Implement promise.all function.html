@@ -13,10 +13,10 @@
         const asyncOperation = (delay) => {
             return new Promise((resolve, reject) => {
                 setTimeout(()=> {
-                    if (delay == 2000) {
-                        reject("error at 2000");
+                    if (delay == 4000) {
+                        reject(`error at ${delay}`);
                     }
-                    resolve(delay)
+                    resolve("Resolved with " + delay)
                 }, delay)
             })
         }

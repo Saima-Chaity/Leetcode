@@ -4,6 +4,12 @@
     <button onclick="createMap()">Show Map</button>
     <button onclick="createReduce()">Show Reduce</button>
     <button onclick="createFilter()">Show Filter</button>
+
+    <span id="map"></span>
+    <br/>
+    <span id="reduce"></span>
+    <br/>
+    <span id="filter"></span>
     <script>
 
         function createMap () {
@@ -19,7 +25,7 @@
             const mapElements = customMap(test, function (index) {
                 return index * 2;
             });
-            console.log(mapElements);
+            document.getElementById('map').innerHTML = '\n' +  [...mapElements]
         }
 
         function createReduce () {
@@ -35,12 +41,12 @@
             const elements = customReducer(test, function (a, b) {
                 return a + b;
             });
-            console.log(elements);
+            document.getElementById('reduce').innerHTML = '\n' +  elements
 
             const elements1 = customReducer(test, function (a, b) {
                 return a + b;
             }, 10);
-            console.log(elements1);
+            document.getElementById('reduce').innerHTML = '\n' +  elements1
         }
 
         function createFilter () {
@@ -58,7 +64,7 @@
             const elements = customFilter(test, function (index) {
                 return index % 2 == 0;
             });
-            console.log(elements);
+            document.getElementById('filter').innerHTML = '\n' +  [...elements]
         }
     </script>
   </body>

@@ -62,7 +62,7 @@
         const currentPlayerTurn = () => `It's ${currentPlayer}'s turn!`
         const winningMessage = () => `${currentPlayer} has won the game!`
         const drawMessage = () => `Game ended in a draw!`
-        var gameState = ["", "", "", "", "", "", "", "", ""]
+        var gameState = ["", "", "", "", "", "", "", "", ""] 
         gameStatus.innerHTML = currentPlayerTurn()
         document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClickEvent))
 
