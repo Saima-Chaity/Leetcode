@@ -39,6 +39,23 @@ class Solution:
         return result
 
 
+#Using stack
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        stack = []
+        waterTrapped = 0
+        for index, currentHeight in enumerate(height):
+            # Form a container
+            while stack and stack[-1][0] <= currentHeight:
+                popped, currentIndex = stack.pop()
+                # If container, then calculate left boundary
+                if stack:
+                    leftBoundary, leftIndex = stack[-1]
+                    waterTrapped += min(leftBoundary-popped, currentHeight-popped) * (index - leftIndex - 1)
+            stack.append((currentHeight, index))
+        return waterTrapped
+
+
 
 
 
