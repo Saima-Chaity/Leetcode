@@ -22,3 +22,21 @@ class Solution:
             right *= nums[i]
 
         return result
+
+# Left and Right product lists
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        leftProduct = [0] * (len(nums))
+        rightProduct = [0] * (len(nums))
+
+        leftProduct[0] = 1
+        for i in range(1, len(nums)):
+            leftProduct[i] = leftProduct[i - 1] * nums[i - 1]
+
+        rightProduct[len(nums) - 1] = 1
+        for j in range(len(nums) - 2, -1, -1):
+            rightProduct[j] = rightProduct[j + 1] * nums[j + 1]
+
+        for i in range(len(nums)):
+            nums[i] = leftProduct[i] * rightProduct[i]
+        return nums
