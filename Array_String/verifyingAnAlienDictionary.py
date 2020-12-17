@@ -12,18 +12,23 @@ Output: true
 Explanation: As 'h' comes before 'l' in this language, then the sequence is sorted.'''
 
 
-class Solution(object):
-    def isAlienSorted(self, words, order):
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
 
-        orderIndex = {char: index for index, char in enumerate(order)}
+        order_index = {char: index for index, char in enumerate(order)}
         for i in range(len(words) - 1):
-            for k in range(min(len(words[i]), len(words[i + 1]))):
-                if words[i][k] != words[i + 1][k]:
-                    if orderIndex[words[i][k]] > orderIndex[words[i + 1][k]]:
+            firstWord = words[i]
+            secondWord = words[i + 1]
+            for i in range(min(len(firstWord), len(secondWord))):
+                if firstWord[i] == secondWord[i]:
+                    continue
+                else:
+                    if order_index[firstWord[i]] > order_index[secondWord[i]]:
                         return False
-                    break
+                break
             else:
-                if len(words[i]) > len(words[i + 1]):
+                if len(firstWord) > len(secondWord):
                     return False
         return True
+
 
