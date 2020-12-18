@@ -75,4 +75,36 @@ class Solution:
                 break
         return False
 
+# Using solution from wordbreak- I
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        self.memo = {}
+        self.wordList = set(words)
+        output = []
+        for word in words:
+            if len(word) < 2:
+                continue
+            self.count = 0
+            result = self.wordbreak(word)
+            if result and self.count > 1:
+                output.append(word)
+        return output
+
+    def wordbreak(self, s):
+        if s == "":
+            return True
+        if s in self.wordList and self.count > 0:
+            return True
+        current = ""
+        for i in range(len(s)):
+            current += s[i]
+            if s[i + 1:] in self.memo and self.memo[s[i + 1:]] is False:
+                continue
+            if current in self.wordList:
+                result = self.wordbreak(s[i + 1:])
+                if result:
+                    self.count += 1
+                    return True
+                self.memo[s[i + 1:]] = result
+        return False
 
