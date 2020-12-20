@@ -16,44 +16,39 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Codec:
 
     def serialize(self, root: TreeNode) -> str:
         """Encodes a tree to a single string.
         """
-        #Preorder Traversal
         if not root:
-            return ''
+            return ""
 
-        result = ""
-        stack = []
-        while root or stack:
-            while root:
-                result += str(root.val) + ","
-                stack.append(root)
-                root = root.left
-            root = stack.pop()
-            root = root.right
-        return result
+        def preOrder(root):
+            return [root.val] + preOrder(root.left) + preOrder(root.right) if root else []
+
+        return ",".join(map(str, preOrder(root)))
 
     def deserialize(self, data: str) -> TreeNode:
         """Decodes your encoded data to tree.
         """
         if not data:
             return None
-        splitedData = data.split(",")
+
+        splitedData = data.split(',')
         root = None
         for value in splitedData:
-            if len(splitedData) > 0 and value != '':
+            if value != "":
                 root = self.deserializeTree(root, int(value))
         return root
 
     def deserializeTree(self, root, value):
         if not root:
             return TreeNode(value)
-        if value < root.val:
+        if root.val > value:
             root.left = self.deserializeTree(root.left, value)
-        else:
+        if root.val < value:
             root.right = self.deserializeTree(root.right, value)
         return root
 
