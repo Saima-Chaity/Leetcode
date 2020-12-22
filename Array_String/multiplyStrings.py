@@ -11,28 +11,24 @@ Output: "6"'''
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
 
-        length1 = len(num1)
-        length2 = len(num2)
+        num1_length = len(num1)
+        num2_length = len(num2)
+        output = [0] * (num1_length + num2_length)
 
-        output = [0] * (length1 + length2)
-
-        for i in range(length1 - 1, -1, -1):
-            num_i = num1[i]
-            for j in range(length2 - 1, -1, -1):
-                num_j = num2[j]
-                product = int(num_i) * int(num_j)
+        for i in range(num1_length - 1, -1, -1):
+            for j in range(num2_length - 1, -1, -1):
+                product = (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))
                 index = i + j + 1
                 output[index] += product
-                output[index - 1] += output[index] // 10
-                output[index] %= 10
+                output[index - 1] += output[index] // 10  # bring out carry number to the left array
+                output[index] %= 10  # remove the carry out from the current array
 
         # Remove trailing zero
         i = 0
-        while i < (length1 + length2) and output[i] == 0:
+        while i < (num1_length + num2_length) and output[i] == 0:
             i += 1
 
         # In case the product is zero
-        if i == length1 + length2:
+        if i == (num1_length + num2_length):
             return "0"
-
         return "".join(map(str, output[i:]))
