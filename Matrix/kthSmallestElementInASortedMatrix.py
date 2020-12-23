@@ -65,3 +65,25 @@ class Solution:
         col = len(matrix[0])
         matrix[x // col][x % col], matrix[y // col][y % col] = matrix[y // col][y % col], matrix[x // col][x % col]
         return matrix
+
+
+#Binary Search
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        row = len(matrix)
+        col = len(matrix[0])
+        low = matrix[0][0]
+        high = matrix[-1][-1]
+        while low < high:
+            mid = low + (high - low) // 2
+            count = 0
+            for i in range(row):
+                j = col-1
+                while j >= 0 and matrix[i][j] > mid:
+                    j -= 1
+                count += j + 1
+            if count < k:
+                low = mid + 1
+            else:
+                high = mid
+        return low
