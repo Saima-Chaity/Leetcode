@@ -29,7 +29,6 @@ And so on.'''
 from collections import Counter
 import heapq
 
-
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
 

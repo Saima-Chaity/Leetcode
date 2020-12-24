@@ -17,28 +17,26 @@ from collections import Counter
 import heapq
 class Solution:
     def reorganizeString(self, S: str) -> str:
-        mapping = Counter(S)
-        heap = []
-        for char, freq in mapping.items():
-            heapq.heappush(heap, (-freq, char))
 
-        output = []
+        CharCounts = Counter(S)
+        heap = []
+        for char, count in CharCounts.items():
+            heapq.heappush(heap, (-count, char))
+
+        result = ""
         while len(heap) > 1:
-            freq1, char1 = heapq.heappop(heap)
-            freq2, char2 = heapq.heappop(heap)
-            output.extend([char1, char2])
-            if abs(freq1) > 1:
-                heapq.heappush(heap, (freq1+1, char1))
-            if abs(freq2) > 1:
-                heapq.heappush(heap, (freq2+1, char2))
-        
-        if len(heap) > 0:
-            freq, char = heapq.heappop(heap)
-            if abs(freq) > 1:
+            count1, char1 = heapq.heappop(heap)
+            count2, char2 = heapq.heappop(heap)
+            result += char1 + char2
+            if count1 != -1:
+                heapq.heappush(heap, (count1 + 1, char1))
+            if count2 != -1:
+                heapq.heappush(heap, (count2 + 1, char2))
+
+        if heap:
+            count1, char1 = heapq.heappop(heap)
+            result += char1
+            if count1 != -1:
                 return ""
-            else:
-                output.append(char)
-        return "".join(output)
-            
-                
+        return result
             
