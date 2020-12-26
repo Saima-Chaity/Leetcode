@@ -31,3 +31,34 @@ class Solution:
                 if current.val < R:
                     stack.append(current.right)
         return totalSum
+
+
+# Recursive Implementation
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
+
+        if not root:
+            return 0
+        rangeSum = 0
+
+        def getSum(node):
+            nonlocal rangeSum
+            if node:
+                if node.val >= low and node.val <= high:
+                    rangeSum += node.val
+                if node.val > low:
+                    getSum(node.left)
+                if node.val < high:
+                    getSum(node.right)
+
+        getSum(root)
+        return rangeSum
+
+
+
