@@ -125,22 +125,22 @@ Explanation: One 1 at depth 3, one 4 at depth 2, and one 6 at depth 1; 1*3 + 4*2
 
 class Solution:
     def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
-        maxDepth = self.getMaxDepth(nestedList)
-        self.totalSum = 0
-        self.depthSum(nestedList, 1, maxDepth)
-        return self.totalSum
 
-    def getMaxDepth(self, nestedList):
-        currentMax = 1
-        for num in nestedList:
-            if num.isInteger() == False:
-                currentMax = max(currentMax, 1 + self.getMaxDepth(num.getList()))
-        return currentMax
+        def getDepthSum(nestedList, depth):
+            totalSum = 0
+            for weight in nestedList:
+                if weight.isInteger():
+                    totalSum += weight.getInteger() * depth
+                else:
+                    totalSum += getDepthSum(weight.getList(), depth - 1)
+            return totalSum
 
-    def depthSum(self, nestedList, level, maxDepth):
-        for num in nestedList:
-            if num.isInteger():
-                self.totalSum = self.totalSum + num.getInteger() * (maxDepth - level + 1)
-            else:
-                self.depthSum(num.getList(), level + 1, maxDepth)
-        return
+        def getMaxDepth(nestedList):
+            depth = 1
+            for weight in nestedList:
+                if not weight.isInteger():
+                    depth = max(depth, 1 + getMaxDepth(weight.getList()))
+            return depth
+
+        maxDepth = getMaxDepth(nestedList)
+        return getDepthSum(nestedList, maxDepth)
