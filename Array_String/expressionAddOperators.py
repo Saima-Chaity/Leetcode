@@ -9,28 +9,27 @@ Output: ["1+2+3", "1*2*3"] '''
 
 
 class Solution:
-    def addOperators(self, num: 'str', target: 'int') -> 'List[str]':
+    def addOperators(self, num: str, target: int) -> List[str]:
         output = []
-        numLength = len(num)
 
-        def addBinaryOperators(index, prevValue, currValue, expression):
-            if index == numLength:
-                if currValue == target:
-                    output.append(expression)
+        def backTrack(index, prevValue, currentTotal, combination):
+            if index == len(num):
+                if currentTotal == target:
+                    output.append(combination)
                 return
-
-            for i in range(index, numLength):
+            for i in range(index, len(num)):
                 operand = num[index:i + 1]
-                if len(operand) > 1 and operand[0] == "0":
+                if len(operand) > 1 and operand[0] == '0':  # cases for 05 which is not a valid number
                     break
                 intOperand = int(operand)
                 if index == 0:
-                    addBinaryOperators(i + 1, intOperand, intOperand, operand)
+                    backTrack(i + 1, intOperand, intOperand, operand)
                 else:
-                    addBinaryOperators(i + 1, intOperand, currValue + intOperand, expression + "+" + operand)
-                    addBinaryOperators(i + 1, -intOperand, currValue - intOperand, expression + "-" + operand)
-                    addBinaryOperators(i + 1, prevValue * intOperand,
-                                       (currValue - prevValue) + (intOperand * prevValue), expression + "*" + operand)
+                    backTrack(i + 1, intOperand, currentTotal + intOperand, combination + "+" + operand)
+                    backTrack(i + 1, -intOperand, currentTotal - intOperand, combination + "-" + operand)
+                    backTrack(i + 1, prevValue * intOperand, (currentTotal - prevValue) + (intOperand * prevValue),
+                              combination + "*" + operand)
 
-        addBinaryOperators(0, 0, 0, "")
+        backTrack(0, 0, 0, "0")
         return output
+
