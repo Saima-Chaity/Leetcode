@@ -9,17 +9,15 @@ Output: 1024.00000'''
 class Solution:
     def myPow(self, x: float, n: int) -> float:
 
-        if n == 0:
-            return 1
-
         if n < 0:
-            x = 1 / x
-            n = -n
+            x = 1/x
+            n = abs(n)
 
-        powerOfX = 1
+        result = 1
+        currentProduct = x
         while n:
-            if n % 2:
-                powerOfX *= x
-            x *= x
-            n //= 2
-        return powerOfX
+            if n % 2 == 1:
+                result = result * currentProduct
+            currentProduct *= currentProduct
+            n = n // 2
+        return result
