@@ -64,25 +64,25 @@ read4(buf) # read4 returns 4. Now buf = ['e','f','g','h'], fp points to 'i'
 read4(buf) # read4 returns 3. Now buf = ['i','j','k',...], fp points to end of file
 """
 
+from collections import deque
+
+# The read4 API is already defined for you.
+# def read4(buf4: List[str]) -> int:
+
 class Solution:
     def __init__(self):
-        self.queue = []
+        self.q = deque()
 
-    def read(self, buf, n):
-        """
-        :type buf: Destination buffer (List[str])
-        :type n: Number of characters to read (int)
-        :rtype: The number of actual characters read (int)
-        """
-        index = 0
-        while index < n:
-            buffer4 = [""] * 4
-            readBuffer4 = read4(buffer4)
-            self.queue.extend(buffer4)
-            count = min(len(self.queue), n - index)
-            for i in range(count):
-                buf[index] = self.queue.pop(0)
-                index += 1
-            if count == 0:
-                break
-        return index
+    def read(self, buf: List[str], n: int) -> int:
+        i = 0
+        buf4 = [''] * 4
+        while i < n:
+            if self.q:
+                buf[i] = self.q.popleft()
+                i += 1
+            else:
+                readFile = read4(buf4)
+                if readFile == 0:
+                    break
+                self.q.extend(buf4[:readFile])
+        return i
