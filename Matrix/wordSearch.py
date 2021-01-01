@@ -103,3 +103,44 @@ class Solution:
         self.checkNeighbor(i, j + 1, board, trie[temp], path + temp)
         self.checkNeighbor(i, j - 1, board, trie[temp], path + temp)
         board[i][j] = temp
+
+
+# Modified previous solution
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+
+        def dfs(x, y, trie, path):
+            if "#" in trie:
+                output.add(path)
+
+            for dx, dy in directions:
+                xi = x + dx
+                yj = y + dy
+                if 0 <= xi < rows and 0 <= yj < cols and board[xi][yj] != "@" and board[xi][yj] in trie:
+                    temp = board[xi][yj]
+                    board[xi][yj] = '@'
+                    dfs(xi, yj, trie[temp], path + temp)
+                    board[xi][yj] = temp
+
+        rows = len(board)
+        cols = len(board[0])
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        output = set()
+        trie = {}
+
+        for word in words:
+            t = trie
+            for char in word:
+                if char not in t:
+                    t[char] = {}
+                t = t[char]
+            t["#"] = "#"
+
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] in trie:
+                    temp = board[i][j]
+                    board[i][j] = '@'
+                    dfs(i, j, trie[temp], temp)
+                    board[i][j] = temp
+        return output

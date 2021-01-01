@@ -15,39 +15,34 @@ Output: 4'''
 from collections import deque
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        if not grid:
-            return 
-        
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         row = len(grid)
         col = len(grid[0])
-        direction = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         q = deque()
-
+        minuteRequired = 0
+        freshOrange = 0
         for i in range(row):
             for j in range(col):
                 if grid[i][j] == 2:
                     q.append((i, j))
                     grid[i][j] = -1 #Visited cell
-        
-        minutedRequired = 0
+                if grid[i][j] == 1:
+                    freshOrange += 1
+
         while q:
             updated = False
             for i in range(len(q)):
                 i, j = q.popleft()
-                for (x, y) in direction:
-                    xi = x + i
-                    yj = y + j
-                    if xi >= 0 and xi < len(grid) and yj >= 0 and yj < len(grid[0]) and grid[xi][yj] != -1 and grid[xi][yj] == 1:
+                for dx, dy in direction:
+                    x = i + dx
+                    y = j + dy
+                    if 0 <= x < row and 0 <= y < col and grid[x][y] != -1 and grid[x][y] == 1:
+                        grid[x][y] = 2
+                        q.append((x, y))
+                        grid[x][y] = -1 #Visited cell
+                        freshOrange -= 1
                         if not updated:
-                            minutedRequired += 1
+                            minuteRequired += 1
                             updated = True
-                        grid[xi][yj] = 2
-                        q.append((xi, yj))
-                        grid[xi][yj] = -1 #Visited cell
 
-        for i in range(row):
-            for j in range(col):
-                if grid[i][j] == 1:
-                    return -1
-        return minutedRequired
-            
+        return minuteRequired if freshOrange == 0 else -1
