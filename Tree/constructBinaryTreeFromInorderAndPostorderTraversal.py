@@ -30,25 +30,22 @@ class TreeNode:
 class Solution:
     def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
 
-        def getTree(startIndex, endIndex):
+        if not postorder or not inorder:
+            return None
 
-            if startIndex > endIndex:
+        def generateTree(postorder, inorder):
+            if not postorder or not inorder:
                 return None
 
-            currentRoot = postorder.pop()
-            node = TreeNode(currentRoot)
+            currentNode = postorder.pop()
+            root = TreeNode(currentNode)
+            inorderIndex = inorder.index(currentNode)
+            if root:
+                root.right = generateTree(postorder, inorder[inorderIndex + 1:])
+                root.left = generateTree(postorder, inorder[:inorderIndex])
+            return root
 
-            if startIndex == endIndex:
-                return node
-
-            inorderIndex = inorder.index(currentRoot)
-
-            node.right = getTree(inorderIndex + 1, endIndex)
-            node.left = getTree(startIndex, inorderIndex - 1)
-
-            return node
-
-        return getTree(0, len(inorder) - 1)
+        return generateTree(postorder, inorder)
 
 
 
