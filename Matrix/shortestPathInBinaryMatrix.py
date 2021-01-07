@@ -15,30 +15,29 @@ Input: [[0,1],[1,0]]
 
 Output: 2'''
 
-
+from collections import deque
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
 
-        row = len(grid)
-        col = len(grid[0])
-        direction = [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (1, 1), (1, -1), (-1, 1)]
-        if grid[0][0] != 0:
+        if grid[0][0] != 0 or grid[-1][-1]:
             return -1
 
-        q = [(0, 0)]
-        visited = set()
-        visited.add((0, 0))
-        distance = 0
+        rows = len(grid)
+        cols = len(grid[0])
+        q = deque([(0, 0, 1)])
+        directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+        shortestPath = float('inf')
+        grid[0][0] = 1
+
         while q:
-            for i in range(len(q)):
-                x, y = q.pop(0)
-                if x == row - 1 and y == col - 1:
-                    return distance + 1
-                for dx, dy in direction:
-                    xi = dx + x
-                    yj = dy + y
-                    if 0 <= xi < row and 0 <= yj < col and grid[xi][yj] != 1 and (xi, yj) not in visited:
-                        q.append((xi, yj))
-                        visited.add((xi, yj))
-            distance += 1
+            for _ in range(len(q)):
+                x, y, distance = q.popleft()
+                if x == rows - 1 and y == cols - 1:
+                    return distance
+                for dx, dy in directions:
+                    xi = x + dx
+                    yj = y + dy
+                    if 0 <= xi < rows and 0 <= yj < cols and grid[xi][yj] == 0:
+                        grid[xi][yj] = 1
+                        q.append((xi, yj, distance + 1))
         return -1
