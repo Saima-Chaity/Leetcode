@@ -26,7 +26,6 @@ class Solution:
         cols = len(grid[0])
         q = deque([(0, 0, 1)])
         directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-        shortestPath = float('inf')
         grid[0][0] = 1
 
         while q:
