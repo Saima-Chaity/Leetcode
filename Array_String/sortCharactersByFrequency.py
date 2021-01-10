@@ -11,9 +11,10 @@ Explanation:
 'e' appears twice while 'r' and 't' both appear once.
 So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.'''
 
+
+# Time - 0(nlogm)
 from collections import Counter
 import heapq
-
 class Solution:
     def frequencySort(self, s: str) -> str:
 
@@ -27,3 +28,25 @@ class Solution:
             freq, char = heapq.heappop(heap)
             output += char * abs(freq)
         return output
+
+
+# Bucket sort time - 0(n)
+from collections import Counter
+class Solution:
+    def frequencySort(self, s: str) -> str:
+
+        if not s:
+            return s
+
+        s_count = Counter(s)
+        maxValues = max(s_count.values())
+        bucket = [[] for _ in range(maxValues + 1)]
+        for char, freq in s_count.items():
+            bucket[freq].append(char)
+
+        output = []
+        for i in range(len(bucket) - 1, -1, -1):
+            if bucket[i]:
+                for char in bucket[i]:
+                    output.append(char * i)
+        return "".join(output)
