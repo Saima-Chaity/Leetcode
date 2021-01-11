@@ -11,30 +11,51 @@ You may assume no duplicate exists in the array.'''
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:
+
         if len(nums) == 1:
             return nums[0]
-        left = 0
-        right = len(nums) - 1
-        return self.findMinValue(nums, left, right)
 
-    def findMinValue(self, nums, left, right):
+        low = 0
+        high = len(nums) - 1
+        if nums[high] > nums[low]:
+            return nums[low]
 
-        if nums[right] > nums[0]:
-            return nums[0]
+        while low <= high:
+            mid = low + (high - low) // 2
 
-        while left <= right:
-            mid = left + (right - left) // 2
             if nums[mid] > nums[mid + 1]:
                 return nums[mid + 1]
-            elif nums[mid - 1] > nums[mid]:
+
+            if nums[mid] < nums[mid - 1]:
                 return nums[mid]
 
-            if nums[mid] > nums[0]:
-                left = mid + 1
+            if nums[mid] >= nums[low]:
+                low = mid + 1
             else:
-                right = mid - 1
-        return -1
+                high = mid - 1
 
+
+#Another Approach
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+
+        if len(nums) == 1:
+            return nums[0]
+
+        low = 0
+        high = len(nums) - 1
+
+        if nums[high] > nums[low]:
+            return nums[low]
+
+        while low < high:
+            mid = low + (high - low) // 2
+
+            if nums[mid] <= nums[high]:
+                high = mid
+            else:
+                low = mid + 1
+        return nums[low]
 
 # Find Minimum in Rotated Sorted Array II - https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/
 '''Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
@@ -45,28 +66,27 @@ Find the minimum element.
 
 The array may contain duplicates.'''
 
+
 class Solution:
     def findMin(self, nums: List[int]) -> int:
+
         if len(nums) == 1:
             return nums[0]
-        
+
         low = 0
         high = len(nums) - 1
-        
-        if nums[high] > nums[0]:
-            return nums[0]
+
+        if nums[high] > nums[low]:
+            return nums[low]
 
         while low < high:
             mid = low + (high - low) // 2
-            if nums[mid] == nums[high]: 
-                if nums[mid] == nums[low]: # [10, 5, 10, 10, 10] or [10, 10, 10, 5, 10] 
-                    low += 1 # or high = high-1 # min could be on either side，we just narrow the interval
-                else:
-                    high = mid
-            elif nums[mid] > nums[high]: 
-                low = mid + 1
-            else:
+            if nums[low] == nums[mid] == nums[high]:
+                low += 1
+                high -= 1
+            elif nums[mid] <= nums[high]:
                 high = mid
+            else:
+                low = mid + 1
         return nums[low]
-
 
