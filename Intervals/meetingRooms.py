@@ -68,28 +68,4 @@ class Solution:
         return usedRooms
 
 
-# Merge Intervals - https://leetcode.com/problems/merge-intervals/
-'''Given a collection of intervals, merge all overlapping intervals.'''
-# Input: [[1,3],[2,6],[8,10],[15,18]]
-# Output: [[1,6],[8,10],[15,18]]
-
-class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-
-        if len(intervals) == 0:
-            return []
-        if len(intervals) == 1:
-            return intervals
-
-        intervals.sort()
-        stack = [intervals[0]]
-        i = 1
-
-        while i < len(intervals):
-            if stack[-1][1] >= intervals[i][0]:
-                stack[-1] = [min(stack[-1][0], intervals[i][0]), max(stack[-1][1], intervals[i][1])]
-            else:
-                stack.append(intervals[i])
-            i += 1
-        return stack
 
