@@ -18,26 +18,26 @@ Explanation: There are 4 nodes in the graph.
 4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
 '''
 
-
+from collections import deque
+"""
 # Definition for a Node.
 class Node:
     def __init__(self, val = 0, neighbors = None):
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
-
-#BFS
+"""
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
 
         if not node:
             return node
 
-        q = [node]
+        q = deque([node])
         visited = {}
         visited[node] = Node(node.val, [])
 
         while q:
-            oldNode = q.pop(0)
+            oldNode = q.popleft()
             for neighbour in oldNode.neighbors:
                 if neighbour not in visited:
                     q.append(neighbour)

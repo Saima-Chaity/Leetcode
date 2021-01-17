@@ -39,3 +39,25 @@ class Solution:
 
 
 # Reference https://www.youtube.com/watch?v=ASoaQq66foQ
+
+# Recursion
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+
+        memo = {}
+
+        def findSubsequence(i, j):
+            if (i, j) in memo:
+                return memo[(i, j)]
+
+            if i == len(text1) or j == len(text2):
+                return 0
+
+            if text1[i] == text2[j]:
+                memo[(i, j)] = 1 + findSubsequence(i + 1, j + 1)
+            else:
+                memo[(i, j)] = max(findSubsequence(i, j + 1), findSubsequence(i + 1, j))
+
+            return memo[(i, j)]
+
+        return findSubsequence(0, 0)
