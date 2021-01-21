@@ -36,3 +36,26 @@ class Solution:
             head = firstNode.next
 
         return dummy.next
+
+
+# Another approach
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+
+        i = 1
+        current = head
+        prev = head
+        while current:
+            current = current.next
+            i += 1
+            if i == 2 and current:
+                prev.val, current.val = current.val, prev.val
+                current = current.next
+                i = 1
+                prev = current
+        return head
