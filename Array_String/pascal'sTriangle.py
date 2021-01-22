@@ -52,3 +52,27 @@ class Solution:
             triangle.append(currentRow)
             prevRow = currentRow
         return triangle[rowIndex]
+
+
+# Recursive approach
+class Solution:
+    def getRow(self, rowIndex: int) -> List[int]:
+
+        memo = {}
+
+        def getNums(rowIndex, colIndex):
+            rowCol = (rowIndex, colIndex)
+            if rowCol in memo:
+                return memo[rowCol]
+
+            if rowIndex == 0 or colIndex == 0 or rowIndex == colIndex:
+                memo[rowCol] = 1
+                return 1
+
+            memo[rowCol] = getNums(rowIndex - 1, colIndex - 1) + getNums(rowIndex - 1, colIndex)
+            return memo[rowCol]
+
+        output = []
+        for i in range(rowIndex + 1):
+            output.append(getNums(rowIndex, i))
+        return output

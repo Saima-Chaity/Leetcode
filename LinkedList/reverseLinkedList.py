@@ -31,7 +31,27 @@ class Solution:
         return prevNode
 
 
-# Reverse Linked List II - https://leetcode.com/problems/reverse-linked-list-ii/
+# Recursive method
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        def _reverseList(node):
+            if not node or not node.next:
+                return node
+
+            current = _reverseList(node.next)
+            node.next.next = node
+            node.next = None
+            return current
+
+        return _reverseList(head)
+
+
+    # Reverse Linked List II - https://leetcode.com/problems/reverse-linked-list-ii/
 '''Reverse a linked list from position m to n. Do it in one-pass.
 
 Note: 1 ≤ m ≤ n ≤ length of list.

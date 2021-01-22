@@ -59,3 +59,21 @@ class Solution:
                 i = 1
                 prev = current
         return head
+
+
+# Recursive approach
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        def swapNode(node):
+            if node and node.next:
+                node.val, node.next.val = node.next.val, node.val
+                swapNode(node.next.next)
+
+        current = head
+        swapNode(current)
+        return head
