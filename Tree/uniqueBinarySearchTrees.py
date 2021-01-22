@@ -28,6 +28,32 @@ class Solution:
         return T[n]
 
 
+#Recursion
+class Solution:
+    def numTrees(self, n: int) -> int:
+
+        def _numTrees(start, end):
+            if start >= end:
+                return 1
+
+            if (start, end) in memo:
+                return memo[(start, end)]
+
+            total = 0
+            for i in range(start, end + 1):
+                leftTree = _numTrees(start, i - 1)
+                rightTree = _numTrees(i + 1, end)
+
+                total += leftTree * rightTree
+
+            memo[(start, end)] = total
+            return memo[(start, end)]
+
+        memo = {}
+        return _numTrees(1, n) if n else 0
+
+
+
 # Unique Binary Search Trees II - https://leetcode.com/problems/unique-binary-search-trees-ii/
 '''Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
 
