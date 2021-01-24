@@ -51,3 +51,44 @@ class Solution:
         return firstNode
 
 
+
+# Recursion
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+
+
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+
+        def helper(node):
+            nonlocal firstNode, lastNode
+            if node:
+                helper(node.left)
+
+                if not firstNode:
+                    firstNode = node
+
+                if lastNode:
+                    lastNode.right = node
+                    node.left = lastNode
+
+                lastNode = node
+                helper(node.right)
+
+        if not root:
+            return None
+
+        firstNode = None
+        lastNode = None
+        helper(root)
+
+        firstNode.left = lastNode
+        lastNode.right = firstNode
+        return firstNode
+

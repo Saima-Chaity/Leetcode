@@ -170,6 +170,36 @@ class Solution:
             level += 1
         return output
 
+
+# Recursion
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+
+        levels = []
+        if not root:
+            return levels
+
+        def _levelOrder(root, level):
+
+            if len(levels) == level:
+                levels.append([])
+
+            levels[level].append(root.val)
+            if root.left:
+                _levelOrder(root.left, level + 1)
+            if root.right:
+                _levelOrder(root.right, level + 1)
+
+        _levelOrder(root, 0)
+        return levels
+
+
 # Binary Tree Level Order Traversal II - https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
 '''Given a binary tree, return the bottom-up level order traversal of its nodes' values. 
 (ie, from left to right, level by level from leaf to root).
