@@ -51,7 +51,7 @@ class Solution:
         return slow
 
     def reverse(self, head):
-        prevNode = nextNode = None
+        prevNode = None
         currentNode = head
 
         while currentNode is not None:

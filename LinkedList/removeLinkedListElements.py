@@ -19,16 +19,16 @@ class Solution:
         if not head:
             return None
 
-        while head and head.val == val:
-            head = head.next
-
         current = head
         prev = None
-
         while current:
-            if current.val == val:
-                prev.next = current.next
-            else:
+            if current.val != val:
                 prev = current
-            current = current.next
+                current = current.next
+            else:
+                if prev:
+                    prev.next = current.next
+                else:
+                    head = head.next
+                current = current.next
         return head

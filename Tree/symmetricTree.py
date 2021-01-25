@@ -19,41 +19,33 @@ But the following [1,2,2,null,3,null,3] is not:
    3    3'''
 
 # Iterative
+from collections import deque
 # Definition for a binary tree node.
 class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 class Solution:
     def isSymmetric(self, root: TreeNode) -> bool:
         if not root:
             return True
-        return self.isMirror(root.left, root.right)
 
-    def isMirror(self, root1, root2):
-        stack = []
-        while (1):
-            while root1 and root2:
-                if root1.val != root2.val:
+        result = False
+        q = deque([(root.left, root.right)])
+        while q:
+            nodeLeft, nodeRight = q.popleft()
+            if nodeLeft and nodeRight:
+                result = nodeLeft.val == nodeRight.val
+                q.append((nodeLeft.left, nodeRight.right))
+                q.append((nodeLeft.right, nodeRight.left))
+                if not result:
                     return False
-                stack.append(root1)
-                stack.append(root2)
-                root1 = root1.left
-                root2 = root2.right
-
-            if not (root1 is None and root2 is None):
+            elif not nodeLeft and not nodeRight:
+                result = True
+            elif not nodeLeft or not nodeRight:
                 return False
-
-            if len(stack) > 0:
-                rootItem2 = stack.pop()
-                rootItem1 = stack.pop()
-                root1 = rootItem1.right
-                root2 = rootItem2.left
-            else:
-                break
-        return True
+        return result
 
 
 # Recursive
