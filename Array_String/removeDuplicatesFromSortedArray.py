@@ -15,14 +15,15 @@ It doesn't matter what you leave beyond the returned length.'''
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
 
-        count = 0
-        nextNumber = float('inf')
-        for i in range(len(nums)):
-            if nums[i] != nextNumber:
-                nums[count] = nums[i]
-                nextNumber = nums[i]
-                count += 1
-        return count
+        i = 1
+        j = 1
+        while i < len(nums):
+            if nums[i] != nums[i - 1]:
+                nums[j] = nums[i]
+                j += 1
+            i += 1
+
+        return j
 
 
 
