@@ -27,3 +27,29 @@ class Solution:
                     if dp[i + 1][j + 1] > maxSide:
                         maxSide = dp[i + 1][j + 1]
         return maxSide * maxSide if maxSide != float('-inf') else 0
+
+
+# 0(n) space
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+
+        if not matrix:
+            return 0
+
+        row = len(matrix)
+        col = len(matrix[0])
+        dp = [0 for _ in range(col + 1)]
+        maxLength = float('-inf')
+        prev = 0
+
+        for i in range(row):
+            for j in range(col):
+                temp = dp[j + 1]
+                if matrix[i][j] == "1":
+                    dp[j + 1] = min(dp[j], dp[j + 1], prev) + 1
+                    maxLength = max(maxLength, dp[j + 1])
+                else:
+                    dp[j + 1] = 0
+                prev = temp
+        return maxLength * maxLength if maxLength != float('-inf') else 0
+
