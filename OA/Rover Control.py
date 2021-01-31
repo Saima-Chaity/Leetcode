@@ -96,5 +96,5 @@ class Solution:
                     row -=1
         return (row * n) + col
 
-print(Solution.roverControl((), 4, ['RIGHT', 'DOWN', 'LEFT', 'LEFT', 'DOWN']))
-print(Solution.roverControl((), 4, ['RIGHT', 'UP', 'DOWN', 'LEFT', 'DOWN', 'DOWN']))
+print(Solution.roverControl((), 4, ['RIGHT', 'DOWN', 'LEFT', 'LEFT', 'DOWN'])) # output 8
+print(Solution.roverControl((), 4, ['RIGHT', 'UP', 'DOWN', 'LEFT', 'DOWN', 'DOWN'])) # output 12
