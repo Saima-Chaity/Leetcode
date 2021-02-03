@@ -41,3 +41,30 @@ able to level up their characters.
 
 So, the output is 5.
 '''
+
+class Solution:
+    def cutOffRank(self, cutOffRank, num, scores):
+        scores.sort()
+        prevScore = float('inf')
+        total = 0
+        for i in range(len(scores)-1, -1, -1):
+            currentScore = scores[i]
+            if currentScore == prevScore:
+                total += 1
+            else:
+                if total >= cutOffRank:
+                    break
+                total += 1
+                prevScore = currentScore
+        return total
+
+
+cutOffRank = 3
+num = 4
+scores = [100, 50, 50, 25]
+print(Solution.cutOffRank((), cutOffRank, num, scores)) # 3
+
+cutOffRank = 4
+num = 5
+scores = [2, 2, 3, 4, 5]
+print(Solution.cutOffRank((), cutOffRank, num, scores)) # 5
