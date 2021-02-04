@@ -84,27 +84,20 @@ Output: [NONE, NONE, NONE, NONE, NONE]
 Explanation:
 No nearest cities because none share the same x or y.
 '''
-# class City:
-#     def __init__(self, name, x, y):
-#         self.name = name
-#         self.x = x
-#         self.y = y
-#
-#     def dist(self, other_city):
-#         return (self.x - other_city.x) ** 2 + (self.y - other_city.y) ** 2
+
+
+class City:
+    def __init__(self, name, x, y):
+        self.name = name
+        self.x = x
+        self.y = y
+
+    def dist(self, other_city):
+        return (self.x - other_city.x) ** 2 + (self.y - other_city.y) ** 2
 
 from collections import defaultdict
 class Solution:
     def nearestCities(self, numOfCities, cities, xCoordinates, yCoordinates, numOfQueries, queries):
-
-        class City:
-            def __init__(self, name, x, y):
-                self.name = name
-                self.x = x
-                self.y = y
-
-            def dist(self, other_city):
-                return (self.x - other_city.x) ** 2 + (self.y - other_city.y) ** 2
 
         xList = defaultdict(list)
         yList = defaultdict(list)
@@ -112,8 +105,8 @@ class Solution:
         for i in range(numOfCities):
             name = cities[i]
             city = City(name, xCoordinates[i], yCoordinates[i])
-            xList[city.x].append(name)
-            yList[city.y].append(name)
+            xList[city.x].append(city)
+            yList[city.y].append(city)
             city_name[name] = city
 
         result = []
@@ -123,12 +116,14 @@ class Solution:
                 result.append(cache[query])
             else:
                 city = city_name[query]
+                c = xList[city.x]
+                d = yList[city.y]
                 searchCities = xList[city.x] + yList[city.y]
                 if len(searchCities) == 2:
                     result.append('None')
                     continue
-                searchCities.sort(key=lambda x: x.dist(city))
-                closet = searchCities[-1]
+                searchCities.sort(key=lambda x: City.dist(x, city))
+                closet = searchCities[2].name
                 result.append(closet)
                 cache[city.name] = closet
                 cache[closet] = city.name
@@ -136,15 +131,15 @@ class Solution:
 
 
 
-numOfCities = 4
+numOfCities = 3
 cities = ["c1", "c2","c3", "c4"]
-xCoordinates = [3, 2, 1, 3]
-yCoordinates = [3, 2, 3, 2]
-numOfQueries = 4
-queries = ["c1", "c2", "c3", "c4"]
+xCoordinates = [3, 2, 1]
+yCoordinates = [3, 2, 3]
+numOfQueries = 3
+queries = ["c1", "c2", "c3"]
 
 #Output: ["c3", NONE, "c1"]
-#print(Solution.nearestCities((), numOfCities, cities, xCoordinates, yCoordinates, numOfQueries, queries))
+print(Solution.nearestCities((), numOfCities, cities, xCoordinates, yCoordinates, numOfQueries, queries))
 
 numOfCities = 5
 cities = ["green", "red", "blue", "yellow", "pink"]
@@ -154,7 +149,7 @@ numOfQueries = 5
 queries = ["green", "red", "blue", "yellow", "pink"]
 
 # Output: [NONE, NONE, NONE, NONE, NONE]
-#print(Solution.nearestCities((),numOfCities, cities, xCoordinates, yCoordinates, numOfQueries, queries))
+print(Solution.nearestCities((),numOfCities, cities, xCoordinates, yCoordinates, numOfQueries, queries))
 
 numOfCities = 6
 cities = ["green", "yellow", "red", "blue", "grey", "pink"]
