@@ -107,14 +107,12 @@ class Solution:
 
         xList = defaultdict(list)
         yList = defaultdict(list)
-        city_name = {}
         pointToIndex = {}
         for i in range(numOfCities):
             name = cities[i]
             city = City(name, xCoordinates[i], yCoordinates[i])
             xList[xCoordinates[i]].append(name)
             yList[yCoordinates[i]].append(name)
-            city_name[name] = city
             pointToIndex[name] = i
 
         result = [None] * (len(queries))
