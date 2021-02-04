@@ -99,34 +99,59 @@ from collections import defaultdict
 class Solution:
     def nearestCities(self, numOfCities, cities, xCoordinates, yCoordinates, numOfQueries, queries):
 
+        def getDistance(qIndex, cityIndex):
+            i = pointToIndex[qIndex]
+            j = pointToIndex[cityIndex]
+            distance = abs(xCoordinates[i] - xCoordinates[j]) + abs(yCoordinates[i] - yCoordinates[j])
+            return distance
+
         xList = defaultdict(list)
         yList = defaultdict(list)
         city_name = {}
+        pointToIndex = {}
         for i in range(numOfCities):
             name = cities[i]
             city = City(name, xCoordinates[i], yCoordinates[i])
-            xList[city.x].append(city)
-            yList[city.y].append(city)
+            xList[xCoordinates[i]].append(name)
+            yList[yCoordinates[i]].append(name)
             city_name[name] = city
+            pointToIndex[name] = i
 
-        result = []
+        result = [None] * (len(queries))
         cache = {}
+        i = 0
         for query in queries:
             if query in cache:
                 result.append(cache[query])
             else:
-                city = city_name[query]
-                c = xList[city.x]
-                d = yList[city.y]
-                searchCities = xList[city.x] + yList[city.y]
-                if len(searchCities) == 2:
-                    result.append('None')
+                queryIndex = pointToIndex[query]
+                xCity = xList[xCoordinates[queryIndex]]
+                yCity = yList[yCoordinates[queryIndex]]
+                if len(xCity) == 1 and len(yCity) == 1:
+                    i += 1
                     continue
-                searchCities.sort(key=lambda x: City.dist(x, city))
-                closet = searchCities[2].name
-                result.append(closet)
-                cache[city.name] = closet
-                cache[closet] = city.name
+
+                minDistance = float('inf')
+                closet = None
+                for item in xCity:
+                    if item == query:
+                        continue
+                    distance = getDistance(query, item)
+                    if distance < minDistance:
+                        minDistance = distance
+                        closet = item
+
+                for item in yCity:
+                    if item == query:
+                        continue
+                    distance = getDistance(query, item)
+                    if distance < minDistance:
+                        minDistance = distance
+                        closet = item
+
+                result[i] = closet
+                cache[query] = closet
+                i += 1
         return result
 
 
