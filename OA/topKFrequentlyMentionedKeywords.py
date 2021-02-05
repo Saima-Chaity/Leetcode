@@ -62,3 +62,17 @@ reviews = [
 # ["betacellular", "anacell"]
 
 print(Solution.topKFrequentlyMentionedKeyword((), k, keywords, reviews))
+
+
+k = 2
+keywords = ["newshop", "shopnow", "afashion", "fashionbeats", "mymarket", "tcellular"]
+reviews = [
+  "newshop is providing good services in the city; everyone should use newshop",
+  "best services by newshop",
+  "fashionbeats has great services in the city",
+  "I am proud to have fashionbeats",
+  "mymarket has awesome services",
+  "Thanks Newshop for the quick delivery"
+]
+# ["newshop", "fashionbeats"]
+print(Solution.topKFrequentlyMentionedKeyword((), k, keywords, reviews))

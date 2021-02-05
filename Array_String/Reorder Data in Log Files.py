@@ -21,22 +21,21 @@ Output: ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2 
  '''
 
 
+'''Time: O(MKlogK), with k = len(letter_logs) M = length of a single log
+Space: MN'''
 class Solution:
     def reorderLogFiles(self, logs: List[str]) -> List[str]:
 
         digitLogs = []
         letterLogs = []
-        for i in range(len(logs)):
-            identifiers, remaining = logs[i].split(" ", 1)
-            if remaining[0].isdigit():
-                digitLogs.append(logs[i])
+        for log in logs:
+            if log.split()[1].isdigit():
+                digitLogs.append(log)
             else:
-                letterLogs.append(logs[i])
+                letterLogs.append(log)
 
-        def sortedLetterLogs(log):
-            splitedLogs = log.split()
-            identifiers, remaining = splitedLogs[0], splitedLogs[1:]
-            return ' '.join(remaining) + ' ' + identifiers
+        letterLogs.sort(key=lambda x: x.split()[0])
+        letterLogs.sort(key=lambda x: x.split()[1:])
+        result = letterLogs + digitLogs
+        return result
 
-        letterLogs.sort(key=sortedLetterLogs)
-        return letterLogs + digitLogs

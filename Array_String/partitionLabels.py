@@ -13,20 +13,22 @@ Note:
 S will have length in range [1, 500].
 S will consist of lowercase English letters ('a' to 'z') only.'''
 
+'''
+Time Complexity: O(N), where N is the length of S.
+Space Complexity: O(1) to keep data structure last of not more than 26 characters.
+'''
 class Solution:
     def partitionLabels(self, S: str) -> List[int]:
-        mapping = {}
-        for index, char in enumerate(S):
-            mapping[char] = index
 
-        endIndex = 0
+        lastOccurance = {char: index for index, char in enumerate(S)}
         startIndex = 0
+        endIndex = 0
         output = []
-        for index, char in enumerate(S):
-            endIndex = max(endIndex, mapping[char])
-            if index == endIndex:
-                output.append(index-startIndex+1)
-                startIndex = index + 1
+        for i in range(len(S)):
+            endIndex = max(endIndex, lastOccurance[S[i]])
+            if i == endIndex:
+                output.append(i - startIndex + 1)
+                startIndex = i + 1
         return output
             
                     
