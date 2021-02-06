@@ -68,12 +68,59 @@ class Solution:
         heapq.heapify(ratings)
         diff = threshold / 100 - (sum(float(review) for review in ratings)) / 3
         count = 0
+        print(ratings)
         while diff > 0:
             item = heapq.heappop(ratings)
             heapq.heappush(ratings, item.increaseReview)
             diff -= item.gain / numOfRatings
             count += 1
         return count
+
+productRatings = [[4,4],[1,2],[3,6]]
+threshold = 77
+print(Solution.fiveStarSeller((), productRatings, threshold))
+
+
+# Same approach with creating different class
+import heapq
+class Solution:
+    def fiveStarSeller(self, productRatings, threshold):
+
+        def gainRating(rating, count, prevRating, prevRatingCount):
+            return (rating/count) - (prevRating/prevRatingCount)
+
+        def increaseRatings(rating, ratingCount):
+            return rating+1, ratingCount+1
+
+        def float(rating, count):
+            return rating/count
+
+        def setNewValueAfterChange(rating,count):
+            nonlocal afterChange
+            currentValue = float(rating, count)
+            newValue = float(rating+1, count+1)
+            afterChange = newValue - currentValue
+
+        afterChange = 0
+        length = len(productRatings)
+        heap = []
+        for rating, count in productRatings:
+            setNewValueAfterChange(rating, count)
+            heapq.heappush(heap, (-afterChange, rating, count))
+
+        current = [float(rating, count) for rating, count in productRatings]
+        diff = threshold / 100 - (sum(current)/length)
+        count = 0
+        while diff > 0:
+            gain, rating, ratingCount = heapq.heappop(heap)
+            increaseRating, increaseCount = increaseRatings(rating, ratingCount)
+            setNewValueAfterChange(increaseRating, increaseCount)
+            heapq.heappush(heap, (-afterChange, increaseRating, increaseCount))
+            gain = gainRating(increaseRating, increaseCount, rating, ratingCount)
+            diff -= gain / length
+            count += 1
+        return count
+
 
 productRatings = [[4,4],[1,2],[3,6]]
 threshold = 77

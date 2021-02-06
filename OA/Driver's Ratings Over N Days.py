@@ -39,4 +39,4 @@ class Solution:
 
 
 ratings = [3, 1, 6, 4, 5, 2]
-print(Solution.driversRatings((), ratings))
+print(Solution.driversRatings((), ratings)) # 60

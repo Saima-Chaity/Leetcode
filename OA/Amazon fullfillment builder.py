@@ -18,3 +18,16 @@ class Solution:
             cost += stick1 + stick2
             heapq.heappush(heap, (stick1 + stick2))
         return cost
+
+
+'''Time complexity : O(NlogN), where NN is the length of the input array. 
+Let's break it down:
+
+Step 1) Adding N elements to the priority queue will be O(NlogN).
+
+Step 2) We remove two of the smallest elements and then add one element to the priority queue until 
+we are left with one element. Since each such operation will reduce one element from the priority 
+queue, we will perform N-1 such operations. Now, we know that both add and remove operations 
+take O(logN) in priority queue, therefore, complexity of this step will be O(NlogN).
+
+Space complexity : O(N) since we will store NN elements in our priority queue.'''

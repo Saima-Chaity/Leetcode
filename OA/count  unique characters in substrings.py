@@ -58,19 +58,19 @@ Space complexity O(1).
 One pass, time complexity O(N).
 Space complexity O(1).'''
 
-# import string
-# class Solution:
-#     def uniqueCharacters(self, S):
-#         index = {c: [-1, -1] for c in string.ascii_letters}
-#         res = 0
-#         for i, c in enumerate(S):
-#             k, j = index[c]
-#             res += (i - j) * (j - k)
-#             index[c] = [j, i]
-#         for c in index:
-#             k, j = index[c]
-#             res += (len(S) - j) * (j - k)
-#         return res % (10 ** 9 + 7)
+import string
+class Solution:
+    def uniqueCharacters(self, S):
+        index = {c: [-1, -1] for c in string.ascii_letters}
+        res = 0
+        for i, c in enumerate(S):
+            k, j = index[c]
+            res += (i - j) * (j - k)
+            index[c] = [j, i]
+        for c in index:
+            k, j = index[c]
+            res += (len(S) - j) * (j - k)
+        return res % (10 ** 9 + 7)
 
 
 # Space 0(n)

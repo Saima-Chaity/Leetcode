@@ -79,4 +79,4 @@ class Solution:
 numOfBuildings = 2
 buildingOpenTime = [8, 10]
 offloadTime = [2,2,3,1,8,7,4,5]
-print(Solution.completeDeliveries((), numOfBuildings, buildingOpenTime, offloadTime))
+print(Solution.completeDeliveries((), numOfBuildings, buildingOpenTime, offloadTime)) # 16

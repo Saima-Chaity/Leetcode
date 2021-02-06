@@ -72,10 +72,10 @@ So, the output is "item3".
 class Solution:
     def fetchItemsToDisplay(self, sortParameter, sortOrder, itemsPerPage, pageNumber, numOfItems, items):
 
-        items = [[item[0], int(item[1]), int(item[2])] for item in items]
-        items.sort(key=lambda x:x[sortParameter], reverse= sortOrder == 1)
+        itemList = [[item[0], int(item[1]), int(item[2])] for item in items]
+        itemList.sort(key=lambda x: x[sortParameter], reverse=sortOrder == 1)
         startIndex = itemsPerPage * pageNumber
-        return [name for name, relevance, price in items[startIndex:startIndex+itemsPerPage]]
+        return [item for item, _, _ in itemList[startIndex:startIndex + itemsPerPage]]
 
 
 sortParameter = 1

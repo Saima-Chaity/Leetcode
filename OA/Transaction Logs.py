@@ -44,7 +44,7 @@ Output: [345366 , 38239, 029323]
 Explanation:
 Given the following counts of userids, there are only 3 userids that meet or exceed the threshold of 3.
 345366 -4 , 38239 -5, 029323-3, 89921-1 '''
-def getFraudIds(logData: List[List[str]], threshold: int) -> List[str]:
+def getFraudIds(logData: [[str]], threshold: int) -> [str]:
     mapping = {}
     for item in logData:
         splitedLogs = item[0].split(" ")

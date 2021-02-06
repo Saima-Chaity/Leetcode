@@ -110,5 +110,5 @@ numOrders = 4
 requirements = [4,6,6,7]
 flaskTypes = 3
 totalMarks = 9
-markings =[[0, 5],[0,6],[0,8],[1,5],[1,6],[1,7],[2,3],[2,5],[2,6]]
+markings =[[0, 3],[0,5],[0,7],[1,6],[1,8],[1,9],[2,3],[2,5],[2,6]]
 print(Solution.chooseFlask((), numOrders, requirements, flaskTypes, totalMarks, markings))

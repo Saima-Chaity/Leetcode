@@ -103,4 +103,4 @@ print(Solution.distanceBetweenTwoNodes((), nums, node1, node2)) # 0
 nums = [1, 2, 3, 5, 6, 7, 8]
 node1 = 1
 node2 = 8
-print(Solution.distanceBetweenTwoNodes((), nums, node1, node2)) # 8
+print(Solution.distanceBetweenTwoNodes((), nums, node1, node2)) # 6

@@ -62,25 +62,24 @@ Here Alex and Blake both have the balance of -3, which is the minimum amoung all
 '''
 
 class Solution:
-    def debtRecord(self, numCols, numRows, debtRecords):
-        if not debtRecords:
-            return "Nobody has a negative balance"
+    def debtRecord(self, numCols, numRows, debts):
+        default = "Nobody has a negative balance"
+        if not debts:
+            return [default]
 
         mapping = {}
-        for record in debtRecords:
-            borrower = record[0]
-            lender = record[1]
-            amount = record[2]
+        output = []
+        for i in range(len(debts)):
+            borrower, lender, amount = debts[i][0], debts[i][1], int(debts[i][2])
             mapping[borrower] = mapping.get(borrower, 0) - amount
             mapping[lender] = mapping.get(lender, 0) + amount
 
-        output = []
-        for person, amount in mapping.items():
-            if amount < 0:
-                output.append(person)
+        for key, value in mapping.items():
+            if value < 0:
+                output.append(key)
 
         if not output:
-            return "Nobody has a negative balance"
+            return [default]
 
         if len(output) > 1:
             output.sort()
@@ -91,4 +90,10 @@ numCols = 3
 numRows = 6
 debtRecords = [['Alex', 'Blake', 2], ['Blake', 'Alex', 2], ['Casey', 'Alex', 5],
                ['Blake', 'Casey', 7], ['Alex', 'Blake', 4], ['Alex', 'Casey', 4]]
+print(Solution.debtRecord((),numCols, numRows, debtRecords))
+
+numCols = 3
+numRows = 6
+debtRecords = [['Alex', 'Blake', 7], ['Blake', 'Alex', 7], ['Casey', 'Alex', 5],
+               ['Blake', 'Casey', 1], ['Alex', 'Blake', 1], ['Alex', 'Casey', 4]]
 print(Solution.debtRecord((),numCols, numRows, debtRecords))
