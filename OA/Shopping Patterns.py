@@ -79,7 +79,7 @@ The score for {2,3,4} is 1 + 1 + 1 = 3.
 Return 2.
 '''
 
-from collections import defaultdict, deque
+from collections import defaultdict
 class Solution:
     def shoppingPatterns(self, products_nodes, products_edges, products_from, products_to):
 
@@ -102,8 +102,6 @@ class Solution:
             graph[products_from[i]].append(products_to[i])
             graph[products_to[i]].append(products_from[i])
 
-        print(graph)
-
         visited = [False] * (products_nodes+1)
         minimum = float('inf')
         for i in range(products_nodes+1):
@@ -117,10 +115,10 @@ products_nodes = 5
 products_edges = 6
 products_from = [1, 1, 2, 2, 3, 4]
 products_to = [2, 3, 3, 4, 4, 5]
-print(Solution.shoppingPatterns((), products_nodes, products_edges, products_from, products_to))
+print(Solution.shoppingPatterns((), products_nodes, products_edges, products_from, products_to)) # 2
 
 products_nodes = 6
 products_edges = 6
 products_from = [1, 2, 2, 3, 4, 5]
 products_to = [2, 4, 5, 5, 5, 6]
-print(Solution.shoppingPatterns((), products_nodes, products_edges, products_from, products_to))
+print(Solution.shoppingPatterns((), products_nodes, products_edges, products_from, products_to)) # 3
