@@ -63,10 +63,14 @@ class Solution:
         i = 0
         j = 0
         output = []
+        c = len(s)
         while i < len(startIndexes) and j < len(endIndexes):
             start = startIndexes[i]
             end = endIndexes[j]
-            substring = s[start-1:end]
+            if start > 0:
+                substring = s[start-1:end+1]
+            else:
+                substring = s[start:end+1]
             result = getClosedItems(substring)
             if result:
                 output.append(result)
@@ -74,6 +78,31 @@ class Solution:
             j += 1
 
         return output
+
+s = "*|*|*****|*|**"
+startIndices = [1, 2]
+endIndices = [3, 12]
+print(Solution.itemsInContainer((), s, startIndices, endIndices)) #[1 6]
+
+s = "|||||||'"
+startIndices = [1, 2]
+endIndices = [3, 12]
+print(Solution.itemsInContainer((), s, startIndices, endIndices)) #[]
+
+s = "*****"
+startIndices = [0]
+endIndices = [3]
+print(Solution.itemsInContainer((), s, startIndices, endIndices)) #[]
+
+s = "|**|***|"
+startIndices = [0]
+endIndices = [3]
+print(Solution.itemsInContainer((), s, startIndices, endIndices)) #[2]
+
+s = "|**|*|*"
+startIndices = [0,0]
+endIndices = [4,6]
+print(Solution.itemsInContainer((), s, startIndices, endIndices)) #[2 3]
 
 s = "|**|*|*"
 startIndices = [1, 1, 2]
@@ -83,4 +112,4 @@ print(Solution.itemsInContainer((), s, startIndices, endIndices))
 s = "*|*|"
 startIndices = [1]
 endIndices = [3]
-print(Solution.itemsInContainer((), s, startIndices, endIndices))
+print(Solution.itemsInContainer((), s, startIndices, endIndices)) #[1]

@@ -110,7 +110,7 @@ class Solution:
         pointToIndex = {}
         for i in range(numOfCities):
             name = cities[i]
-            city = City(name, xCoordinates[i], yCoordinates[i])
+            # city = City(name, xCoordinates[i], yCoordinates[i])
             xList[xCoordinates[i]].append(name)
             yList[yCoordinates[i]].append(name)
             pointToIndex[name] = i

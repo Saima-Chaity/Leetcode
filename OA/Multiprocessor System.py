@@ -70,4 +70,4 @@ class Solution:
 num = 5
 ability = [3, 1,7,2,4]
 processes = 15
-print(Solution.MultiProcessor((), num, ability, processes))
+print(Solution.MultiProcessor((), num, ability, processes)) # 4

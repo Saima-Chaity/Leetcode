@@ -84,8 +84,16 @@ class Solution:
 
 product = [5, 4, 2, 4, 3, 4, 5, 4]
 day = 4
-print(Solution.containerSize((), product, day))
+print(Solution.containerSize((), product, day)) # 16
 
 product = [22, 12, 1, 14, 17]
 day = 2
-print(Solution.containerSize((), product, day))
+print(Solution.containerSize((), product, day)) # 39
+
+product = [10, 2, 20, 5, 15, 10, 1]
+day = 3
+print(Solution.containerSize((), product, day)) # 31
+
+product = [10, 2, 20, 5, 15, 10, 1]
+day = 5
+print(Solution.containerSize((), product, day)) #43

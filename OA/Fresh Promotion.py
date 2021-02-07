@@ -72,35 +72,57 @@ The customer is not a winner as the first 2 fruits form group 1, all three fruit
 form group 2, but can't because it would contain all fruits of group 1.'''
 
 class Sol:
-    def determine_winner(self, codeList, shoppingCart) -> int:
+    def determine_winner(self, secretFruitList, customerPurchasedList) -> int:
 
-        def hasOrder(shoppingCart, codeList, cartIndex):
+        def hasOrder(customerPurchasedList, codeList, cartIndex):
             for code in codeList:
-                if cartIndex < len(shoppingCart) and (shoppingCart[cartIndex] == code or code == 'anything'):
+                if cartIndex < len(customerPurchasedList) and (code == "anything" or code == customerPurchasedList[cartIndex]):
                     cartIndex += 1
                 else:
                     return False
             return True
 
-        item_1 = codeList[0]
-        item_2 = codeList[1]
-        if len(item_1) + len(item_2) > len(shoppingCart):
-            return 0
+        if len(secretFruitList) == 2:
+            if len(secretFruitList[0]) + len(secretFruitList[0]) > len(customerPurchasedList):
+                return False
+        else:
+            if len(secretFruitList[0]) < len(customerPurchasedList) or len(secretFruitList[0]) > len(customerPurchasedList):
+                return False
+
         cartIndex = 0
-        codeIndex = 0
-        while cartIndex < len(shoppingCart) and codeIndex < len(codeList):
-            current = shoppingCart[cartIndex]
-            if codeList[codeIndex][0] == 'anything' or codeList[codeIndex][0] == current and \
-                hasOrder(shoppingCart, codeList[codeIndex], cartIndex):
-                cartIndex = len(codeList[codeIndex]) - 1
-                codeIndex += 1
+        firstList = False
+        secondList = False if len(secretFruitList) == 2 else True
+        while cartIndex < len(customerPurchasedList):
+            current = customerPurchasedList[cartIndex]
+            if not firstList and (secretFruitList[0][0] == 'anything' or secretFruitList[0][0] == current) and hasOrder(customerPurchasedList, secretFruitList[0], cartIndex):
+                firstList = True
+                cartIndex += len(secretFruitList[0])
+            elif len(secretFruitList) == 2 and (
+                (secretFruitList[1][0] == 'anything' or secretFruitList[1][0] == current) and hasOrder(customerPurchasedList, secretFruitList[1], cartIndex)):
+                cartIndex += len(secretFruitList[1])
+                secondList = True
+                if not firstList:
+                    return False
             else:
                 cartIndex += 1
-        return 1 if codeIndex == len(codeList) else 0
 
+        return True if firstList and secondList else False
 
 if __name__ == '__main__':
     solution = Sol()
+
+    codeList = [["apple", "apple"]]
+    shoppingCart = ["apple", "apple"]
+    print(solution.determine_winner(codeList, shoppingCart))
+
+    codeList = [['anything', 'apple'], ['banana', 'anything', 'banana']]
+    shoppingCart = ['orange', 'grapes', 'apple', 'orange', 'orange', 'banana', 'apple', 'banana', 'banana']
+    print(solution.determine_winner(codeList, shoppingCart))
+
+    codeList = [["apple"]]
+    shoppingCart = ["orange"]
+    print(solution.determine_winner(codeList, shoppingCart))
+
     codeList = [['apple', 'apple'], ['banana', 'anything', 'banana']]
     shoppingCart = ['orange', 'apple', 'apple', 'banana', 'orange', 'banana']
     print(solution.determine_winner(codeList, shoppingCart))
