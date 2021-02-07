@@ -32,4 +32,27 @@ class Solution:
         return sorted(output)
 
 
+# Another approach
+class Solution:
+    def movieOnFlight(self, durations, target):
+        expectedTarget = target - 30
+        output = []
+        maxDuration = -1
+
+        durations.sort()
+        i = 0
+        j = len(durations) - 1
+        while i < j:
+            total = durations[i] + durations[j]
+            if total <= target:
+                if total <= expectedTarget:
+                    if total > maxDuration:
+                        maxDuration = total
+                        output = [i, j]
+                i += 1
+            else:
+                j -= 1
+        return sorted(output)
+
+
 print(Solution.movieOnFlight([90, 85, 75, 60, 120, 150, 125], 250))

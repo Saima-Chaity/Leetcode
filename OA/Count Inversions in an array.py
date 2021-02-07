@@ -78,3 +78,18 @@ print(Solution.countInversion((), nums)) # 2
 
 nums = [1, 9, 6, 4, 5]
 print(Solution.countInversion((), nums)) # 5
+
+nums = [5, 2, 6, 1]
+print(Solution.countInversion((), nums)) # 4
+
+nums = [1, 9, 7, 8, 5]
+print(Solution.countInversion((), nums)) # 5
+
+nums = [6, 3, 7, 1, 5, 8, 2, 4]
+print(Solution.countInversion((), nums)) # 15
+
+nums = [-1, -1]
+print(Solution.countInversion((), nums)) # 0
+
+nums = [5, 4, 1, 2,]
+print(Solution.countInversion((), nums)) # 5

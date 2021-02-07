@@ -72,3 +72,28 @@ def optimizing_box_weights(arr: [int]) -> [int]:
 print(optimizing_box_weights([1, 2, 5, 8, 3])) #[5, 8]
 print(optimizing_box_weights([10, 5, 3, 1, 20])) #[20]
 print(optimizing_box_weights([5, 3, 2, 4, 1, 2])) #[4, 5]
+
+
+def optimizing_box_weights(arr: [int]) -> [int]:
+    # WRITE YOUR BRILLIANT CODE HERE
+    nums = arr
+    numsDict = Counter(nums)
+    numsArray = [(i, val) for i, val in numsDict.items()]
+    numsArray.sort(key=lambda x: (-x[0], -x[0] * x[1]))
+
+    A = []
+    total = sum(nums)
+    currSum = 0
+    for i, j in numsArray:
+        if currSum + (i * j) < total - currSum:
+            currSum += i * j
+            A += ([i] * j)
+    if currSum >= total - currSum:
+        return A
+    else:
+        return [x for x in nums if x not in A]
+
+
+print(optimizing_box_weights([1, 2, 5, 8, 3])) #[5, 8]
+print(optimizing_box_weights([10, 5, 3, 1, 20])) #[20]
+print(optimizing_box_weights([5, 3, 2, 4, 1, 2])) #[4, 5]

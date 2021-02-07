@@ -97,41 +97,64 @@ class Solution:
     return totalCost
 
 
+'''
+Time Complexity: O(ElogE) or O(ElogV). Sorting of edges takes O(ELogE) time. After sorting, we iterate
+through all edges and apply find-union algorithm. The find and union operations can take atmost 
+O(LogV) time. So overall complexity is O(ELogE + ELogV) time. The value of E can be atmost O(V2), 
+so O(LogV) are O(LogE) same. Therefore, overall time complexity is O(ElogE) or O(ElogV)'''
+
 #Another approach
-  def minimumCostToConnectNodes(self, n, edges, newEdges):
+  class Solution:
+    def minimumCostToConnectNodes(self, n, edges, newEdges):
 
-    # finds parent
-    def findParent(node):
-      if rank[node] != node:
-        rank[node] = findParent(rank[node])
-      return rank[node]
+      cost_map = {}
 
-    # make a as parent of b
-    def union(node1, node2):
-      rank[findParent(node2)] = findParent(node1)
+      for node1, node2, cost in newEdges:
+        cost_map[(node1, node2)] = cost
 
-    newEdges.sort(key=lambda x: x[2])
-    # every node is a parent of itself
-    rank = [i for i in range(n + 1)]
-    minCost = 0
+      for node1, node2 in edges:
+        if (node1, node2) not in cost_map:
+          cost_map[(node1, node2)] = 0
 
-    # connect the given edges which have no cost
-    for node1, node2 in edges:
-      if findParent(node1) != findParent(node2):
-        union(node1, node2)
+      connections = []
 
-    # connect if they have different different parents
-    for node1, node2, cost in newEdges:
-      if findParent(node1) != findParent(node2):
-        minCost += cost
-        union(node1, node2)
+      for key in cost_map:
+        node1, node2 = key
+        connections.append([node1, node2, cost_map[key]])
 
-    # find one parent and check if all nodes have the same parent else its not connected
-    total = findParent(1)
-    for i in range(1, n + 1):
-      if findParent(i) != total:
+      if len(connections) < n - 1:
         return -1
-    return minCost
+
+      def find(city):
+        if parent[city] != city:
+          parent[city] = find(parent[city])
+        return parent[city]
+
+      def union(city1, city2):
+        root1 = find(city1)
+        root2 = find(city2)
+        if root1 == root2:
+          return False  # Cycle
+        parent[root2] = root1  # Join roots
+        return True
+
+      # Keep track of disjoint sets. Initially each city is its own set.
+      parent = {city: city for city in range(1, n + 1)}
+      # Sort connections so we are always picking minimum cost edge.
+      connections.sort(key=lambda x: x[2])
+      totalCost = 0
+      for city1, city2, cost in connections:
+        if union(city1, city2):
+          totalCost += cost
+
+      # Check that all cities are connected
+      root = find(n)
+      for i in range(1, n + 1):
+        if find(i) == root:
+          continue
+        else:
+          return -1
+      return totalCost
 
 print(Solution.minimumCostToConnectNodes((),6, [[1, 4], [4, 5], [2, 3]], [[1, 2, 5], [1, 3, 10],
                                                                           [1, 6, 2], [5, 6, 5]])) #7

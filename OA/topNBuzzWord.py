@@ -130,3 +130,18 @@ quotes = [
 ];
 
 print(Solution.topNBuzzWords((), numToys, topToys, toys, numQuotes, quotes))
+
+numToys = 6
+topToys = 2
+toys = ["newshop", "shopnow", "afashion", "fashionbeats", "mymarket", "tcellular"]
+numQuotes = 6
+quotes = [
+  "newshop is providing good services in the city; everyone should use newshop",
+  "best services by newshop",
+  "fashionbeats has great services in the city",
+  "I am proud to have fashionbeats",
+  "mymarket has awesome services",
+  "Thanks Newshop for the quick delivery"
+];
+
+print(Solution.topNBuzzWords((), numToys, topToys, toys, numQuotes, quotes))

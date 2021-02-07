@@ -1,4 +1,5 @@
-'''You have a map that marks the locations of treasure islands. Some of the map area has jagged rocks and dangerous reefs.
+'''
+You have a map that marks the locations of treasure islands. Some of the map area has jagged rocks and dangerous reefs.
 Other areas are safe to sail in. There are other explorers trying to find the treasure. So you must figure out a shortest
 route to one of the treasure islands.
 
@@ -17,7 +18,8 @@ of the treasure islands.'''
 #
 # Output: 3
 # Explanation:
-# You can start from (0,0), (0, 3) or (0, 4). The treasure locations are (2, 4) (3, 0) and (4, 0). Here the shortest route is (0, 3), (1, 3), (2, 3), (2, 4).
+# You can start from (0,0), (0, 3) or (0, 4). The treasure locations are (2, 4) (3, 0) and (4, 0).
+# Here the shortest route is (0, 3), (1, 3), (2, 3), (2, 4).
 # **/
 
 from collections import deque
