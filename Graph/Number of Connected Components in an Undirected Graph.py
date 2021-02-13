@@ -47,3 +47,36 @@ class Solution:
                     del graph[node]
                 count += 1
         return count
+
+
+# Union-find
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+
+        def find(parent, node):
+            if parent[node] != node:
+                parent[node] = find(parent, parent[node])
+            return parent[node]
+
+        def union(parent, rank, node1, node2):
+            if rank[node1] > rank[node2]:
+                parent[node2] = node1
+            elif rank[node1] < rank[node2]:
+                parent[node1] = node2
+            else:
+                parent[node2] = node1
+                rank[node1] += 1
+
+        parent = [node for node in range(n)]
+        rank = [0 for i in range(n)]
+
+        for node1, node2 in edges:
+            parentOfNode1 = find(parent, node1)
+            parentOfNode2 = find(parent, node2)
+            if parentOfNode1 != parentOfNode2:
+                union(parent, rank, parentOfNode1, parentOfNode2)
+
+        connection = set()
+        for i in range(n):
+            connection.add(find(parent, i))
+        return len(connection)

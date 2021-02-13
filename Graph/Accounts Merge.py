@@ -52,3 +52,41 @@ class Solution:
                             stack.append(neighbour)
                 output.append([emailToName[email]] + sorted(components))
         return output
+
+
+# Union - find
+from collections import defaultdict
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+
+        def find(node):
+            if parent[node] < 0:
+                return node
+            parent[node] = find(parent[node])
+            return parent[node]
+
+        def union(a, b):
+            a, b = find(a), find(b)
+            if a != b:
+                if parent[a] < parent[b]:
+                    parent[a] += parent[b]
+                    parent[a] = b
+                else:
+                    parent[b] += parent[a]
+                    parent[b] = a
+
+        index, parent, email_to_id, id_to_name = 0, [], {}, {}
+        for account in accounts:
+            for email in account[1:]:
+                if email not in email_to_id:
+                    email_to_id[email] = index
+                    id_to_name[index] = account[0]
+                    parent.append(-1)
+                    index += 1
+                union(email_to_id[account[1]], email_to_id[email])
+
+        res = {}
+        for email, id in email_to_id.items():
+            master = find(id)
+            res[master] = res.get(master, []) + [email]
+        return [[id_to_name[id]] + sorted(emails) for id, emails in res.items()]

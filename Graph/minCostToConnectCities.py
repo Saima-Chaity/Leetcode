@@ -101,4 +101,48 @@ class Solution:
             else:
                 return -1
         return totalCost
-    
+
+
+
+# Using rank and path compression
+class Solution:
+    def minimumCost(self, N: int, connections: List[List[int]]) -> int:
+
+        def find(parent, node):
+            if parent[node] != node:
+                parent[node] = find(parent, parent[node])
+            return parent[node]
+
+        def union(parent, rank, node1, node2):
+            if rank[node1] > rank[node2]:
+                parent[node2] = node1
+            elif rank[node1] < rank[node2]:
+                parent[node1] = node2
+            else:
+                parent[node2] = node1
+                rank[node1] += 1
+
+        parent = [node for node in range(N + 1)]
+        rank = [0 for i in range(N + 1)]
+        connections.sort(key=lambda x: x[2])
+        minCost = 0
+        vertices = set()
+
+        for node1, node2, cost in connections:
+            parentOfNode1 = find(parent, node1)
+            parentOfNode2 = find(parent, node2)
+            vertices.add(node1)
+            vertices.add(node2)
+            if parentOfNode1 != parentOfNode2:
+                union(parent, rank, parentOfNode1, parentOfNode2)
+                minCost += cost
+
+        # checking if all the vertices are accounted for
+        if len(vertices) != N:
+            return -1
+
+        connection = set()
+        # making sure there is only one connected component
+        for i in range(1, N):
+            connection.add(find(parent, i))
+        return minCost if len(connection) == 1 else -1

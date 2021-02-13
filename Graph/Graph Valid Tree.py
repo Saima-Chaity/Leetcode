@@ -42,15 +42,12 @@ from collections import defaultdict
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
 
-        def isCycle(node, visited, parent):
-            visited[node] = True
+        def dfs(node):
+            if node in visited:
+                return
+            visited.add(node)
             for neighbour in graph[node]:
-                if not visited[neighbour]:
-                    if isCycle(neighbour, visited, node):
-                        return True
-                elif neighbour != parent:
-                    return True
-            return False
+                dfs(neighbour)
 
         if len(edges) != n - 1:
             return False
@@ -60,11 +57,39 @@ class Solution:
             graph[node1].add(node2)
             graph[node2].add(node1)
 
-        visited = [False for _ in range(n)]
-        if isCycle(0, visited, -1):
+        visited = set()
+        dfs(0)
+        return len(visited) == n
+
+
+# Kruskal algorithm
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+
+        def find(parent, node):
+            if parent[node] != node:
+                parent[node] = find(parent, parent[node])
+            return parent[node]
+
+        def union(parent, rank, node1, node2):
+            if rank[node1] > rank[node2]:
+                parent[node2] = node1
+            elif rank[node1] < rank[node2]:
+                parent[node1] = node2
+            else:
+                parent[node2] = node1
+                rank[node1] += 1
+
+        if len(edges) != n - 1:
             return False
 
-        for i in range(n):
-            if not visited[i]:
+        parent = [node for node in range(n)]
+        rank = [0 for i in range(n)]
+
+        for node1, node2 in edges:
+            parentOfNode1 = find(parent, node1)
+            parentOfNode2 = find(parent, node2)
+            if parentOfNode1 == parentOfNode2:
                 return False
+            union(parent, rank, parentOfNode1, parentOfNode2)
         return True

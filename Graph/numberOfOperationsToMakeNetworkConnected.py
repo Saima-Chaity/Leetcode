@@ -41,25 +41,34 @@ class Solution:
 
 # Union find
 class Solution:
-    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
-        
-        def find(connection):
-            if parent[connection] != connection:
-                parent[connection]= find(parent[connection]) 
-            return parent[connection]
-        
-        parent = {i:i for i in range(n)}
-        extraEdges = 0
-        for i in range(len(connections)):
-            root1 = find(connections[i][0])
-            root2 = find(connections[i][1])
-            if root1 == root2:
-                extraEdges += 1
-            else:
-                parent[root2] = root1
+    def makeConnected(self, n, connections) -> int:
+        if len(connections) < n - 1:
+            return -1
 
-        connectedComponents = 0
-        for i in range(0, n):
-            if find(i) == i:
-                connectedComponents += 1
-        return connectedComponents - 1 if extraEdges >= connectedComponents - 1 else -1
+        def find(parent, node):
+            if parent[node] != node:
+                parent[node] = find(parent, parent[node])
+            return parent[node]
+
+        def union(parent, rank, node1, node2):
+            if rank[node1] > rank[node2]:
+                parent[node2] = node1
+            elif rank[node1] < rank[node2]:
+                parent[node1] = node2
+            else:
+                parent[node2] = node1
+                rank[node1] += 1
+
+        parent = [node for node in range(n)]
+        rank = [0 for i in range(n)]
+
+        for node1, node2 in connections:
+            parentOfNode1 = find(parent, node1)
+            parentOfNode2 = find(parent, node2)
+            if parentOfNode1 != parentOfNode2:
+                union(parent, rank, parentOfNode1, parentOfNode2)
+
+        connection = set()
+        for i in range(n):
+            connection.add(find(parent, i))
+        return len(connection) - 1
