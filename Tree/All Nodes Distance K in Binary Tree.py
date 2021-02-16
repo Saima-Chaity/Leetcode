@@ -18,9 +18,10 @@ Note that the inputs "root" and "target" are actually TreeNodes.
 The descriptions of the inputs above are just serializations of these objects.
  '''
 
+
+'''Time O(N)
+Space O(N)'''
 from collections import deque
-
-
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):

@@ -49,5 +49,6 @@ class Solution:
             for item in combination:
                 counterDict[item] += 1
 
-        sortedOutput = sorted(counterDict, key=lambda x: (-counterDict[x], x))
+        sortedOutput = sorted(counterDict, key=lambda x: (-counterDict[x], x))  # sort descending by value,
+                                                                                # then lexicographically
         return sortedOutput[0]

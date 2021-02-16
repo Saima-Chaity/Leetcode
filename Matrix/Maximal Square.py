@@ -7,26 +7,58 @@ Example 1:
 Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
 Output: 4'''
 
+# Brute force
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
-        if matrix is None or len(matrix) < 1:
+        if not matrix:
             return 0
 
-        rows = len(matrix)
-        cols = len(matrix[0])
+        maxLength = 0
+        row = len(matrix)
+        col = len(matrix[0])
 
-        dp = [[0 for _ in range(cols + 1)] for _ in range(rows + 1)]
-        maxSide = float('-inf')
-
-        for i in range(rows):
-            for j in range(cols):
+        for i in range(row):
+            for j in range(col):
                 if matrix[i][j] == "1":
-                    dp[i + 1][j + 1] = min(dp[i][j], dp[i + 1][j], dp[i][j + 1]) + 1 #Adding 1 because if
+                    currentLength = 1
+                    flag = True
+                    while currentLength + i < row and currentLength + j < col and flag:
+                        for k in range(j, currentLength + j + 1, 1):
+                            if matrix[i + currentLength][k] == "0":
+                                flag = False
+                                break
+
+                        for k in range(i, currentLength + i + 1, 1):
+                            if matrix[k][j + currentLength] == "0":
+                                flag = False
+                                break
+
+                        if flag:
+                            currentLength += 1
+
+                    maxLength = max(maxLength, currentLength)
+
+        return maxLength * maxLength
+
+
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        if not matrix:
+            return 0
+        dp = [[0 for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
+        maxLength = 0
+
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if i == 0 or j == 0:
+                    dp[i][j] = 1 if matrix[i][j] == "1" else 0
+                    maxLength = max(maxLength, dp[i][j])
+                elif matrix[i][j] == "1":
+                    dp[i][j] = min(dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1]) + 1 #Adding 1 because if
                     # matrix[i][j]=='1' and its surroundings (2x2 square), then we will increase the size of the square.
                     # Else, it will be a single square 1X1 square
-                    if dp[i + 1][j + 1] > maxSide:
-                        maxSide = dp[i + 1][j + 1]
-        return maxSide * maxSide if maxSide != float('-inf') else 0
+                    maxLength = max(maxLength, dp[i][j])
+        return maxLength * maxLength
 
 
 # 0(n) space

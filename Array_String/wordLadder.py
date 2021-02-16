@@ -94,14 +94,15 @@ class Solution:
         found = False
 
         while q and not found:
-            localVisited = set()
+            localVisited = set() # localVisited is used so that we can visit same word multiple time and get
+                                # different combinations
             for _ in range(len(q)):
                 currentWord, path = q.popleft()
                 for i in range(len(currentWord)):
                     intermediate_combo = currentWord[:i] + "*" + currentWord[i + 1:]
                     for word in all_combo_dict[intermediate_combo]:
                         if word == endWord:
-                            found = True
+                            found = True # found shortest path
                             output.append(path + [endWord])
                         if word not in visited:
                             localVisited.add(word)

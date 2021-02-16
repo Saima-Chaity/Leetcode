@@ -50,9 +50,13 @@ class RandomizedSet:
         """
         Removes a value from the set. Returns true if the set contained the specified element.
         """
-        if val in self.items:
-            lastItem, index = self.items[-1], self.dict[val]
-            self.items[index], self.dict[lastItem] = lastItem, index
+        if val in self.dict:
+            dictIndex = self.dict[val]
+            lastItem = self.items[-1]
+            # we exchange the positions of the last item and the item to be deleted, so that we can perform
+            # self.items.pop() we delete the last item, which has become the value to be deleted
+            self.items[dictIndex] = lastItem
+            self.dict[lastItem] = dictIndex
             self.items.pop()
             del self.dict[val]
             return True

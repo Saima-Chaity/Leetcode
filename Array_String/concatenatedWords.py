@@ -10,28 +10,27 @@ A concatenated word is defined as a string that is comprised entirely of at leas
 class Solution:
     def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
 
-        wordList = set(words)
-        memo = {}
-
         def dfs(word):
-            if word in memo:
-                return memo[word]
-            memo[word] = False
+            if word in self.memo:
+                return self.memo[word]
+
+            self.memo[word] = False
             for i in range(1, len(word)):
                 prefix = word[:i]
                 suffix = word[i:]
-                if prefix in wordList and suffix in wordList:
-                    memo[word] = True
+                if prefix in wordDict and suffix in wordDict:
+                    self.memo[word] = True
                     break
-                elif prefix in wordList and dfs(suffix):
-                    memo[word] = True
+                # prefix is already in the wordDict, we just need to run dfs for suffix
+                elif prefix in wordDict and dfs(suffix):
+                    self.memo[word] = True
                     break
-                elif suffix in wordList and dfs(prefix):
-                    memo[word] = True
-                    break
-            return memo[word]
+
+            return self.memo[word]
 
         output = []
+        self.memo = {}
+        wordDict = set(words)
         for word in words:
             if dfs(word):
                 output.append(word)

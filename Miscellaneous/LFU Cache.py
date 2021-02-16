@@ -66,13 +66,16 @@ class LFUCache:
     def __init__(self, capacity: int):
         self.dict = {}
         self.frequency = defaultdict(DLinkedList)
-        self.minfreq = 0
+        self.minfreq = 0 # frequency of the last linked list (the minimum frequency of entire LFU cache)
         self.capacity = capacity
         self.size = 0
 
     def update(self, node):
         freq = node.freq
         self.frequency[freq].pop(node)
+
+        #if current list the last list which has lowest frequency and current node is the only node in that list
+        #we need to remove the entire list and then increase min frequency value by 1
         if self.minfreq == freq and not self.frequency[freq]:
             self.minfreq += 1
         node.freq += 1

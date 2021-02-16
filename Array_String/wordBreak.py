@@ -92,24 +92,28 @@ class Solution:
 # Second approach
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        self.dict = wordDict
-        self.cache = {}
-        return self.word_break(s)
 
-    def word_break(self, s):
-        if s in self.cache:
-            return self.cache[s]
-        if not s:
-            return []
-        output = []
-        for i in range(len(s)):
-            if s[:i + 1] in self.dict:
-                if i == len(s) - 1:
-                    output.append(s[:i + 1])
-                else:
-                    restOfTheResult = self.word_break(s[i + 1:])
-                    for item in restOfTheResult:
-                        new_word = s[:i + 1] + ' ' + item
-                        output.append(new_word)
-        self.cache[s] = output
-        return output
+        def _wordBreak(s):
+            if not s:
+                return []
+
+            if s in self.memo:
+                return self.memo[s]
+
+            current = ""
+            output = []
+            for i in range(len(s)):
+                current += s[i]
+                if current in wordDict:
+                    if i == len(s) - 1:
+                        output.append(current)
+                    else:
+                        result = _wordBreak(s[i + 1:])
+                        if result:
+                            for item in result:
+                                output.append(current + " " + item)
+            self.memo[s] = output
+            return output
+
+        self.memo = {}
+        return _wordBreak(s)

@@ -30,3 +30,38 @@ class Solution:
                             q.append(j)
                 provinceCount += 1
         return provinceCount
+
+
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+
+        def find(parent, node):
+            if parent[node] != node:
+                parent[node] = find(parent, parent[node])
+            return parent[node]
+
+        def union(parent, rank, node1, node2):
+            if rank[node1] > rank[node2]:
+                parent[node2] = node1
+            elif rank[node1] < rank[node2]:
+                parent[node1] = node2
+            else:
+                parent[node2] = node1
+                rank[node1] += 1
+
+        n = len(isConnected)
+        parent = [node for node in range(n)]
+        rank = [0 for i in range(n)]
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                if isConnected[i][j]:
+                    parentOfNode1 = find(parent, i)
+                    parentOfNode2 = find(parent, j)
+                    if parentOfNode1 != parentOfNode2:
+                        union(parent, rank, parentOfNode1, parentOfNode2)
+
+        connection = set()
+        for i in range(n):
+            connection.add(find(parent, i))
+        return len(connection)
