@@ -32,3 +32,76 @@ class Solution:
                 stack.append(intervals[i])
             i += 1
         return stack
+
+
+# Without sorting
+class BST:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def __init__(self):
+        self.root = None
+
+    def query(self, node):
+        if not node:
+            return []
+
+        # merge-sort divide and conquer
+        left_intervals = self.query(node.left)
+        right_intervals = self.query(node.right)
+        res = []
+
+        inserted = False
+
+        for lres in left_intervals:
+            if lres[1] < node.start:
+                res.append(lres)
+            else:
+                res.append([min(lres[0], node.start), node.end])
+                inserted = True
+                break
+
+        if not inserted:
+            res.append([node.start, node.end])
+
+        for rres in right_intervals:
+            if rres[0] <= node.end:
+                res[-1][1] = max(node.end, rres[1])
+            else:
+                res.append(rres)
+
+        return res
+
+    def mergeInterval(self, start, end, node):
+        if start >= node.end:
+            if node.right:
+                return self.mergeInterval(start, end, node.right)
+            else:
+                node.right = BST(start, end)
+        elif end <= node.start:
+            if node.left:
+                return self.mergeInterval(start, end, node.left)
+            else:
+                node.left = BST(start, end)
+        else:
+            node.start = min(node.start, start)
+            node.end = max(node.end, end)
+
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+
+        for i in range(len(intervals)):
+            start = intervals[i][0]
+            end = intervals[i][1]
+            if not self.root:
+                self.root = BST(start, end)
+            else:
+                self.mergeInterval(start, end, self.root)
+        return self.query(self.root)
+
+
+# https://leetcode.com/problems/merge-intervals/discuss/355318/Fully-Explained-and-Clean-Interval-Tree-for-Facebook-Follow-Up-No-Sorting

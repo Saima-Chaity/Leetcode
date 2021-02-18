@@ -42,3 +42,32 @@ class Solution:
             else:
                 prev = time[1]
         return output
+
+
+# Another approach
+"""
+# Definition for an Interval.
+class Interval:
+    def __init__(self, start: int = None, end: int = None):
+        self.start = start
+        self.end = end
+"""
+
+class Solution:
+    def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
+
+        intervals = []
+        for interval in schedule:
+            for item in interval:
+                intervals.append((item.start, item.end))
+
+        intervals = sorted(intervals, key=lambda x: x[0])
+        prevEndTime = intervals[0][1]
+        result = []
+        for start, end in intervals[1:]:
+            if start <= prevEndTime and end > prevEndTime:
+                prevEndTime = end
+            elif start > prevEndTime:
+                result.append(Interval(prevEndTime, start))
+                prevEndTime = end
+        return result
