@@ -25,7 +25,8 @@ class Solution:
             if sum_so_far == k:
                 result = max(result, index - 0 + 1) #everything from 0, to i has been aggregated to add up to k. Length = i-0+1
             
-            #The idea is that if there is a number in a map where sum less k equals to a number already in a table, there must be a contiguous section from that point (mp[acc - k]) to current point (i) where the sum of all items is k.
+            #The idea is that if there is a number in a map where sum less k equals to a number already in a table,
+            # there must be a contiguous section from that point (mp[acc - k]) to current point (i) where the sum of all items is k.
             elif sum_so_far - k in mapping:
                 result = max(result, index - mapping[sum_so_far - k])
         return result if result != float('-inf') else 0

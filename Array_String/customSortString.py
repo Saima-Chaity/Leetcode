@@ -15,12 +15,13 @@ Output: "cbad"'''
 
 class Solution:
     def customSortString(self, S: str, T: str) -> str:
-
         output = []
         count = collections.Counter(T)
         for char in S:
             output.append(char * count[char])
             count[char] = 0
+            if count[char] == 0:
+                del count[char]
 
         for char in count:
             output.append(char * count[char])

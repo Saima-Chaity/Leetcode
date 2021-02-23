@@ -18,8 +18,10 @@ class Solution:
         last_occurance = {char:index for index, char in enumerate(s)}
         for index, char in enumerate(s):
             if char not in stack:
-                while stack and stack[-1] > char and last_occurance[stack[-1]] > index: # Check if the character is greater than the current characters	
-                    stack.pop()															# if the character can be removed because it occurs later on
+                # Check if the character is greater than the current characters
+                # if the character can be removed because it occurs later on
+                while stack and stack[-1] > char and last_occurance[stack[-1]] > index:
+                    stack.pop()
                 stack.append(char)
         return "".join(stack)
 

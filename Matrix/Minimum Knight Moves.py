@@ -23,7 +23,7 @@ from collections import deque
 class Solution:
     def minKnightMoves(self, x: int, y: int) -> int:
 
-        direction = [(2, -1), (2, 1), (1, -2), (1, 2), (-2, -1), (-2, 1), (-1, -2), (1, -2), (-1, 2)]
+        direction = [(2, -1), (2, 1), (1, -2), (1, 2), (-2, -1), (-2, 1), (-1, -2), (-1, 2)]
         start_x = abs(x)
         start_y = abs(y)
         q = deque([(0, 0, 0)])

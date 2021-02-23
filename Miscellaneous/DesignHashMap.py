@@ -25,12 +25,14 @@ All keys and values will be in the range of [0, 1000000].
 The number of operations will be in the range of [1, 10000].
 '''
 
+
+
 class ListNode:
     def __init__(self, key, value):
         self.key = key
         self.value = value
         self.next = None
-        
+
 class MyHashMap:
 
     def __init__(self):
@@ -48,15 +50,15 @@ class MyHashMap:
         if self.bucket[index] == None:
             self.bucket[index] = ListNode(key, value)
         else:
-            currentNode = self.bucket[index]
+            current = self.bucket[index]
             while True:
-                if currentNode.key == key:
-                    currentNode.value = value
-                    return currentNode
-                if currentNode.next == None:
+                if current.key == key:
+                    current.value = value
+                    return current
+                if current.next == None:
                     break
-                currentNode = currentNode.next
-            currentNode.next = ListNode(key, value)
+                current = current.next
+            current.next = ListNode(key, value)
 
     def get(self, key: int) -> int:
         """
@@ -66,11 +68,13 @@ class MyHashMap:
         if self.bucket[index] == None:
             return -1
         else:
-            currentNode = self.bucket[index]
-            while currentNode:
-                if currentNode.key == key:
-                    return currentNode.value
-                currentNode = currentNode.next
+            current = self.bucket[index]
+            while True:
+                if current.key == key:
+                    return current.value
+                if current.next == None:
+                    break
+                current = current.next
             return -1
 
     def remove(self, key: int) -> None:
@@ -79,17 +83,15 @@ class MyHashMap:
         """
         index = key % self.size
         if self.bucket[index] != None:
-            temp = self.bucket[index]
-            if temp.key == key:
-                self.bucket[index] = temp.next
-
-            prev = temp
-            current = temp.next
-            while current:
-                if current.key == key:
-                    prev.next = current.next
-                prev = prev.next
-                current = current.next
+            current = self.bucket[index]
+            if current.key == key:
+                self.bucket[index] = current.next
+            else:
+                while current.next:
+                    if current.next.key == key:
+                        current.next = current.next.next
+                        break
+                    current = current.next
             return None
 
 # Your MyHashMap object will be instantiated and called as such:

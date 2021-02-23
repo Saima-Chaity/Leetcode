@@ -22,41 +22,37 @@ class Solution:
         T(n): O(m + n)
         """
 
-        if not a or not b:
-            return []
+        temp_value = -1
+        a_value_list = sorted(a, key=lambda x: x[1])
+        b_value_list = sorted(b, key=lambda x: x[1])
+        left = 0
+        right = len(b_value_list) - 1
+        res = []
 
-        # sort by value
-        a = sorted(a, key=lambda x : x[1])
-        b = sorted(b, key=lambda x: x[1])
+        while left < len(a_value_list) and right >= 0:
+            sum_value = a_value_list[left][1] + b_value_list[right][1]
 
-        dict = {}
-        closest_to_origin = 0
-        minValue = float('inf')
-
-        # 2 pointers:
-        # - i run from left -> right of a
-        # - j run from right -> left of b
-
-        i = 0
-        j = len(b) - 1
-
-        while i < len(a) and j >= 0:
-            sum = a[i][1] + b[j][1]
-            if sum <= target:
-                if sum not in dict:
-                    dict[sum] = [[a[i][0], b[j][0]]]
-                else:
-                    dict.get(sum).append([a[i][0], b[j][0]])
-
-                i += 1
-                if target - sum < minValue:
-                    minValue = target - sum
-                    closest_to_origin = sum
+            if sum_value > target:
+                right -= 1
             else:
-                j -= 1
+                if temp_value <= sum_value:
+                    if temp_value < sum_value:
+                        res = []
+                        temp_value = sum_value
 
-        # sort to satisfies test cases, we can return unsorted list
-        return sorted(dict[closest_to_origin], key=lambda x:x[0])
+                    res.append([a_value_list[left][0], b_value_list[right][0]])
+                    count = right
+
+                    while count > 0 and b_value_list[count][1] == b_value_list[count - 1][1]:
+                        res.append([a_value_list[left][0], b_value_list[count - 1][0]])
+                        count -= 1
+
+                left += 1
+
+        if not res:
+            res = [[]]
+
+        return res
 
 
 a = [[1, 2], [2, 4], [3, 6]]
@@ -82,4 +78,9 @@ b = [[1, 8], [2, 11], [3, 12]]
 target = 20
 
 #Output: [[1, 3], [3, 2]]
+print(Solution.optimalUtilization(a, b, target))
+
+a = [[1, 5], [2, 5]]
+b = [[1, 5], [2, 5]]
+target = 10
 print(Solution.optimalUtilization(a, b, target))

@@ -20,15 +20,19 @@ class Solution:
 # Recursion with Memoization
 class Solution:
     def climbStairs(self, n: int) -> int:
-        self.memo = [0] * (n + 1)
-        return self.climb_stairs(0, n)
 
-    def climb_stairs(self, step, n):
-        if step > n:
-            return 0
-        if step == n:
-            return 1
-        if self.memo[step] > 0:
-            return self.memo[step]
-        self.memo[step] = self.climb_stairs(step + 1, n) + self.climb_stairs(step + 2, n)
-        return self.memo[step]
+        memo = {}
+        def _climbStairs(i, n):
+            if i > n:
+                return 0
+
+            if i == n:
+                return 1
+
+            if i in memo:
+                return memo[i]
+
+            memo[i] = _climbStairs(i + 1, n) + _climbStairs(i + 2, n)
+            return memo[i]
+
+        return _climbStairs(0, n)
