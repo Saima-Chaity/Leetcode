@@ -52,7 +52,7 @@ class Solution:
         elif root.val < key:
             root.right = self.deleteNode(root.right, key)
         else:
-            if not (root.left or root.right):
+            if not root.left and not root.right:
                 root = None
             elif root.right:
                 root.val = self.successor(root)
