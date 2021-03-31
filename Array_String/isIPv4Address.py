@@ -41,10 +41,14 @@ def isIPv4Address(inputString):
     for item in splitedInputString:
         if item == "." or item == "" or int(item) < 0 or int(item) > 255:
             return False
-        elif len(item) == 2 and (item[0] == '0' or count >= 1):
+        elif len(item) != 1 and (item[0] == '0'):
             return False
         elif len(item) == 2:
             count += 1
     return True
 
 
+print(isIPv4Address("172.16.254.1"))
+print(isIPv4Address("172.316.254.1"))
+print(isIPv4Address(".254.255.0"))
+print(isIPv4Address("192.168.1.0"))
