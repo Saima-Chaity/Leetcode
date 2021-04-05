@@ -80,44 +80,44 @@ class Solution(object):
 #         self.right = right
 class Solution:
     def boundaryOfBinaryTree(self, root: TreeNode) -> List[int]:
-        if not root:
-            return []
-        result = []
 
-        def isLeaf(node):
+        def isLeafNode(node):
             return not node.left and not node.right
 
         def addLeafNodes(node):
-            if isLeaf(node):
-                result.append(node.val)
+            if isLeafNode(node):
+                self.result.append(node.val)
             else:
                 if node.left:
                     addLeafNodes(node.left)
                 if node.right:
                     addLeafNodes(node.right)
 
-        if not isLeaf(root):
-            result.append(root.val)
-        current = root.left
-        while current:
-            if not isLeaf(current):
-                result.append(current.val)
-            if current.left:
-                current = current.left
+        self.result = []
+        if not root:
+            return self.result
+
+        if not isLeafNode(root):
+            self.result.append(root.val)
+
+        node = root.left
+        while node:
+            if not isLeafNode(node):
+                self.result.append(node.val)
+            if node.left:
+                node = node.left
             else:
-                current = current.right
+                node = node.right
 
         addLeafNodes(root)
-
-        current = root.right
-        stack = []
-        while current:
-            if not isLeaf(current):
-                stack.append(current.val)
-            if current.right:
-                current = current.right
+        length = len(self.result)
+        node = root.right
+        while node:
+            if not isLeafNode(node):
+                self.result.insert(length, node.val)
+            if node.right:
+                node = node.right
             else:
-                current = current.left
-        while stack:
-            result.append(stack.pop())
-        return result
+                node = node.left
+
+        return self.result

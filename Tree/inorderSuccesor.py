@@ -66,6 +66,38 @@ class Solution:
         return None
 
 
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+
+        def traverseNode(node, p):
+            if not node:
+                return
+            traverseNode(node.left, p)
+            if self.previous_node == p and not self.inorder_successor_node:
+                self.inorder_successor_node = node
+                return
+            self.previous_node = node
+            traverseNode(node.right, p)
+
+        self.previous_node = None
+        self.inorder_successor_node = None
+        if p.right:
+            node = p.right
+            while node.left:
+                node = node.left
+            self.inorder_successor_node = node
+        else:
+            traverseNode(root, p)
+        return self.inorder_successor_node
+
+
 # Inorder Successor in BST II - https://leetcode.com/problems/inorder-successor-in-bst-ii/
 '''Given a node in a binary search tree, find the in-order successor of that node in the BST.
 If that node has no in-order successor, return null.

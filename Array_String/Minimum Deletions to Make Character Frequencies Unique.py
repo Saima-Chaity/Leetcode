@@ -26,13 +26,14 @@ class Solution:
     def minDeletions(self, s: str) -> int:
 
         s_count = Counter(s)
-        seen = set()
-        removedCount = 0
+        freqValues = s_count.values()
+        freqSet = set()
+        deleteCount = 0
 
-        for char, freq in s_count.items():
-            while freq in seen:
+        for freq in freqValues:
+            while freq and freq in freqSet:
                 freq -= 1
-                removedCount += 1
-            if freq:
-                seen.add(freq)
-        return removedCount
+                deleteCount += 1
+            freqSet.add(freq)
+        return deleteCount
+
