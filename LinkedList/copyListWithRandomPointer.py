@@ -52,3 +52,45 @@ class Solution:
             oldNode = oldNode.next
             newNode = newNode.next
         return dummy.next
+
+
+'''O(1) space'''
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+
+        if not head:
+            return head
+
+        oldNode = head
+        while oldNode:
+            newNode = Node(oldNode.val, None, None)
+            newNode.next = oldNode.next
+            oldNode.next = newNode
+            oldNode = newNode.next
+
+        oldNode = head
+        while oldNode:
+            oldNode.next.random = oldNode.random.next if oldNode.random else None
+            oldNode = oldNode.next.next
+
+        oldNode = head
+        newNode = head.next
+        newHead = head.next
+        while oldNode:
+            oldNode.next = oldNode.next.next
+            newNode.next = newNode.next.next if newNode.next else None
+
+            oldNode = oldNode.next
+            newNode = newNode.next
+        return newHead
