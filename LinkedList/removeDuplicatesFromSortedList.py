@@ -19,15 +19,11 @@ class Solution:
         if not head:
             return None
 
-        current = head.next
-        prev = head
-
+        current = head
         while current:
-            if current.val == prev.val:
-                prev.next = current.next
-                current = current.next
+            if current.next and current.val == current.next.val:
+                current.next = current.next.next
             else:
-                prev = prev.next
                 current = current.next
         return head
 

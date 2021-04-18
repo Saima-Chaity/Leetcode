@@ -9,17 +9,16 @@ Output: "dc-ba"'''
 class Solution:
     def reverseOnlyLetters(self, S: str) -> str:
 
-        stringwithLetter = ""
-        stack = []
-        for index, char in enumerate(S):
-            if char.isalpha():
-                stack.append(char)
-
+        left = 0
+        right = len(S) - 1
         S = list(S)
-
-        for char in S:
-            if char.isalpha():
-                stringwithLetter += stack.pop()
-            else:
-                stringwithLetter += char
-        return stringwithLetter
+        while left < right:
+            if S[left].isalpha() and S[right].isalpha():
+                S[left], S[right] = S[right], S[left]
+                left += 1
+                right -= 1
+            elif not S[left].isalpha():
+                left += 1
+            elif not S[right].isalpha():
+                right -= 1
+        return "".join(S)
