@@ -22,19 +22,21 @@ Travel to station 3. The cost is 5. Your gas is just enough to travel back to st
 Therefore, return 3 as the starting index.
 '''
 
+
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
 
-        total_tank = 0
         current_tank = 0
         startIndex = 0
+        sumSofar = 0
         for i in range(len(gas)):
-            total_tank += gas[i] - cost[i]
             current_tank += gas[i] - cost[i]
             if current_tank < 0:
                 startIndex = i + 1
+                sumSofar += current_tank
                 current_tank = 0
-        return startIndex if total_tank >= 0 else -1
+
+        return startIndex if current_tank + sumSofar >= 0 else -1
 
 
 # Another approach - https://www.geeksforgeeks.org/find-a-tour-that-visits-all-stations/

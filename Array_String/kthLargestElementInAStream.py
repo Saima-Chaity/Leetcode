@@ -18,9 +18,8 @@ kthLargest.add(4);   // returns 8
 Note:
 You may assume that nums' length ≥ k-1 and k ≥ 1.'''
 
+'''complexity is O(N + k log N)'''
 import heapq
-
-
 class KthLargest:
 
     def __init__(self, k: int, nums: List[int]):

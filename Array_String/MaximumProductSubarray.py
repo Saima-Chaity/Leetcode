@@ -35,3 +35,24 @@ class Solution:
             max_so_far = temp
             result = max(max_so_far, result)
         return result
+
+
+# 0(n)
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+
+        product = 1
+        max_product = float('-inf')
+        for num in nums:
+            product *= num
+            max_product = max(max_product, product)
+            if product == 0:
+                product = 1
+
+        product = 1
+        for num in reversed(nums):
+            product *= num
+            max_product = max(max_product, product)
+            if product == 0:
+                product = 1
+        return max_product

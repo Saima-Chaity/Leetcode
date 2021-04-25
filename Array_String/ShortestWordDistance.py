@@ -86,25 +86,19 @@ You may assume word1 and word2 are both in the list.'''
 
 from collections import defaultdict
 class Solution:
-    def shortestWordDistance(self, words: List[str], word1: str, word2: str) -> int:
-        l1 = float('inf')
-        l2 = float('inf')
-        shortestDistance = float('inf')
+    def shortestWordDistance(self, wordsDict: List[str], word1: str, word2: str) -> int:
         self.mapping = defaultdict(list)
-        for index, word in enumerate(words):
+        for index, word in enumerate(wordsDict):
             self.mapping[word].append(index)
-        
+
         shortestDistance = float('inf')
         location1 = self.mapping[word1]
         location2 = self.mapping[word2]
         l1 = 0
         l2 = 0
         while l1 < len(location1) and l2 < len(location2):
-            if l1 != l2 and word1 == word2:
+            if l1 != l2 and word1 == word2 or word1 != word2:
                 shortestDistance = min(shortestDistance, abs(location1[l1] - location2[l2]))
-            elif word1 != word2:
-                shortestDistance = min(shortestDistance, abs(location1[l1] - location2[l2]))
-                
             if location1[l1] < location2[l2]:
                 l1 += 1
             else:

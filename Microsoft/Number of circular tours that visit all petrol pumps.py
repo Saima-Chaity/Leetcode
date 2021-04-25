@@ -92,11 +92,11 @@ if __name__ == '__main__':
     a = [3, 1, 2, 0, 0, 0]
     b = [2, 2, 2, 0, 0, 0]
 
-    print(Solution.circularToursCount(n, c, a, b))
+    print(Solution.canCompleteCircuit((), a, b))
 
     n = 5
     c = 3
     a = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
     b = [1, 2, 1, 1, 1, 0, 0, 0, 0, 0]
 
-    print(Solution.circularToursCount(n, c, a, b))
+    print(Solution.canCompleteCircuit((), a, b))
