@@ -53,30 +53,31 @@ class TreeNode:
 
 class Solution:
     def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
-        #Preorder Traversal
+
+        # Find root
+        while root and (root.val < low or root.val > high):
+            if root.val < low:
+                root = root.right
+            if root.val > high:
+                root = root.left
+
         if not root:
             return None
-        nodeWithinRange = []
-        stack = []
-        while root or stack:
-            while root:
-                if L <= root.val <= R:
-                    nodeWithinRange.append(root.val)
-                stack.append(root)
-                root = root.left
-            root = stack.pop()
-            root = root.right
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            leftNode = node.left
+            while leftNode and leftNode.val < low:
+                leftNode = leftNode.right
 
-        #Construct Binary Search Tree from Preorder Traversal
-        root = TreeNode(nodeWithinRange[0])
-        stack = [root, ]
-        for i in range(1, len(nodeWithinRange)):
-            node, child = stack[-1], TreeNode(nodeWithinRange[i])
-            while stack and stack[-1].val < child.val:
-                node = stack.pop()
-            if node.val < child.val:
-                node.right = child
-            else:
-                node.left = child
-            stack.append(child)
+            rightNode = node.right
+            while rightNode and rightNode.val > high:
+                rightNode = rightNode.left
+
+            node.left = leftNode
+            node.right = rightNode
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
         return root
