@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvasId" width="1950" height="850" style="border:2px solid green"></canvas>
+    <script>
+        let canvas = document.getElementById('canvasId')
+        let ctx = canvas.getContext("2d")
+        function Circle(x, y, r) {
+            this.x = x
+            this.y = y
+            this.r = r
+
+            this.draw = function() {
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI)
+                ctx.stroke();
+                ctx.fillStyle = `rgb(${Math.floor((Math.random() * 255) + 0)}, ${Math.floor((Math.random() * 255) + 0)}, ${Math.floor((Math.random() * 255) + 0)})`
+                ctx.fill();
+            }
+        }
+
+        function dist(x1, y1, x2, y2) {
+            return (x2-x1)**2 + (y2-y1)**2 
+        }
+
+        let maxLoop = 0
+        let circleArray = []
+        while (circleArray.length < 500) {
+            let x = Math.random() * canvas.width;
+            let y = Math.random() * canvas.height;
+            let r = (Math.random() * 36) + 3;
+
+            let overLapping = false;
+
+            for (let j =0; j < circleArray.length; j++) {
+                d = dist(x, y, circleArray[j].x, circleArray[j].y)
+                if (d <= (r + circleArray[j].r) ** 2) {
+                    overLapping = true
+                    break;
+                }
+            }
+
+            if (!overLapping) {
+                circleArray.push(new Circle(x, y, r))
+            }
+            maxLoop++;
+
+            if (maxLoop >= 5000) {
+                break
+            }
+        }
+
+        for (let item of circleArray) {
+            item.draw();
+        }
+
+    </script>
+</body>
+</html>

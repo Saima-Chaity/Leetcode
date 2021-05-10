@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvasId" width="950" height="850" style="border:2px solid green"></canvas>
+    <script>
+        let canvas = document.getElementById('canvasId')
+        let ctx = canvas.getContext("2d")
+
+        function Rect(x, y, width, height, color) {
+            this.x = x
+            this.y = y
+            this.width = width
+            this.height = height
+
+            this.drawRect = function() {
+                ctx.beginPath()
+                ctx.rect(this.x, this.y, this.width, this.height)
+                ctx.stroke();
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+        }
+
+        function Circle(x, y, r, color) {
+            this.x = x
+            this.y = y
+            this.r = r
+
+            this.draw = function() {
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI)
+                ctx.stroke();
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+        }
+
+        function dist(x1, y1, x2, y2) {
+            return Math.sqrt((x2-x1)**2 + (y2-y1)**2 )
+        }
+
+        let circle1 = new Circle(50, 50, 12, 'green')
+        let circle2 = new Circle(65, 50, 12, 'red')
+
+        if (dist(circle1.x, circle1.y, circle2.x, circle2.y) < circle1.r + circle2.r) {
+            console.log('collision')
+        } else {
+            console.log('looks good')
+        }
+
+        circle1.draw()
+        circle2.draw()
+
+        let rect1 = new Rect(100, 150, 40, 20, 'green')
+        let rect2 = new Rect(105, 140, 40, 20, 'red')
+
+        if (rect1.x < rect2.x+rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y) {
+            console.log('collision rect')
+        } else {
+            console.log('looks good rect')
+        }
+
+        rect1.drawRect()
+        rect2.drawRect()
+
+    </script>
+
+</body>
+</html>
