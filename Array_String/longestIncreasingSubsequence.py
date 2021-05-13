@@ -7,21 +7,27 @@ Input: [10,9,2,5,3,7,101,18]
 Output: 4
 Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4. '''
 
-
+# Time complexity: 0(n^2)
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
 
-        output = [1] * len(nums)
+        if len(nums) == 0:
+            return 0
 
-        for i in range(1, len(nums)):
+        n = len(nums)
+        dp = [0] * n
+        dp[0] = 1
+        maxLength = 1
+
+        for i in range(1, len(dp)):
+            maxValue = 0
             for j in range(0, i):
-                if nums[j] < nums[i] and output[i] < output[j] + 1:
-                    output[i] = output[j] + 1
+                if nums[i] > nums[j]:
+                    maxValue = max(maxValue, dp[j])
+            dp[i] = maxValue + 1
+            maxLength = max(maxLength, dp[i])
+        return maxLength
 
-        maxValue = 0
-        for i in range(len(output)):
-            maxValue = max(output[i], maxValue)
-        return maxValue
 
 # Using patience sort and binery search
 class Solution:
