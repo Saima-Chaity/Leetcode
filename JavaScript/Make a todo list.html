@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a todo list</title>
+    
+    <style>
+        .headerSection {
+            background-color: rgb(197, 63, 63);
+            color: white;
+            text-align: center;
+            width: 600px;
+            margin: 2em auto;
+            padding: 1em 0;
+            font-size: 1.6em;
+        }
+
+        .bodySection {
+            background-color: rgb(235, 235, 235);
+            width: 600px;
+            margin: 1em auto;
+            font-size: 1.3em;
+        }
+
+        .listItem {
+            position: relative;
+            list-style: none;
+            border: 2px solid white;
+            padding: 0.5em;
+            margin: 0.5em 0;
+        }
+
+        .listItem:hover {
+            background-color: thistle;
+        }
+
+        .close {
+            top: 0;
+            width: 35px;
+            font-size: 1.8em;
+            position: absolute;
+            right: 0;
+        }
+
+        .close:hover {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="headerSection">
+        <h3>My Todo List</h3>
+        <input class="todoInput" type="text" value="" placeholder="Title..."/>
+        <button onclick="addNewItem()">Add</button>
+    </div>
+    <div class="bodySection">
+        <ul class="todoList"></ul>
+    </div>
+
+    <script>
+        let todoInput = document.getElementsByClassName('todoInput')[0]
+        let todoList = document.getElementsByClassName('todoList')[0]
+
+        function addNewItem() {
+            let inputValue = todoInput.value
+            if (inputValue === "") {
+                return;
+            }
+            let newItem = document.createElement('li')
+            newItem.innerText = inputValue
+            todoInput.value = ""
+            let closeButton = document.createElement('span')
+            let text = document.createTextNode('\u00D7')
+            closeButton.className = 'close'
+            closeButton.addEventListener('click', removeItem)
+            closeButton.append(text)
+            newItem.append(closeButton)
+            newItem.classList.add('listItem')
+            todoList.append(newItem)
+        }
+
+        function removeItem() {
+            let parent = this.parentNode
+            parent.style.display = 'none'
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design NavBar</title>
+
+    <style>
+        .wrapper {
+            width: 750px;
+            height: 250px;
+            padding: 1em;
+            margin: 2em auto;
+            background-color: rgb(75, 117, 243);
+            color: white;
+            font-size: 1.3em;
+        }
+
+        .wrapper span {
+            display: inline-block;
+            margin: 1em 2.5em;
+            position: relative;
+        }
+
+        span a{
+            color: white;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        .projectDropdown, .blogDropdown {
+            display: none;
+            position: absolute;
+            left: 0;
+            margin: 10px;
+            padding: 10px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <span class="home">
+            <a href="#">Home</a>
+        </span>
+        <span class="about">
+            <a href="#">About</a>
+        </span>
+        <span class="projects"> 
+            <a href="#">Projects</a>
+            <ul class="projectDropdown">
+                <li><a href="/Project1">Project 1</a></li>
+                <li><a href="/Project2">Project 2</a></li>
+                <li><a href="/Project3">Project 3</a></li>
+            </ul>
+        </span>
+        <span class="blogs"> 
+            <a href="#">Blogs</a>
+            <ul class="blogDropdown">
+                <li><a href="/Blog1">Blog 1</a></li>
+                <li><a href="/Blog2">Blog 2</a></li>
+                <li><a href="/Blog3">Blog 3</a></li>
+            </ul>
+        </span>
+    </div>
+
+    <script>
+        let projects = document.getElementsByClassName('projects')[0]
+        let blogs = document.getElementsByClassName('blogs')[0]
+        let projectDropdown = document.getElementsByClassName('projectDropdown')[0]
+        let blogDropdown = document.getElementsByClassName('blogDropdown')[0]
+        projects.addEventListener('click', showDropdown) 
+        blogs.addEventListener('click', showDropdown) 
+
+        function showDropdown() {
+            if (this.className === 'projects') {
+                projectDropdown.style.display = projectDropdown.style.display === 'none' || projectDropdown.style.display === '' ? 'block' : 'none'
+            }
+            if (this.className === 'blogs') {
+                blogDropdown.style.display = blogDropdown.style.display === 'none' || projectDropdown.style.display === '' ? 'block' : 'none'
+            }
+        }
+    </script>
+</body>
+</html>

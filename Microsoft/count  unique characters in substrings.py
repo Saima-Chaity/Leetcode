@@ -91,3 +91,20 @@ class Solution:
 
 S='aabb'
 print(Solution.uniqueLetterString((), S))
+
+
+# Another approach - time complexity 0(n^2)
+class Solution:
+    def uniqueLetterString(self, S):
+
+        count = 0
+        for i in range(len(S)):
+            left = i - 1
+            right = i + 1
+            while left >= 0 and S[left] != S[i]:
+                left -= 1
+            while right < len(S) and S[right] != S[i]:
+                right += 1
+
+            count += (right - i) * (i - left)
+        return count % (10 ** 9 + 7)

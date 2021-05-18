@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implement a poll widget</title>
+
+    <style>
+        .poll {
+            width: 70%;
+            border: 2px solid white;
+            font-size: 1.3em;
+            background-color: white;
+            margin: 1.5em 0;
+            padding: 0.5em;
+        }
+        .poll span {
+            color: black;
+        }
+        .count {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgb(17, 94, 17);
+            text-align: center;
+            margin-right: 1em;
+            padding: 0.4em;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>What is the favorite programming language?</p>
+        <div class="pollItems">
+            <div class="poll" data-cell-index='1'>
+                <span class="count"></span>
+                <span class="language">Python</span>
+            </div>
+            <div class="poll" data-cell-index='2'>
+                <span class="count"></span>
+                <span class="language">React</span>
+            </div>
+            <div class="poll" data-cell-index='3'>
+                <span class="count"></span>
+                <span class="language">React Native</span>
+            </div>
+            <div class="poll" data-cell-index='4'>
+                <span class="count"></span>
+                <span class="language">Node.Js</span>
+            </div>
+            <div class="poll" data-cell-index='5'>
+                <span class="count"></span>
+                <span class="language">JavaScript</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let poll = document.getElementsByClassName('poll')
+        let language = document.getElementsByClassName('language')
+        let count = document.getElementsByClassName('count')[0]
+        let total = 0
+
+        for (let i=0;  i<language.length; i++) {
+            language[i].addEventListener('click', showVotes)
+        }
+
+        function renderBars() {
+            for (let i=0; i<poll.length; i++) {
+                let pollCount = poll[i].children[0]
+                let percentage = (parseInt(pollCount.innerText) / parseInt(total)) * 100;
+                poll[i].style.width = percentage + "%";
+                poll[i].style.backgroundColor = 'green';
+            }
+        }
+
+        function showVotes() {
+            let currentCount = this.previousElementSibling
+            if (currentCount.innerText == "" ) {
+                currentCount.innerHTML = 1
+                total += 1
+            } else if (parseInt(currentCount.innerText) >= 0) {
+                currentCount.innerHTML = parseInt(currentCount.innerText) + 1
+                total += 1
+            }
+            renderBars()
+            event.stopPropagation()
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and display Giphy images</title>
+
+    <style>
+        .wrapper {
+            width: 700px;
+            margin: 2em auto;
+            padding: 2em 1em;
+        }
+        .images {
+            height: 300px;
+            overflow-x: auto;
+            object-fit: contain;
+        }
+
+        .container-image {
+            height: auto;
+            width: 30%;
+            display: block;
+            float: left;
+            margin-right: 3%;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h3>Search and display Giphy images</h3>
+        <input class="inputField" type="text" value="" placeholder="Image name" />
+        <span>
+            <input type="button" value="Search" onclick="searchGiphy()"/>
+        </span>
+
+        <div class="images"></div>
+    </div>
+
+    <script>
+        let inputValue = document.getElementsByClassName('inputField')[0]
+        let images = document.getElementsByClassName('images')[0]
+        document.addEventListener('keyup', checkForEnterKey)
+        let api = 'https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q='
+        let results = []
+        
+        function searchGiphy() {
+            let value = inputValue.value
+            let url = api + value
+            inputValue.value = ""
+            fetch(url)
+            .then((res) => res.json())
+            .then((data) => {
+                let responseImages = data['data']
+                responseImages.forEach(function(image) {
+                    let src = image.images.fixed_height.url
+                    images.innerHTML += `<img src=${src} class='container-image' />`
+                })
+            })
+        }
+
+        function checkForEnterKey() {
+            if (event.keyCode == 13) {
+                event.preventDefault()
+                searchGiphy()
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Switcher</title>
+
+    <style>
+        .wrapper {
+            width: 600px;
+            height: auto;
+            margin: 3em auto;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <select class="languageSelect" onchange="selectedLanguage()">
+            <option value="1">English</option>
+            <option value="2">Spanish</option>
+            <option value="3">Hindi</option>
+        </select>
+
+        <div class="content">
+            <span class="messages"></span>
+        </div>
+    </div>
+
+    <script>
+        let language = {
+            eng: {
+                welcome:
+                "Welcome to the GeeksforGeeks " +
+                "Portal! You can choose any " +
+                "language using the buttons above!",
+            },
+            es: {
+                welcome:
+                "¡Bienvenido al portal GeeksforGeeks! " +
+                "¡Puedes elegir cualquier idioma usando " +
+                "los botones de arriba!",
+            },
+            hin: {
+                welcome:
+                "GeeksforGeeks पोर्टल पर आपका स्वागत है! " +
+                "आप ऊपर दिए गए बटन का उपयोग करके किसी भी " +
+                "भाषा को चुन सकते हैं!",
+            },
+        };
+        let messages = document.getElementsByClassName('messages')[0]
+        let languageSelect = document.getElementsByClassName('languageSelect')[0]
+        
+        function selectedLanguage() {
+            let selectedValue = languageSelect.value
+            if (selectedValue === '1') {
+                messages.textContent = language['eng'].welcome
+            } else if (selectedValue === '2') {
+                messages.textContent = language['es'].welcome
+            } else if(selectedValue === '3') {
+                messages.textContent = language['hin'].welcome
+            }
+        }
+
+        window.onload = function() {
+            messages.textContent = language['eng'].welcome
+        }
+    </script>
+</body>
+</html>

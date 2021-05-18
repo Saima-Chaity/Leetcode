@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design a pop over</title>
+
+    <style>
+        .buttonContainer {
+            position: absolute;
+            text-align: center;
+            left: 50%;
+            margin-left: -10vw;
+            top: 30vh;
+            width: 20vw;
+        }
+        .popoverContainer {
+            position: absolute;
+            width: 300px;
+            height: 150px;
+            border: 2px solid rgb(221, 213, 213);
+            border-radius: 2%;
+            display: none;
+        }
+        .popoverContainer.left {
+            left: 30%;
+            top: 23vh;
+            transition: left 2s ease-out, top 2s ease-in;
+        }
+        .popoverContainer.right {
+            right: 30%;
+            top: 23vh;
+            transition: right 2s ease-out, top 2s ease-in;
+        }
+        .popoverContainer.top {
+            top: 11%;
+            left: 42%;
+            transition: right 2s ease-out, top 2s ease-in;
+        }
+        .popoverContainer.bottom {
+            top: 35%;
+            left: 42%;
+            transition: bottom 2s ease-out, top 2s ease-in;
+        }
+        .popoverContainer::after {
+            content: " ";
+            position: absolute;
+            border-bottom: 2px solid rgb(173, 166, 166);
+            border-right: 2px solid rgb(173, 166, 166);
+            width: 25px;
+            height: 25Px;
+        }
+        .popoverContainer.left::after {
+            top: 50%;
+            left: 100%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+        .popoverContainer.right::after {
+            top: 50%;
+            right: 91%;
+            transform: translate(-50%, -50%) rotate(135deg);
+        }
+        .popoverContainer.top::after {
+            top: 85%;
+            left: 43%;
+            transform: translate(50%, 50%) rotate(45deg)
+        }
+        .popoverContainer.bottom::after {
+            top: 0;
+            left: 43%;
+            transform: translate(50%, -50%) rotate(225deg)
+        }
+        .header {
+            font-size: 1.7em;
+            background-color: rgb(221, 213, 213);
+            text-align: center;
+            padding: 0.2em 0;
+        }
+        .bodyText {
+            font-size: 1.2em;
+            text-align: center;
+            padding: 0.2em 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="buttonContainer">
+            <button>Open pop-over</button>
+        </div>
+        <div class="popoverContainer left">
+            <div class="header">This is the header section</div>
+            <div class="bodyText">This is the body section. 
+                Add details here!Open popover in four directions.
+                <button class="top">Top</button>
+                <button class="left">left</button>
+                <button class="right">right</button>
+                <button class="bottom">bottom</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let button = document.getElementsByTagName('button')[0]
+        let topButton = document.getElementsByClassName('top')[0]
+        let leftButton = document.getElementsByClassName('left')[0]
+        let rightButton = document.getElementsByClassName('right')[0]
+        let bottomButton = document.getElementsByClassName('bottom')[0]
+        let popoverContainer = document.getElementsByClassName('popoverContainer')[0]
+        topButton.addEventListener('click', moveToTop)
+        leftButton.addEventListener('click', moveToLeft)
+        rightButton.addEventListener('click', moveToRight)
+        bottomButton.addEventListener('click', moveToBottom)
+
+        button.addEventListener('click', function() {
+            if (popoverContainer.style.display === 'none' || popoverContainer.style.display === '') {
+                popoverContainer.style.display = 'block'
+            } else {
+                popoverContainer.style.display = 'none'
+            }
+        })
+
+        function moveToTop() {
+            popoverContainer.className = 'popoverContainer top'
+            event.stopPropagation();
+        }
+
+        function moveToLeft() {
+            popoverContainer.className = 'popoverContainer left'
+            event.stopPropagation();
+        }
+
+        function moveToRight() {
+            popoverContainer.className = 'popoverContainer right'
+            event.stopPropagation();
+        }
+        
+        function moveToBottom() {
+            popoverContainer.className = 'popoverContainer bottom'
+            event.stopPropagation();
+        }
+    </script>
+</body>
+</html>

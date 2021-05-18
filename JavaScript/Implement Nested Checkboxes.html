@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implement Nested Checkboxes</title>
+
+    <style>
+        .wrapper {
+            width: 700px;
+            margin: 2em auto;
+            padding: 2em 1em;
+        }
+
+        ul li {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <ul>
+            <li>
+                <input class="option" type="checkbox" value='Programing Languages'/> 
+                Programing Languages
+            </li>
+            <ul>
+                <li>
+                    <input class="subOption" type="checkbox" value='Python'/> 
+                    Python
+                </li>
+                <li>
+                    <input class="subOption" type="checkbox" value='Node.Js'/>
+                    Node.Js
+                </li>
+                <li>
+                    <input class="subOption" type="checkbox" value='React'/>
+                    React
+                </li>
+                <li>
+                    <input class="subOption" type="checkbox" value='React Native'/>
+                    React Native
+                </li>
+            </ul>
+        </ul>
+    </div>
+
+    <script>
+        let option = document.getElementsByClassName('option')[0]
+        let subOptions = document.getElementsByClassName('subOption')
+
+        for (let i=0; i<subOptions.length; i++) {
+            subOptions[i].addEventListener('click', function() {
+                let checkedCount = document.querySelectorAll('input.subOption:checked').length
+                option.checked = checkedCount > 0
+                option.indeterminate = checkedCount > 0 && checkedCount < subOptions.length
+            })
+        }
+
+        option.addEventListener('click', function() {
+            for (let i=0; i<subOptions.length; i++) {
+                subOptions[i].checked = this.checked
+            }
+        })
+    </script>
+</body>
+</html>
