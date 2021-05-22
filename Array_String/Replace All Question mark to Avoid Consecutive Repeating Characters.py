@@ -23,34 +23,31 @@ class Solution:
         chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "u", "s", "t",
                  "v", "w", "x", "y", "z"]
 
-        def replaceChar(currentIndex, prevIndex, nextIndex):
-            for charIndex in range(len(chars)):
-                if prevIndex == -1:
-                    if chars[charIndex] == s[nextIndex]:
-                        continue
-                elif nextIndex == len(s):
-                    if chars[charIndex] == s[prevIndex]:
-                        continue
-                elif chars[charIndex] == s[prevIndex] or chars[charIndex] == s[nextIndex]:
-                    continue
-                s[currentIndex] = chars[charIndex]
-                break
-
+        s = list(s)
         if len(s) == 1 and s[0] == "?":
             return "a"
 
-        s = list(s)
-        if s[-1] == "?":  # Check last char
-            replaceChar(-1, -2, len(s))
+        if s[-1] == "?":
+            for index, char in enumerate(chars):
+                if char != s[-2]:
+                    s[-1] = char
+                    break
 
-        for index, char in enumerate(s):
-            if char == "?":
-                if index == 0 and index < len(s):  # Check first char
-                    replaceChar(index, -1, index + 1)
-                elif index > 0 and index < len(s):
-                    replaceChar(index, index - 1, index + 1)
+        if s[0] == "?":
+            for index, char in enumerate(chars):
+                if char != s[1]:
+                    s[0] = char
+                    break
 
+        for i in range(len(s)):
+            if s[i] == "?":
+                for index, char in enumerate(chars):
+                    if char != s[i - 1] and char != s[i + 1]:
+                        s[i] = char
+                        break
         return "".join(s)
+
+
 
 
 

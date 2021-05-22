@@ -31,17 +31,14 @@ class Solution:
         # -> 5 to 7 both have sum 7 ( 1 4 2)
         # The sum is still 7 in this case because there are negative numbers that balance up for. So if we consider count++ we will have one count 
         # less as we will consider only array 5 to 7 but now we know that 14 sum occured earlier too so even that needs to be added up so map.get(sum-k).
-        
+
+        count = 0
+        total = 0
         mapping = {}
         mapping[0] = 1
-        total = 0
-        count = 0
-        for num in nums:
-            total += num
+        for i in range(len(nums)):
+            total += nums[i]
             if total - k in mapping:
-                count += mapping[total-k]
-            if total in mapping:
-                mapping[total] += 1
-            else:
-                mapping[total] = 1
+                count += mapping[total - k]
+            mapping[total] = mapping.get(total, 0) + 1
         return count

@@ -21,42 +21,21 @@ Output: Return 6, and the first 6 characters of the input array should be: ["a",
 Explanation: The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
 '''
 
-
+# O(n) time and O(1) space
 class Solution:
     def compress(self, chars: List[str]) -> int:
 
-        def addCharCount(indexPosition, charCount):
-            if len(str(charCount)) > 1:
-                for count in str(charCount):
-                    chars[indexPosition] = str(count)
-                    indexPosition += 1
-            else:
-                chars[indexPosition] = str(charCount)
-                indexPosition += 1
-            return indexPosition, charCount
-
-        def setChar(indexPosition, prevChar, charCount):
-            chars[indexPosition] = char
-            indexPosition += 1
-            prevChar = char
-            charCount = 1
-            return indexPosition, prevChar, charCount
-
-        charCount = 0
-        prevChar = ""
-        indexPosition = 0
-
-        for char in chars:
-            if not prevChar:
-                indexPosition, prevChar, charCount = setChar(indexPosition, prevChar, charCount)
-            elif char == prevChar:
-                charCount += 1
-            elif char != prevChar:
-                if charCount > 1:
-                    indexPosition, charCount = addCharCount(indexPosition, charCount)
-                indexPosition, prevChar, charCount = setChar(indexPosition, prevChar, charCount)
-
-        if charCount > 1:
-            indexPosition, charCount = addCharCount(indexPosition, charCount)
-
-        return len(chars[:indexPosition])
+        left, i = 0, 0
+        while i < len(chars):
+            length, char = 1, chars[i]
+            while i + 1 < len(chars) and char == chars[i + 1]:
+                i += 1
+                length += 1
+            chars[left] = char
+            if length > 1:
+                length = str(length)
+                chars[left + 1:left + 1 + len(length)] = length
+                left += len(length)
+            left += 1
+            i = i + 1
+        return left

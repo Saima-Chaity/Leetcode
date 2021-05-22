@@ -16,33 +16,30 @@ Example 3:
 Input: s = " 3+5 / 2 "
 Output: 5'''
 
-
 class Solution:
     def calculate(self, s: str) -> int:
 
-        s = s.strip()
-        result = 0
-        currentNumber = 0
-        sign = "+"
         stack = []
-
+        number = 0
+        operation = "+"
         for i in range(len(s)):
             char = s[i]
-            if char.isdigit() and char != " ":
-                currentNumber = (currentNumber * 10) + int(char)
-            if char in "+-*/" or i == len(s) - 1:
-                if sign == "+":
-                    stack.append(currentNumber)
-                elif sign == "-":
-                    stack.append(-currentNumber)
-                elif sign == "*":
-                    stack.append(stack.pop() * currentNumber)
-                elif sign == "/":
-                    stack.append(math.trunc(stack.pop() / currentNumber))
+            if char.isdigit():
+                number = (number * 10) + int(char)
+            if char in "+-/*" and char != " " or i == len(s) - 1:
+                if operation == "+":
+                    stack.append(number)
+                elif operation == "-":
+                    stack.append(-number)
+                elif operation == "*":
+                    stack.append(stack.pop() * number)
+                elif operation == "/":
+                    stack.append(math.trunc(stack.pop() / number))
 
-                currentNumber = 0
-                sign = char
+                number = 0
+                operation = char
 
+        result = 0
         while stack:
             result += stack.pop()
         return result

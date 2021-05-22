@@ -22,9 +22,8 @@ class Solution:
         def evaluateExpression(stack):
             total = 0
             topElement = str(stack[-1])
-            if len(stack) == 1 and topElement[0] == "-":  # cases when stack = [-1]
-                if topElement[1].isdigit():
-                    total = stack.pop()
+            if len(stack) == 1: # if there is only one element then this the result
+                return stack.pop()
             if stack and topElement.isdigit():
                 total = stack.pop()
             while stack and stack[-1] != ")":

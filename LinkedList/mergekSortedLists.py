@@ -80,3 +80,36 @@ class Solution:
             if currentNode.next:
                 q.put((currentNode.next.val, index, currentNode.next))
         return dummy.next
+
+
+# Using heap
+import heapq
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+
+        if not lists:
+            return None
+
+        q = []
+        currentNode = dummy = ListNode(0)
+        for index, node in enumerate(lists):
+            if node:
+                heapq.heappush(q, (node.val, index))
+
+        while q:
+            value, index = heapq.heappop(q)
+            currentNode.next = lists[index]
+            currentNode = currentNode.next
+            node = lists[index] = lists[index].next
+            if node:
+                heapq.heappush(q, (node.val, index))
+        return dummy.next
+
+
