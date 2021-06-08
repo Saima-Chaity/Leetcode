@@ -113,4 +113,42 @@ class Solution:
             if not queue and nextLevel:
                 queue, nextLevel = nextLevel, queue
         return root
-    
+
+
+'''0(1) space'''
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+
+        def processChild(childNode, prev, leftMost):
+            if childNode:
+                if prev:
+                    prev.next = childNode
+                else:
+                    leftMost = childNode
+                prev = childNode
+            return prev, leftMost
+
+        if not root:
+            return root
+
+        leftMost = root
+        while leftMost:
+            prev, current = None, leftMost
+            leftMost = None
+            while current:
+                prev, leftMost = processChild(current.left, prev, leftMost)
+                prev, leftMost = processChild(current.right, prev, leftMost)
+                current = current.next
+        return root
+
+

@@ -11,6 +11,9 @@ Example 2:
 Input: arr = [1,2,3,4,5], k = 4, x = -1
 Output: [1,2,3,4]'''
 
+'''Complexity
+Time O(log(N - K)) to binary research and find result
+Space O(K) to create the returned list.'''
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
         
@@ -29,3 +32,6 @@ class Solution:
             else:
                 high = mid
         return arr[low:low+k]
+
+# Reference -
+# https://leetcode.com/problems/find-k-closest-elements/discuss/462664/Python-binary-search-with-detailed-explanation

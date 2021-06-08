@@ -118,7 +118,6 @@
         function clickBox() {
             let squares = document.querySelectorAll(".board div") 
             let click = parseInt(this.dataset.id)
-            console.log(this.dataset.id)
             if (squares[click+7].classList.contains('taken') && !squares[click].classList.contains('taken')) {
                 if (currentPlayer == 1) {
                     currentPlayer = 2
