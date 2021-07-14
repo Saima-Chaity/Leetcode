@@ -13,6 +13,11 @@ After 3rd swap: abcba
 Input: adbcdbad
 Output: -1 '''
 
+
+'''Time complexity is O(n2) 
+Space used is O(1)
+'''
+
 from collections import Counter
 def CountSwap(s, n):
 

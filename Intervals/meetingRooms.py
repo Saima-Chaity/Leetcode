@@ -27,6 +27,7 @@ find the minimum number of conference rooms required.'''
 # Output: 2
 
 #Priority Queues
+'''Time Complexity: O(NlogN). Space - 0(N)'''
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
 

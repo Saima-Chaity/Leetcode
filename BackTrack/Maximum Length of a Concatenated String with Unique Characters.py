@@ -13,6 +13,9 @@ Output: 4
 Explanation: All possible concatenations are "","un","iq","ue","uniq" and "ique".
 Maximum length is 4.'''
 
+'''Time Complexity: O(2^N) 
+Auxiliary Space: O(N * 2^N)
+'''
 class Solution:
     def maxLength(self, arr: List[str]) -> int:
 
