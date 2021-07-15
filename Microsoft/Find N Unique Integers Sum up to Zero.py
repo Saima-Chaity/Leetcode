@@ -32,3 +32,14 @@ class Solution:
             output.append(-currentNumber)
         return output
 
+
+# Another approach
+def unique_sum(n: int) -> List[int]:
+    if n == 1:
+        return [0]
+
+    result = []
+
+    for i in range(n):
+        result.append(i * 2 - n + 1)
+    return result

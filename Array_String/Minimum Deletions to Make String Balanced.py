@@ -32,3 +32,44 @@ class Solution:
             else:
                 b_count += 1
         return count
+
+
+'''The idea is to use two pointers i and j where i traverses from left to right and j traverses from right to left.
+While traversing right, get to the first position where s[i] == 'b' and similarly while traversing left, get to the 
+first position where s[j] == 'a'. We also keep on adjusting the count of 'a' and 'b' accordingly. Now we reach to a 
+point where s[0:i] is all 'a' and s[j+1:] is all 'b'. At this point we need to decide whether we want to delete 'a' 
+or 'b'. So we go greedy and delete that char whose count is less. So if count_a < count_b, we delete char 'a' else 
+we delete char 'b'.'''
+
+# Another approach
+class Solution:
+    def minimumDeletions(self, s: str) -> int:
+
+        a_count = 0
+        for char in s:
+            a_count += 1 if char == 'a' else 0
+
+        b_count = len(s) - a_count
+        i = 0
+        j = len(s) - 1
+        result = 0
+
+        while i < j:
+            while i < j and s[i] == 'a':
+                i += 1
+                a_count -= 1
+
+            while i < j and s[j] == 'b':
+                j -= 1
+                b_count -= 1
+
+            if a_count and b_count:
+                if a_count < b_count:
+                    j -= 1
+                    a_count -= 1
+                    result += 1
+                else:
+                    i += 1
+                    b_count -= 1
+                    result += 1
+        return result

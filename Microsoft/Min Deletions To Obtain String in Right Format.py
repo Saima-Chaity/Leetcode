@@ -32,3 +32,35 @@ def minStep(str) -> int:
         else:
             y_count += 1
     return count
+
+# Another approach
+def minStep(str) -> int:
+        s = str
+        a_count = 0
+        for char in s:
+            a_count += 1 if char == 'X' else 0
+
+        b_count = len(s) - a_count
+        i = 0
+        j = len(s) - 1
+        result = 0
+
+        while i < j:
+            while i < j and s[i] == 'X':
+                i += 1
+                a_count -= 1
+
+            while i < j and s[j] == 'Y':
+                j -= 1
+                b_count -= 1
+
+            if a_count and b_count:
+                if a_count < b_count:
+                    j -= 1
+                    a_count -= 1
+                    result += 1
+                else:
+                    i += 1
+                    b_count -= 1
+                    result += 1
+        return result

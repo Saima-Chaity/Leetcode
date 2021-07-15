@@ -35,6 +35,7 @@ def longestValidString(s) -> str:
             # chars of this sequence and drop the count to 2
             count = 2
             start = i - 1
-    return s[start_position:maxLength]
+    return s[start_position:start_position+maxLength]
 
 print(longestValidString("baaabbabbb"))
+print(longestValidString("baaaabbbbbabbb"))

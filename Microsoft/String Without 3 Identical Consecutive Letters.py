@@ -25,3 +25,21 @@ def filter_string(s: str) -> str:
         if s[i] != s[i - 1] or s[i] != s[i - 2]:
             output += s[i]
     return output
+
+
+# Another approach
+def filter_string(s: str) -> str:
+    count = 1
+    result = s[0]
+
+    for i in range(1, len(s)):
+        # we met two the same letters increase the counter
+        if s[i] == s[i - 1]:
+            count += 1
+        else:
+            # if next letter is different drop the counter to 1
+            count = 1
+
+        if count <= 2:
+            result += s[i]
+    return result

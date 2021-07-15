@@ -39,3 +39,25 @@ def max_inserts(s: str) -> int:
             return -1
 
     return 2 * (others_count + 1) - (len(s) - others_count)
+
+
+#Another approach
+def max_inserts(s: str) -> int:
+    if not s:
+        return 2
+
+    a_count = 0
+    result = 0
+    for i in range(len(s)):
+        if s[i] == 'a':
+            a_count += 1
+        else:
+            result += 2 - a_count
+            a_count = 0
+
+        if a_count >= 3:
+            return -1
+
+        if i == len(s) - 1:
+            result += 2 - a_count
+    return result
