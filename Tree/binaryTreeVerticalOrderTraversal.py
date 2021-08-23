@@ -32,24 +32,59 @@ from collections import defaultdict, deque
 #         self.right = right
 class Solution:
     def verticalOrder(self, root: TreeNode) -> List[List[int]]:
+
         if not root:
             return []
+
         group = defaultdict(list)
         q = deque([(root, 0, 0)])
         while q:
-            node, x, y = q.popleft()
-            group[x].append((node.val, y))
-            if node:
+            for _ in range(len(q)):
+                node, x, y = q.popleft()
+                if node:
+                    group[x].append(node.val)
                 if node.left:
                     q.append((node.left, x - 1, y + 1))
                 if node.right:
                     q.append((node.right, x + 1, y + 1))
 
-        results = []
-        for x in (sorted(group)):
-            results.append(group[x])
+        result = []
+        for key, value in sorted(group.items()):
+            result.append(value)
+        return result
 
-        for index, item in enumerate(results):
-            item.sort(key=lambda x: x[1])
-            results[index] = [value for value, depth in item]
-        return results
+
+
+# Without sorting
+from collections import defaultdict, deque
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalOrder(self, root: TreeNode) -> List[List[int]]:
+
+        if not root:
+            return []
+
+        group = defaultdict(list)
+        q = deque([(root, 0, 0)])
+        minCol = maxCol = 0
+        while q:
+            for _ in range(len(q)):
+                node, x, y = q.popleft()
+                if node:
+                    group[x].append(node.val)
+                    minCol = min(x, minCol)
+                    maxCol = max(x, maxCol)
+                if node.left:
+                    q.append((node.left, x - 1, y + 1))
+                if node.right:
+                    q.append((node.right, x + 1, y + 1))
+
+        result = []
+        for i in range(minCol, maxCol + 1):
+            result.append(group[i])
+        return result

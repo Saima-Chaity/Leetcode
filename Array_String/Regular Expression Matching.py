@@ -31,20 +31,27 @@ class Solution:
             remove one char from s and remove one char from p
         '''
 
-        if not s and not p:
-            return True
+        def helper(s, p):
+            if (s, p) in memo:
+                return memo[(s, p)]
 
-        if not p and s:
-            return False
+            if not s and not p:
+                memo[(s, p)] = True
 
-        if p[-1] == "*":
-            secondLastCharOfP = p[-2]
-            if s and (s[-1] == secondLastCharOfP or secondLastCharOfP == "."):
-                return self.isMatch(s[:-1], p) or self.isMatch(s, p[:-2])
+            elif not p and s:
+                memo[(s, p)] = False
+
+            elif p[-1] == "*":
+                if s and (s[-1] == p[-2] or p[-2] == "."):
+                    memo[(s, p)] = helper(s[:-1], p) or helper(s, p[:-2])
+                else:
+                    memo[(s, p)] = helper(s, p[:-2])
+
+            elif s and (p[-1] == s[-1] or p[-1] == "."):
+                memo[(s, p)] = helper(s[:-1], p[:-1])
             else:
-                return self.isMatch(s, p[:-2])
-        else:
-            if s and (s[-1] == p[-1] or p[-1] == "."):
-                return self.isMatch(s[:-1], p[:-1])
-            else:
-                return False
+                memo[(s, p)] = False
+            return memo[(s, p)]
+
+        memo = {}
+        return helper(s, p)

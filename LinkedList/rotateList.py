@@ -42,3 +42,46 @@ class Solution:
         # break the ring
         newTail.next = None
         return newHead
+
+
+# Another approach
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+
+        def reverseList(node, length):
+            current = node
+            prev = None
+            for i in range(length):
+                nextNode = current.next
+                current.next = prev
+                prev = current
+                current = nextNode
+            return prev, current
+
+        if not head or k == 0:
+            return head
+
+        length = 0
+        current = head
+        while current:
+            length += 1
+            current = current.next
+
+        k = k % length
+        if k == 0:
+            return head
+
+        reverseWholeList, current = reverseList(head, length)
+        firstKReversedNode, current = reverseList(reverseWholeList, k)
+        nodeAfterFirstKNodes, current = reverseList(current, length - k)
+
+        result = firstKReversedNode
+        while firstKReversedNode and firstKReversedNode.next:
+            firstKReversedNode = firstKReversedNode.next
+        firstKReversedNode.next = nodeAfterFirstKNodes
+        return result

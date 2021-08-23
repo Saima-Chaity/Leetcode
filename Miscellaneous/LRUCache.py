@@ -106,3 +106,65 @@ class LRUCache:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+
+# Another appraoch - Add new item to the head and remove from tail
+class ListNode:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.next = None
+        self.prev = None
+
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.head = ListNode(0, 0)
+        self.tail = ListNode(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.dict = {}
+
+    def remove(self, node):
+        prevNode = node.prev
+        nextNode = node.next
+        prevNode.next = nextNode
+        nextNode.prev = prevNode
+
+    def addNode(self, node):
+        node.prev = self.head
+        node.next = self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+
+    def get(self, key: int) -> int:
+        if key in self.dict:
+            node = self.dict[key]
+            self.remove(node)
+            self.addNode(node)
+            return node.val
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key not in self.dict:
+            newNode = ListNode(key, value)
+            self.dict[key] = newNode
+            self.addNode(newNode)
+
+            if len(self.dict) > self.capacity:
+                node = self.tail.prev
+                self.remove(node)
+                del self.dict[node.key]
+
+        else:
+            node = self.dict[key]
+            node.val = value
+            self.remove(node)
+            self.addNode(node)
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)

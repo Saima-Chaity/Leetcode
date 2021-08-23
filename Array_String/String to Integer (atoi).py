@@ -26,38 +26,39 @@ Example 1:
 Input: str = "42"
 Output: 42'''
 
+
 class Solution:
     def myAtoi(self, s: str) -> int:
 
         maxInt = 2 ** 31 - 1
-        minInt = - 2 ** 31
-        s = s.strip()
-        if not s:
+        minInt = -2 ** 31
+
+        s = s.lstrip()
+        if len(s) == 0:
             return 0
-        if s and s[0] == "." or s[0].isalpha():
+        if s[0] == "." or s[0].isalpha():
             return 0
 
-        newString = ""
-        for i in range(len(s)):
-            char = s[i]
+        result = ""
+        for index, char in enumerate(s):
             if char.isdigit():
-                newString += char
+                result += char
             elif char in "+-":
-                if not newString:
-                    newString += char
+                if not result:
+                    result += char
                 else:
                     break
-            elif char == " " and len(newString) > 0:
-                break
-            elif char.isalpha() or char == "." and len(newString) > 0:
+            elif char == " " or char == "." or char.isalpha():
                 break
 
-        if newString == "" or newString == "+" or newString == "-":
+        if result == "" or result == "+" or result == "-":
             return 0
+
+        number = int(result)
+        if number < minInt:
+            return minInt
+        elif number > maxInt:
+            return maxInt
         else:
-            result = int(newString)
-            if result > maxInt:
-                return maxInt
-            elif result < minInt:
-                return minInt
-            return result
+            return number
+

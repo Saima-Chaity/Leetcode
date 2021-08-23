@@ -43,6 +43,7 @@ class Solution:
 # DFS
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+
         if (len(grid)) == 0:
             return 0
         row = len(grid)
@@ -57,14 +58,11 @@ class Solution:
         return island
 
     def toggleIsland(self, grid, i, j):
-        if i < 0 or j < 0 or i == len(grid) or j == len(grid[0]) or grid[i][j] != '1':
-            return
-        elif grid[i][j] == "1":
-            grid[i][j] = "0"
         for (x, y) in self.direction:
             xi = x + i
             yj = y + j
-            if xi >= 0 and xi < len(grid) and yj >= 0 and yj < len(grid[0]):
+            if xi >= 0 and xi < len(grid) and yj >= 0 and yj < len(grid[0]) and grid[xi][yj] == "1":
+                grid[xi][yj] = "0"
                 self.toggleIsland(grid, xi, yj)
 
 

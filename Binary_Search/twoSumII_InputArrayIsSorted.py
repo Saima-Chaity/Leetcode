@@ -51,3 +51,27 @@ class Solution:
                 else:
                     right -= 1
         return [-1, -1]
+
+
+# Another approach
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+
+        def findRemaining(start, target):
+            left = start
+            right = len(numbers) - 1
+            while left < right:
+                mid = left + (right - left) // 2
+                if numbers[mid] == target:
+                    return mid
+                if numbers[mid] > target:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return left if numbers[left] == target else False
+
+        for i in range(len(numbers)):
+            remaining = target - numbers[i]
+            index = findRemaining(i + 1, remaining)
+            if index:
+                return [i + 1, index + 1]

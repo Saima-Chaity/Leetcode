@@ -25,7 +25,7 @@ class Interval:
 import heapq
 class Solution:
     def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
-        
+
         heap = []
         for interval in schedule:
             for item in interval:
@@ -56,18 +56,18 @@ class Interval:
 class Solution:
     def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
 
-        intervals = []
+        newSchedule = []
         for interval in schedule:
-            for item in interval:
-                intervals.append((item.start, item.end))
+            for individual in interval:
+                newSchedule.append(individual)
 
-        intervals = sorted(intervals, key=lambda x: x[0])
-        prevEndTime = intervals[0][1]
-        result = []
-        for start, end in intervals[1:]:
-            if start <= prevEndTime and end > prevEndTime:
-                prevEndTime = end
-            elif start > prevEndTime:
-                result.append(Interval(prevEndTime, start))
-                prevEndTime = end
-        return result
+        newSchedule.sort(key=lambda x:(x.start, x.end))
+        free_time = []
+        mergedIntervals = [newSchedule[0]]
+        for i in range(1, len(newSchedule)):
+            if newSchedule[i].start > mergedIntervals[-1].end:
+                free_time.append(Interval(start=mergedIntervals[-1].end, end=newSchedule[i].start))
+                mergedIntervals.append(newSchedule[i])
+            else:
+                mergedIntervals[-1].end = max(mergedIntervals[-1].end, newSchedule[i].end)
+        return free_time

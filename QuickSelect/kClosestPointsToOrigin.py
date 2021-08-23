@@ -46,6 +46,7 @@ class Solution:
 
 # Quickselect - Time Complexity: O(N) in average case and O(N^2)
 # in the worst case, where N is the length of points.
+import random
 class Solution:
     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
         self.findKthCloset(0, len(points) - 1, K, points)

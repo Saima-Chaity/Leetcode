@@ -78,3 +78,35 @@ class Solution:
                 dp[i][j] = min(left, down, left_down)
 
         return dp[length2][length1]
+
+
+# Another approach
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+
+        length1 = len(word1)
+        length2 = len(word2)
+
+        def backTrack(i, j):
+            if i == 0:
+                return j
+            if j == 0:
+                return i
+
+            if i < 0 or j < 0:
+                return 0
+
+            if dp[i][j] != -1:
+                return dp[i][j]
+
+            answer = 0
+            if word1[i - 1] == word2[j - 1]:
+                answer = backTrack(i - 1, j - 1)
+            else:
+                answer = 1 + min(backTrack(i, j - 1), backTrack(i - 1, j), backTrack(i - 1, j - 1))
+
+            dp[i][j] = answer
+            return dp[i][j]
+
+        dp = [[-1 for _ in range(length2 + 1)] for _ in range(length1 + 1)]
+        return backTrack(length1, length2)

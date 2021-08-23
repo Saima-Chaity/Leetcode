@@ -24,21 +24,21 @@ Replace the two 'A's with two 'B's or vice versa.'''
 from collections import defaultdict
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        # Max_length the longest subsequence without repeating chars and k changes
-        # Max_count is the high count chars in the answer subsequence
-        maxLength = maxCount = 0
-        count = defaultdict(int)
-        for i in range(len(s)):
-            # Count keeps track of the chars in the we are looking at subsequence
-            count[s[i]] += 1
-            # key idea(2): Find the new max_count. This is much like Kadane's
-            # Where we only consider if the new length exceedes the max_length overall
-            maxCount = max(maxCount, count[s[i]])
-            # Key idea (1): the answer is always max_count + k.
-            if maxLength < k + maxCount:
-                maxLength += 1
+
+        freq = defaultdict(int)
+        left = 0
+        result = 0
+        i = 0
+        while i < len(s):
+            freq[s[i]] = freq.get(s[i], 0) + 1
+            window_size = i - left + 1
+            if window_size - max(freq.values()) <= k:
+                result = max(result, window_size)
+                i += 1
             else:
-            # key idea(3) This removes the char at the start of the subsequence s[i-max_length]
-            # This serves as "correction" for the subsequence problem
-                count[s[i-maxLength]] -= 1
-        return maxLength
+                freq[s[left]] -= 1
+                if freq[s[left]] == 0:
+                    del freq[s[left]]
+                left += 1
+                i += 1
+        return result

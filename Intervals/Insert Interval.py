@@ -39,3 +39,36 @@ class Solution:
             output.append(newInterval)
         output.sort(key=lambda x: x[0])
         return output
+
+
+
+# Time complexity - 0(n)
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        if not intervals and newInterval:
+            return [newInterval]
+
+        i = 0
+        n = len(intervals)
+        output = []
+        # add all intervals starting before newInterval
+        while i < n and newInterval[0] > intervals[i][0]:
+            output.append(intervals[i])
+            i += 1
+
+        # add newInterval
+        if not output or output[-1][1] < newInterval[0]:
+            output.append(newInterval)
+        else:
+            output[-1][1] = max(output[-1][1], newInterval[1])
+
+        # add next intervals, merge with newInterval if needed
+        while i < n:
+            interval = intervals[i]
+            i += 1
+            if output[-1][1] < interval[0]:
+                output.append(interval)
+            else:
+                output[-1][1] = max(output[-1][1], interval[1])
+        return output
