@@ -51,6 +51,35 @@ class Solution:
             return False
 
 
+#DFS
+class Solution:
+    def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+
+        def dfs(x, y):
+            if (x, y) in visited:
+                return False
+            visited.add((x, y))
+            if x == destination[0] and y == destination[1]:
+                return True
+            for dx, dy in direction:
+                r, c = x, y
+                while 0 <= r < row and 0 <= c < col and maze[r][c] == 0:
+                    r += dx
+                    c += dy
+                if r != destination[0] or c != destination[1]:
+                    r -= dx
+                    c -= dy
+                if dfs(r, c):
+                    return True
+            return False
+
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        row = len(maze)
+        col = len(maze[0])
+        visited = set()
+        return dfs(start[0], start[1])
+
+
 # The Maze II - https://leetcode.com/problems/the-maze-ii/
 '''There is a ball in a maze with empty spaces and walls. The ball can go through empty spaces by rolling up, down, 
 left or right, but it won't stop rolling until hitting a wall. When the ball stops, it could choose the next direction.

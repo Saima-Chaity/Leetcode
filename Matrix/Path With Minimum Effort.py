@@ -18,19 +18,22 @@ This is better than the route of [1,2,2,2,5], where the maximum absolute differe
 import heapq
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
+
         row = len(heights)
         col = len(heights[0])
         direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         heap = [(0, 0, 0)]
         distance_matrix = [[float('inf') for _ in range(col)] for _ in range(row)]
         distance_matrix[0][0] = 0
+        visited = set()
 
         while heap:
             difference, i, j = heapq.heappop(heap)
+            visited.add((i, j))
             for dx, dy in direction:
                 x = dx + i
                 y = dy + j
-                if 0 <= x < row and 0 <= y < col:
+                if 0 <= x < row and 0 <= y < col and (x, y) not in visited:
                     current_difference = abs(heights[x][y] - heights[i][j])
                     maxDifference = max(current_difference, difference)
                     if distance_matrix[x][y] > maxDifference:

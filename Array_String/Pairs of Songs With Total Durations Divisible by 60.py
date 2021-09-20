@@ -21,8 +21,6 @@ Explanation: All three pairs have a total duration of 120, which is divisible by
 '''
 
 from collections import defaultdict
-
-
 class Solution:
     def numPairsDivisibleBy60(self, time: List[int]) -> int:
 

@@ -34,12 +34,12 @@ class Solution:
             while root:
                 stack.append(root)
                 root = root.left
-            poppedItem = stack.pop(-1)
-            if poppedItem.val <= minValue:
+            root = stack.pop()
+            if root.val <= minValue:
                 return False
-            minValue = poppedItem.val
-            root = poppedItem.right
-        return len(stack) == 0
+            minValue = root.val
+            root = root.right
+        return True
 
 
 # Recursive Traversal with Valid Range

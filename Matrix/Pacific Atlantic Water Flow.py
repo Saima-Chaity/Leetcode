@@ -23,8 +23,6 @@ Input: heights = [[2,1],[1,2]]
 Output: [[0,0],[0,1],[1,0],[1,1]]'''
 
 from collections import deque
-
-
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
 
@@ -37,7 +35,6 @@ class Solution:
                     x = dx + i
                     y = dy + j
                     if 0 <= x < row and 0 <= y < col and heights[x][y] >= heights[i][j] and (x, y) not in reachable:
-                        reachable.add((x, y))
                         q.append((x, y))
             return reachable
 

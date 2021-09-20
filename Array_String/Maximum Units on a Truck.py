@@ -38,3 +38,27 @@ class Solution:
             maxUnit += unitPerBox * able_to_load
             truckSize -= able_to_load
         return maxUnit
+
+
+# Using bucket sort - 0(n) time complexity
+class Solution:
+    def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+
+        bucket = [0] * 10001
+        for numOfBoxes, unitPerBox in boxTypes:
+            bucket[unitPerBox] += numOfBoxes
+
+        boxes = []
+        for i in range(len(bucket) - 1, -1, -1):
+            if bucket[i]:
+                boxes.append([bucket[i], i])
+
+        total = 0
+        for numOfBoxes, unitPerBox in boxes:
+            ableToCarry = min(numOfBoxes, truckSize)
+            if ableToCarry <= 0:
+                break
+
+            total += unitPerBox * ableToCarry
+            truckSize -= ableToCarry
+        return total

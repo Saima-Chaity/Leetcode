@@ -129,3 +129,63 @@ class Solution:
             stack.append(node.val)
             node = node.next
         return stack
+
+
+# Without reverse the input linked list
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+
+        n1 = 0
+        n2 = 0
+        current1 = l1
+        current2 = l2
+        while current1 or current2:
+            if current1:
+                n1 += 1
+                current1 = current1.next
+            if current2:
+                n2 += 1
+                current2 = current2.next
+
+        current1 = l1
+        current2 = l2
+        head = None
+        while n1 and n2:
+            value = 0
+            if n1 >= n2:
+                value += current1.val
+                n1 -= 1
+                current1 = current1.next
+
+            if n1 < n2:
+                value += current2.val
+                n2 -= 1
+                current2 = current2.next
+
+            current = ListNode(value)
+            current.next = head
+            head = current
+
+        current1 = head
+        head = None
+        carry = 0
+        while current1:
+            value = (current1.val + carry) % 10
+            carry = (current1.val + carry) // 10
+
+            current = ListNode(value)
+            current.next = head
+            head = current
+
+            current1 = current1.next
+
+        if carry:
+            current = ListNode(carry)
+            current.next = head
+            head = current
+        return head

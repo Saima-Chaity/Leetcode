@@ -38,13 +38,13 @@ class Solution:
         for i in range(n):
             if i not in visited:
                 q.append(i)
+                visited.add(i)
                 while q:
                     node = q.popleft()
                     for neighbour in graph[node]:
                         if neighbour not in visited:
                             q.append(neighbour)
                             visited.add(neighbour)
-                    del graph[node]
                 count += 1
         return count
 

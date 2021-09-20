@@ -15,19 +15,20 @@ Explanation: Because the path 1→3→1→1→1 minimizes the sum.'''
 
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
-
         rows = len(grid)
         cols = len(grid[0])
+        for i in range(rows):
+            for j in range(cols):
+                if i == 0 and j == 0:
+                    continue
+                elif i == 0 and j != 0:
+                    grid[i][j] += grid[i][j-1]
+                elif i != 0 and j == 0:
+                    grid[i][j] += grid[i-1][j]
+                else:
+                    grid[i][j] += min(grid[i][j-1], grid[i-1][j])
+        return grid[rows-1][cols-1]
 
-        for i in range(rows - 1, -1, -1):
-            for j in range(cols - 1, -1, -1):
-                if i == rows - 1 and j != cols - 1:
-                    grid[i][j] = grid[i][j] + grid[i][j + 1]
-                if i != rows - 1 and j == cols - 1:
-                    grid[i][j] = grid[i][j] + grid[i + 1][j]
-                elif i != rows - 1 and j != cols - 1:
-                    grid[i][j] = grid[i][j] + min(grid[i + 1][j], grid[i][j + 1])
-        return grid[0][0]
 
 # Top-down approach
 class Solution:
