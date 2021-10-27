@@ -31,28 +31,24 @@ from collections import defaultdict, deque
 #         self.left = left
 #         self.right = right
 class Solution:
-    def verticalOrder(self, root: TreeNode) -> List[List[int]]:
-
-        if not root:
-            return []
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
 
         group = defaultdict(list)
-        q = deque([(root, 0, 0)])
+        q = deque([(root, 0)])
         while q:
             for _ in range(len(q)):
-                node, x, y = q.popleft()
+                node, x = q.popleft()
                 if node:
                     group[x].append(node.val)
-                if node.left:
-                    q.append((node.left, x - 1, y + 1))
-                if node.right:
-                    q.append((node.right, x + 1, y + 1))
+                    if node.left:
+                        q.append((node.left, x - 1))
+                    if node.right:
+                        q.append((node.right, x + 1))
 
         result = []
         for key, value in sorted(group.items()):
             result.append(value)
         return result
-
 
 
 # Without sorting
@@ -70,21 +66,21 @@ class Solution:
             return []
 
         group = defaultdict(list)
-        q = deque([(root, 0, 0)])
-        minCol = maxCol = 0
+        q = deque([(root, 0)])
+        minX = maxX = 0
         while q:
             for _ in range(len(q)):
-                node, x, y = q.popleft()
+                node, x = q.popleft()
                 if node:
                     group[x].append(node.val)
-                    minCol = min(x, minCol)
-                    maxCol = max(x, maxCol)
-                if node.left:
-                    q.append((node.left, x - 1, y + 1))
-                if node.right:
-                    q.append((node.right, x + 1, y + 1))
+                    minX = min(x, minX)
+                    maxX = max(x, maxX)
+                    if node.left:
+                        q.append((node.left, x - 1))
+                    if node.right:
+                        q.append((node.right, x + 1))
 
         result = []
-        for i in range(minCol, maxCol + 1):
+        for i in range(minX, maxX + 1):
             result.append(group[i])
         return result

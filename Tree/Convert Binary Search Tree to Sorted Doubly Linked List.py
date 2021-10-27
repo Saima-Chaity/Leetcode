@@ -27,30 +27,33 @@ class Node:
 
 class Solution:
     def treeToDoublyList(self, root: 'Node') -> 'Node':
+
         if not root:
             return None
 
-        stack = []
-        firstNode = None
-        lastNode = None
-        while stack or root:
-            while root:
-                stack.append(root)
-                root = root.left
-            root = stack.pop()
-            if not firstNode:
-                firstNode = root
-            if lastNode:
-                lastNode.right = root
-                root.left = lastNode
-            lastNode = root
-            root = root.right
+        prev = dummy = TreeNode(0)
+        while root:
+            if root.left:
+                predecessor = root.left
+                while predecessor.right and predecessor.right != root:
+                    predecessor = predecessor.right
+                if predecessor.right is None:
+                    predecessor.right = root
+                    root = root.left
+                else:
+                    prev.right = root
+                    root.left = prev
+                    prev = root
+                    root = root.right
+            else:
+                prev.right = root
+                root.left = prev
+                prev = root
+                root = root.right
 
-        firstNode.left = lastNode
-        lastNode.right = firstNode
-        return firstNode
-
-
+        dummy.right.left = prev
+        prev.right = dummy.right
+        return dummy.right
 
 # Recursion
 """
@@ -92,3 +95,38 @@ class Solution:
         lastNode.right = firstNode
         return firstNode
 
+
+# Another approach
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+
+
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+
+        if not root:
+            return None
+
+        prev = dummy = TreeNode(0)
+        stack = []
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+
+            root = stack.pop()
+            current = root
+            prev.right = current
+            current.left = prev
+            prev = current
+            root = root.right
+
+        dummy.right.left = prev
+        prev.right = dummy.right
+        return dummy.right

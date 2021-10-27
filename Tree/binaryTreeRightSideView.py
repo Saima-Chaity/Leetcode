@@ -14,28 +14,30 @@ Explanation:
  \     \
   5     4       <---'''
 
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
 
+from collections import deque
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def rightSideView(self, root: TreeNode) -> List[int]:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+
         if not root:
             return []
 
-        q = [(root, 0)]
-        rightView = dict()
-        maxLevel = -1
+        output = []
+        q = deque([(root, 0)])
         while q:
-            node, level = q.pop(0)
-            if node:
-                maxLevel = max(maxLevel, level)
-                q.append((node.right, level + 1))
-                q.append((node.left, level + 1))
-                if level not in rightView:
-                    rightView[level] = node.val
-
-        return [rightView[key] for key in range(maxLevel+1)]
+            qLength = len(q)
+            for i in range(qLength):
+                node, level = q.popleft()
+                if i == qLength - 1:
+                    output.append(node.val)
+                if node.left:
+                    q.append((node.left, level + 1))
+                if node.right:
+                    q.append((node.right, level + 1))
+        return output

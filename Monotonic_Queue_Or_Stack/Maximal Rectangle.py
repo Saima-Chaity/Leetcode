@@ -9,8 +9,6 @@ Output: 6
 '''
 
 from collections import deque
-
-
 class Solution:
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
 

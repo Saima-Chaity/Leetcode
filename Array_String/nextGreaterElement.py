@@ -9,25 +9,23 @@ Example 1:
 Input: nums1 = [4,1,2], nums2 = [1,3,4,2].
 Output: [-1,3,-1]'''
 
-#Brute Force
+from collections import defaultdict
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
 
-        if not nums1 or not nums2:
-            return []
-
-        output = [-1] * len(nums1)
+        mapping = defaultdict(list)
+        for i in range(len(nums2)):
+            for j in range(i + 1, len(nums2)):
+                if nums2[j] > nums2[i] and nums2[i] not in mapping:
+                    mapping[nums2[i]] = nums2[j]
+                    break
 
         for i in range(len(nums1)):
-            isFound = False
-            if nums1[i] in nums2:
-                for j in range(len(nums2)):
-                    if isFound and nums2[j] > nums1[i]:
-                        output[i] = nums2[j]
-                        break
-                    if nums2[j] == nums1[i]:
-                        isFound = True
-        return output
+            if nums1[i] in mapping:
+                nums1[i] = mapping[nums1[i]]
+            else:
+                nums1[i] = -1
+        return nums1
 
 
 #Using stack
@@ -79,4 +77,36 @@ class Solution:
             result[(i) % len(nums)] = nums[stack[-1]] if stack else -1
             stack.append((i) % len(nums))
 
+        return result
+
+
+# Another approach
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+
+        n = len(nums)
+        result = [-1] * n
+        stack = []
+        for i in range(0, n * 2):
+            while stack and nums[stack[-1]] < nums[i % n]:
+                result[stack.pop()] = nums[i % n]
+            stack.append(i % n)
+        return result
+
+
+# Brute Force
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+
+        n = len(nums)
+        result = [-1] * n
+        copyArray = nums
+        for i in range(n):
+            copyArray.append(nums[i])
+
+        for i in range(n):
+            for j in range(i + 1, len(copyArray)):
+                if copyArray[j] > nums[i]:
+                    result[i] = copyArray[j]
+                    break
         return result

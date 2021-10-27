@@ -85,3 +85,28 @@ class Solution:
                 prev = temp
         return maxLength * maxLength if maxLength != float('-inf') else 0
 
+
+# Another approach
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+
+        if not matrix:
+            return 0
+
+        row = len(matrix)
+        col = len(matrix[0])
+        maxsqlen = 0
+        dp = [[0 for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
+        for i in range(row):
+            dp[i][0] = int(matrix[i][0])
+            maxsqlen = max(maxsqlen, dp[i][0])
+        for i in range(col):
+            dp[0][i] = int(matrix[0][i])
+            maxsqlen = max(maxsqlen, dp[0][i])
+        for i in range(1, row):
+            for j in range(1, col):
+                if matrix[i][j] == '1':
+                    dp[i][j] = 1 + min(dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1])
+                    maxsqlen = max(maxsqlen, dp[i][j])
+        return maxsqlen * maxsqlen
+

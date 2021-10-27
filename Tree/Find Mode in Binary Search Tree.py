@@ -46,3 +46,33 @@ class Solution:
         dfs(root)
         maxValue = max(mapping.values())
         return [key for key, value in mapping.items() if value == maxValue]
+
+# Another approach
+from collections import defaultdict
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findMode(self, root: Optional[TreeNode]) -> List[int]:
+
+        mapping = {}
+        stack = []
+        maxCount = 0
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+
+            root = stack.pop()
+            mapping[root.val] = mapping.get(root.val, 0) + 1
+            maxCount = max(maxCount, mapping[root.val])
+            root = root.right
+
+        result = []
+        for key, value in mapping.items():
+            if value == maxCount:
+                result.append(key)
+        return result

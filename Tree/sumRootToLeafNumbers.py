@@ -41,3 +41,29 @@ class Solution:
             if node.right:
                 queue.append((node.right, total+str(node.right.val)))
         return summation
+
+
+# Recursion
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+
+        numbers = []
+
+        def getRootToLeaf(root, path):
+            if not root.left and not root.right:
+                numbers.append(int(path))
+                return
+            if root.left:
+                getRootToLeaf(root.left, path + str(root.left.val))
+            if root.right:
+                getRootToLeaf(root.right, path + str(root.right.val))
+            return root
+
+        getRootToLeaf(root, str(root.val))
+        return sum(numbers)

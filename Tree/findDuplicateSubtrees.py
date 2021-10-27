@@ -34,24 +34,25 @@ class Solution:
     def findDuplicateSubtrees(self, root: TreeNode) -> List[TreeNode]:
         if not root:
             return None
-        duplicates = set()
+
         added = set()
+        duplicate = set()
         output = []
 
-        def postOrderTraversal(root):
+        def postOrder(root):
             if not root:
                 return "#"
-            left = postOrderTraversal(root.left)
-            right = postOrderTraversal(root.right)
-            current = left + right + str(root.val)
-            if current in duplicates and current not in added:
-                output.append(root)
+            leftTree = postOrder(root.left)
+            rightTree = postOrder(root.right)
+            current = leftTree + rightTree + "#" + str(root.val)
+            if current in duplicate and current not in added:
                 added.add(current)
+                output.append(root)
             else:
-                duplicates.add(current)
+                duplicate.add(current)
             return current
 
-        postOrderTraversal(root)
+        postOrder(root)
         return output
 
 

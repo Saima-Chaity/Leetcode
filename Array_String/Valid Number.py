@@ -37,7 +37,12 @@ class Solution:
             3. "e" cannot appear twice, and there must be at least one digit before and after e
             4. All other non-digit char is invalid'''
 
-        s = s.strip()
+        if len(s) == 1 and s[0] == '.' or s[0] == 'e':
+            return False
+
+        if len(s) > 0 and s[-1] in "+-e":
+            return False
+
         dotFound = False
         eFound = False
         digitFound = False
@@ -45,13 +50,13 @@ class Solution:
         for i in range(len(s)):
             char = s[i]
             if char in "+-":
-                if i > 0 and s[i - 1] != "e":
+                if i > 0 and s[i - 1] not in "Ee":
                     return False
             elif char == ".":
                 if eFound or dotFound:
                     return False
                 dotFound = True
-            elif char == "e":
+            elif char in "Ee":
                 if eFound or not digitFound:
                     return False
                 eFound = True

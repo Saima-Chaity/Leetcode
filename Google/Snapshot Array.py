@@ -26,7 +26,7 @@ class SnapshotArray:
         self.snapId = 0
 
     def set(self, index: int, val: int) -> None:
-        self.snaps[index][self.snapId] = val;
+        self.snaps[index][self.snapId] = val
 
     def snap(self) -> int:
         self.snapId += 1

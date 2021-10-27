@@ -105,3 +105,65 @@ class Solution:
 
 
 # https://leetcode.com/problems/merge-intervals/discuss/355318/Fully-Explained-and-Clean-Interval-Tree-for-Facebook-Follow-Up-No-Sorting
+
+# Another approach
+class BST:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def __init__(self):
+        self.root = None
+        self.output = []
+
+    def inorder(self, node):
+        if not node:
+            return None
+        self.inorder(node.left)
+        if self.output:
+            end = self.output[-1][1]
+            if end >= node.start:
+                i = 0
+                while i < len(self.output):
+                    start = self.output[i][0]
+                    end = self.output[i][1]
+                    if end >= node.start:
+                        self.output[i] = [min(start, node.start), max(end, node.end)]
+                        self.output = self.output[:i + 1]
+                        break
+                    i += 1
+            else:
+                self.output.append([node.start, node.end])
+        else:
+            self.output.append([node.start, node.end])
+        self.inorder(node.right)
+
+    def mergeInterval(self, start, end, node):
+        if start > node.end:
+            if node.right:
+                return self.mergeInterval(start, end, node.right)
+            else:
+                node.right = BST(start, end)
+        elif end < node.start:
+            if node.left:
+                return self.mergeInterval(start, end, node.left)
+            else:
+                node.left = BST(start, end)
+        else:
+            node.start = min(node.start, start)
+            node.end = max(node.end, end)
+
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+
+        for interval in intervals:
+            if not self.root:
+                self.root = BST(interval[0], interval[1])
+            else:
+                self.mergeInterval(interval[0], interval[1], self.root)
+
+        self.inorder(self.root)
+        return self.output

@@ -26,16 +26,18 @@ class Solution:
 
         if not root:
             return 0
-        longestLength = float('-inf')
 
-        def getDiameter(node):
-            nonlocal longestLength
-            if not node:
+        length = 0
+
+        def getDiameter(root):
+            nonlocal length
+            if not root:
                 return 0
-            leftLength = getDiameter(node.left)
-            rightLength = getDiameter(node.right)
-            longestLength = max(longestLength, leftLength + rightLength + 1)
+
+            leftLength = getDiameter(root.left)
+            rightLength = getDiameter(root.right)
+            length = max(length, leftLength + rightLength)
             return max(leftLength, rightLength) + 1
 
         getDiameter(root)
-        return longestLength - 1
+        return length

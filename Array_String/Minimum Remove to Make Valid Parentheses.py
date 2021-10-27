@@ -28,21 +28,20 @@ Explanation: An empty string is also valid.'''
 
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        s = list(s)
-        stack = []
-        for i in range(len(s)):
-            char = s[i]
-            if char == "(":
-                stack.append((i, char))
-            else:
-                if char == ")":
-                    if stack and char == ")" and stack[-1][1] == "(":
-                        index, item = stack.pop()
-                    else:
-                        s[i] = ""
 
-        # Remove invalid parentheses
+        stack = []
+        s = list(s)
+        for i in range(len(s)):
+            if s[i] == "(":
+                stack.append((s[i], i))
+            elif s[i] == ")":
+                if stack:
+                    stack.pop()
+                else:
+                    s[i] = ""
+
         while stack:
-            index, item = stack.pop()
+            char, index = stack.pop()
             s[index] = ""
+
         return "".join(s)
