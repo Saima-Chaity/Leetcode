@@ -46,3 +46,33 @@ class Solution:
             item.sort(key=lambda x: x[1])
             result[index] = [val for val, depth in item]
         return result
+
+
+# Another approach
+from collections import defaultdict, deque
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+
+        groups = []
+        q = deque([(root, 0, 0)])
+        while q:
+            node, x, y = q.popleft()
+            if node:
+                groups.append((x, y, node.val))
+                q.append((node.left, x - 1, y + 1))
+                q.append((node.right, x + 1, y + 1))
+
+        groups.sort()
+        results = defaultdict(list)
+        for x, y, value in groups:
+            if x in results:
+                results[x].append(value)
+            else:
+                results[x] = [value]
+        return results.values()
