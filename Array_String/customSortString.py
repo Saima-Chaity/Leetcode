@@ -12,18 +12,17 @@ S = "cba"
 T = "abcd"
 Output: "cbad"'''
 
-
+from collections import Counter
 class Solution:
-    def customSortString(self, S: str, T: str) -> str:
+    def customSortString(self, order: str, s: str) -> str:
+
         output = []
-        count = collections.Counter(T)
-        for char in S:
-            output.append(char * count[char])
-            count[char] = 0
-            if count[char] == 0:
-                del count[char]
+        s_count = Counter(s)
+        for char in order:
+            output.append(char * s_count[char])
+            s_count[char] = 0
+            del s_count[char]
 
-        for char in count:
-            output.append(char * count[char])
-
+        for char in s_count:
+            output.append(char * s_count[char])
         return "".join(output)
