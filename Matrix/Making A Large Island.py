@@ -26,25 +26,26 @@ Explanation: Can't change any 0 to 1, only one island with area = 4.
 '''Time complexity is O(n*m), because we traverse our graph twice: 
 one with dfs and another when we were looking for empty cells. 
 Two Sum II - Input array is sortedSpace complxity is potentially O(n*m) as well.'''
-class Solution(object):
-    def largestIsland(self, grid):
-        N = len(grid)
 
-        def dfs(index, x, y):
-            if x < 0 or y < 0 or x >= row or y >= col or grid[x][y] != 1:
-                return
+from collections import Counter
+class Solution:
+    def largestIsland(self, grid: List[List[int]]) -> int:
+
+        def dfs(index, i, j):
             islands[index] += 1
-            grid[x][y] = index
+            grid[i][j] = index
             for dx, dy in direction:
-                xi = dx + x
-                yj = dy + y
-                dfs(index, xi, yj)
+                next_x = i + dx
+                next_y = j + dy
+                if 0 <= next_x < len(grid) and 0 <= next_y < len(grid[0]) and grid[next_x][next_y] == 1:
+                    dfs(index, next_x, next_y)
 
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         row = len(grid)
         col = len(grid[0])
-        direction = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-        islands = collections.Counter()
-        index = 2
+        islands = Counter()
+        index = 2  # index is used for grouping island count and keep track of visited island.
+
         for i in range(row):
             for j in range(col):
                 if grid[i][j] == 1:
@@ -52,16 +53,52 @@ class Solution(object):
                     index += 1
 
         result = 0
-        for x in range(row):
-            for y in range(col):
-                if grid[x][y] != 0:
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] != 0:
                     continue
-                neighbours = set()
+                neighbors = set()
                 for dx, dy in direction:
-                    xi = dx + x
-                    yj = dy + y
-                    if 0 <= xi < row and 0 <= yj < col and grid[xi][yj] != 0:
-                        neighbours.add((grid[xi][yj]))
-                result = max(result, sum(islands[i] for i in neighbours) + 1)
+                    next_x = i + dx
+                    next_y = j + dy
+                    if 0 <= next_x < len(grid) and 0 <= next_y < len(grid[0]) and grid[next_x][next_y] != 0:
+                        neighbors.add(grid[next_x][next_y])
+                result = max(result, sum(islands[i] for i in neighbors) + 1)
+
         return result if result else row * col
 
+
+# TLE
+from collections import deque
+class Solution:
+    def largestIsland(self, grid: List[List[int]]) -> int:
+
+        def bfs(i, j):
+            q.append((i, j))
+            visited = set()
+            visited.add((i, j))
+            count = 1
+            while q:
+                x, y = q.popleft()
+                for dx, dy in direction:
+                    next_x = x + dx
+                    next_y = y + dy
+                    if 0 <= next_x < len(grid) and 0 <= next_y < len(grid[0]) and (next_x, next_y) not in visited and \
+                            grid[next_x][next_y] == 1:
+                        count += 1
+                        visited.add((next_x, next_y))
+                        q.append((next_x, next_y))
+            return count
+
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        q = deque()
+        largestIsland = 0
+
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 0:
+                    grid[i][j] = 1
+                    island_count = bfs(i, j)
+                    largestIsland = max(largestIsland, island_count)
+                    grid[i][j] = 0
+        return largestIsland if largestIsland else len(grid) * len(grid[0])

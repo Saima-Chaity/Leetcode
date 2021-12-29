@@ -17,6 +17,7 @@ from collections import defaultdict
 class Solution:
     def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
 
+        # Sum of the indexes of diagonal elements is equal
         summation = defaultdict(list)
         result = list()
         for i in range(len(mat)):
