@@ -53,17 +53,19 @@ Explanation: One 1 at depth 1, one 4 at depth 2, and one 6 at depth 3; 1 + 4*2 +
 #        """
 
 class Solution:
-    def depthSum(self, nestedList: List[NestedInteger]) -> int:
-        return self.depthTotal(nestedList, 1)
+    def __init__(self):
+        self.result = 0
 
-    def depthTotal(self, nestedList, depth):
-        totalSum = 0
-        for num in nestedList:
-            if num.isInteger():
-                totalSum += num.getInteger() * depth
+    def getSum(self, nestedList, depth):
+        for item in nestedList:
+            if item.isInteger():
+                self.result += item.getInteger() * depth
             else:
-                totalSum += self.depthTotal(num.getList(), depth + 1)
-        return totalSum
+                self.getSum(item.getList(), depth + 1)
+
+    def depthSum(self, nestedList: List[NestedInteger]) -> int:
+        self.getSum(nestedList, 1)
+        return self.result
 
 
 # Nested List Weight Sum II - https://leetcode.com/problems/nested-list-weight-sum-ii/

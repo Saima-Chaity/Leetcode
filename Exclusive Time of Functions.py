@@ -20,7 +20,27 @@ executing for 1 time unit, the exclusive time is 2 + 1 = 3.
 Return the exclusive time of each function in an array, where the value at the ith index represents
 the exclusive time for the function with ID i.'''
 
+class Solution:
+    def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
 
+        stack = []
+        result = [0] * n
+        current_time = 0
+        for log in logs:
+            functionId, isStart, time = log.split(":")
+            time = int(time)
+            if isStart == 'end':
+                stack.pop()
+                result[int(functionId)] += time - current_time
+                current_time = time
+            else:
+                if stack and time > current_time:
+                    result[int(stack[-1])] += time - current_time - 1
+                stack.append(functionId)
+                current_time = time - 1
+        return result
+
+# Another approach
 class Solution:
     def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
 
@@ -42,4 +62,3 @@ class Solution:
                         0]] -= totalTime  # if stack is not empty means current stack still has a process running,
                                           # and that process need to reduce the other process running time
         return result
-
