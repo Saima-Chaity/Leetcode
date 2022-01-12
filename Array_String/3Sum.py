@@ -48,6 +48,26 @@ class Solution:
                 right -= 1
                 
 
+# Without sort
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+
+        if len(nums) < 3:
+            return []
+
+        result = set()
+        visited = set()
+        seen = {}
+        for i, value1 in enumerate(nums):
+            if value1 not in visited:
+                visited.add(value1)
+                for j, value2 in enumerate(nums[i + 1:]):
+                    currentTotal = -value1 - value2
+                    if currentTotal in seen and seen[currentTotal] == i:
+                        result.add(tuple(sorted((value1, value2, currentTotal))))
+                    seen[value2] = i
+        return result
+
 
 # 3Sum Smaller - https://leetcode.com/problems/3sum-smaller/
 '''Given an array of n integers nums and an integer target, find the number of index triplets i, j, k 

@@ -25,3 +25,26 @@ class Solution:
             char, lowestIndex = freq.popitem(last=False)
             left = lowestIndex + 1
     return maxLength
+
+
+# Using defaultdict
+from collections import defaultdict
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+
+        if not s:
+            return 0
+
+        freq = defaultdict(int)
+        right = 0
+        left = 0
+        result = 0
+        while right < len(s):
+            if s[right] not in freq:
+                freq[s[right]] = right
+                right += 1
+                result = max(result, right - left)
+            else:
+                del freq[s[left]]
+                left += 1
+        return result
