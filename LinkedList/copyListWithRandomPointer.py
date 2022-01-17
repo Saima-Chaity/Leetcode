@@ -45,10 +45,7 @@ class Solution:
         newNode = dummy.next
 
         while oldNode:
-            if oldNode.random:
-                newNode.random = mapping[oldNode.random]
-            if not oldNode.random:
-                newNode.random = None
+            newNode.random = mapping[oldNode.random] if oldNode.random else None
             oldNode = oldNode.next
             newNode = newNode.next
         return dummy.next
