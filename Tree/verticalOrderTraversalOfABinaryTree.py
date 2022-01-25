@@ -76,3 +76,38 @@ class Solution:
             else:
                 results[x] = [value]
         return results.values()
+
+
+# Partial sorting
+from collections import defaultdict, deque
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+
+        if not root:
+            return []
+
+        group = defaultdict(list)
+        q = deque([(root, 0, 0)])
+        result = []
+        min_x, max_x = float('inf'), float('-inf')
+        while q:
+            for _ in range(len(q)):
+                node, x, y = q.popleft()
+                if node:
+                    group[x].append((y, node.val))
+                    min_x = min(x, min_x)
+                    max_x = max(x, max_x)
+                    if node.left:
+                        q.append((node.left, x - 1, y + 1))
+                    if node.right:
+                        q.append((node.right, x + 1, y + 1))
+
+        for i in range(min_x, max_x + 1):
+            result.append(value for y, value in sorted(group[i]))
+        return result
