@@ -28,3 +28,27 @@ class Solution:
                 maxIndex = maxIndexSoFar
         num[minIndex], num[maxIndex] = num[maxIndex], num[minIndex]
         return int("".join(map(str, num)))
+
+
+# Using stack
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+
+        num = list(str(num))
+        stack = []
+        minIndex = float('inf')
+        for i in range(len(num)):
+            while stack and num[stack[-1]] < num[i]:
+                minIndex = min(minIndex, stack.pop())
+            stack.append(i)
+
+        if minIndex == float('inf'):
+            return int("".join(map(str, num)))
+
+        maxIndex = minIndex
+        for index in stack:
+            if index >= minIndex and num[index] >= num[maxIndex]:
+                maxIndex = index
+
+        num[minIndex], num[maxIndex] = num[maxIndex], num[minIndex]
+        return int("".join(map(str, num)))

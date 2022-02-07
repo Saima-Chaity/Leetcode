@@ -35,19 +35,16 @@ Output: 0'''
 # Start at Top Right, Move Only Left and Down
 class Solution:
     def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
-        matrixDimensions = binaryMatrix.dimensions()
-        rows = matrixDimensions[0]
-        cols = matrixDimensions[1]
+        row, col = binaryMatrix.dimensions()
         current_row = 0
-        current_cols = cols - 1
+        current_col = col - 1
 
-        while current_row < rows and current_cols >= 0:
-            if binaryMatrix.get(current_row, current_cols) == 0:
+        while current_row < row and current_col >= 0:
+            if binaryMatrix.get(current_row, current_col) == 0:
                 current_row += 1
             else:
-                current_cols -= 1
-
-        return current_cols + 1 if current_cols != cols - 1 else -1
+                current_col -= 1
+        return current_col + 1 if current_col != col - 1 else -1
 
 
 # """
@@ -61,11 +58,8 @@ class Solution:
 # Binary Search
 class Solution:
     def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
-        matrixDimensions = binaryMatrix.dimensions()
-        rows = matrixDimensions[0]
-        cols = matrixDimensions[1]
-        smallestIndex = float('inf')
-
+        rows, cols = binaryMatrix.dimensions()
+        leftMostIndex = float('inf')
         for row in range(rows):
             low = 0
             high = cols - 1
@@ -76,5 +70,5 @@ class Solution:
                 else:
                     high = mid
             if binaryMatrix.get(row, low) == 1:
-                smallestIndex = min(smallestIndex, low)
-        return smallestIndex if smallestIndex != float('inf') else -1
+                leftMostIndex = min(leftMostIndex, low)
+        return leftMostIndex if leftMostIndex != float('inf') else -1

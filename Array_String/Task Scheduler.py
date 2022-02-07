@@ -26,6 +26,24 @@ Explanation: On this case any permutation of size 6 would work since n = 0.
 ...
 And so on.'''
 
+# Time complexity - 0(n)
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+
+        frequencies = [0] * 26
+        for task in tasks:
+            frequencies[ord(task) - ord('A')] += 1
+
+        frequencies.sort()
+        max_freq = frequencies.pop()
+        idle_time = (max_freq - 1) * n
+        while frequencies and idle_time > 0:
+            idle_time -= min(max_freq - 1, frequencies.pop())
+
+        idle_time = max(0, idle_time)
+        return len(tasks) + idle_time
+
+
 from collections import Counter
 import heapq
 
@@ -55,4 +73,5 @@ class Solution:
             for item in tempTaskHolder:
                 heapq.heappush(heap, (item))
         return taskCount
+
 

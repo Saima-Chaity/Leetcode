@@ -13,31 +13,29 @@ Input:
 Output: [1, 3, 9]'''
 
 
+from collections import deque
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def largestValues(self, root: TreeNode) -> List[int]:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+
         if not root:
             return []
-
-        q = [root]
+        q = deque([root])
         output = []
-        maxValue = float('-inf')
-
         while q:
-            for i in range(len(q)):
-                node = q.pop(0)
+            max_value = float('-inf')
+            for _ in range(len(q)):
+                node = q.popleft()
                 if node:
-                    maxValue = max(maxValue, node.val)
+                    max_value = max(max_value, node.val)
                     if node.left:
                         q.append(node.left)
                     if node.right:
                         q.append(node.right)
-            output.append(maxValue)
-            maxValue = float('-inf')
+            output.append(max_value)
         return output
