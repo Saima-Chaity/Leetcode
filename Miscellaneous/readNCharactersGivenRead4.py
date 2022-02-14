@@ -1,5 +1,4 @@
 # Read N Characters Given Read4 - https://leetcode.com/problems/read-n-characters-given-read4/
-# Read N Characters Given Read4 II - Call multiple times - https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/
 
 '''Given a file and assume that you can only read the file using a given method read4, implement a method to read n characters.
 
@@ -85,4 +84,33 @@ class Solution:
                 if readFile == 0:
                     break
                 self.q.extend(buf4[:readFile])
+        return i
+
+
+# Read N Characters Given Read4 II - Call multiple times - https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/
+
+# The read4 API is already defined for you.
+# def read4(buf4: List[str]) -> int:
+from collections import deque
+class Solution:
+    def __init__(self):
+        self.q = deque()
+        self.buf4 = [''] * 4
+
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Number of characters to read (int)
+        :rtype: The number of actual characters read (int)
+        """
+        i = 0
+        while i < n:
+            if self.q:
+                buf[i] = self.q.popleft()
+                i += 1
+            else:
+                readFile = read4(self.buf4)
+                if readFile == 0:
+                    break
+                self.q.extend(self.buf4[:readFile])
         return i

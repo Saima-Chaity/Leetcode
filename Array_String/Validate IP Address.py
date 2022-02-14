@@ -29,37 +29,33 @@ Output: "IPv6"
 Explanation: This is a valid IPv6 address, return "IPv6".
 '''
 
+
 class Solution:
     def validIPAddress(self, queryIP: str) -> str:
 
-        allowed_char = ['A', 'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f']
-
-        def isIPV6(query_ip):
-            splited_ip = query_ip.split(":")
-            if len(splited_ip) != 8:
-                return 'Neither'
-            for ip in splited_ip:
-                if not ip or len(ip) > 4:
-                    return 'Neither'
-                for char in ip:
-                    if not char.isdigit() and char not in allowed_char:
-                        return 'Neither'
-            return 'IPv6'
-
-        def isIPV4(query_ip):
-            splited_ip = query_ip.split(".")
-            if len(splited_ip) != 4:
-                return 'Neither'
+        def isValidIPv4(queryIP):
+            splited_ip = queryIP.split(".")
             for ip in splited_ip:
                 if len(ip) > 1 and ip[0] == '0':
                     return 'Neither'
-                if not ip or not ip.isdigit() or int(ip) < 0 or int(ip) > 255:
+
+                if not ip.isdigit() or len(ip) == 0 or int(ip) < 0 or int(ip) >= 256:
                     return 'Neither'
             return 'IPv4'
 
-        if queryIP.count('.') == 3:
-            return isIPV4(queryIP)
-        if queryIP.count(':') == 7:
-            return isIPV6(queryIP)
-        else:
-            return 'Neither'
+        def isValidIPv6(queryIP):
+            splited_ip = queryIP.split(":")
+            for ip in splited_ip:
+                if len(ip) == 0 or len(ip) > 4:
+                    return 'Neither'
+                for item in ip:
+                    if item.isalpha() and item not in allowed_chars:
+                        return 'Neither'
+            return 'IPv6'
+
+        allowed_chars = {"A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f"}
+        if queryIP.count(".") == 3:
+            return isValidIPv4(queryIP)
+        elif queryIP.count(":") == 7:
+            return isValidIPv6(queryIP)
+        return 'Neither'
