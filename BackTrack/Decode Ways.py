@@ -26,27 +26,21 @@ Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).'''
 
 class Solution:
     def numDecodings(self, s: str) -> int:
-
-        def backTrack(index, s):
+        def decodeWays(index, s):
+            if index > len(s):
+                return 0
             if index == len(s):
                 return 1
-
             if s[index] == '0':
                 return 0
-
-            if index == len(s) - 1:
-                return 1
-
             if index in memo:
                 return memo[index]
-
-            output = backTrack(index + 1, s)
+            output = decodeWays(index + 1, s)
             if int(s[index:index + 2]) <= 26:
-                output += backTrack(index + 2, s)
-
+                output += decodeWays(index + 2, s)
             memo[index] = output
             return memo[index]
 
         memo = {}
-        return backTrack(0, s)
+        return decodeWays(0, s)
 

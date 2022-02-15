@@ -30,24 +30,23 @@ Explanation: The word "internationalization" can be abbreviated as "i12iz4n" ("i
 class Solution:
     def validWordAbbreviation(self, word: str, abbr: str) -> bool:
 
-        wordIndex = 0
-        abbreviation_index = 0
-        while abbreviation_index < len(abbr) and wordIndex < len(word):
-            char = abbr[abbreviation_index]
-            if abbr[abbreviation_index].isdigit():
-                if abbr[abbreviation_index] == '0':
+        i = 0
+        j = 0
+        number = 0
+        while i < len(word) and j < len(abbr):
+            if abbr[j].isdigit():
+                number = 10 * number + int(abbr[j])
+                if number == 0:
                     return False
-                abbreviation_number = 0
-                while abbreviation_index < len(abbr) and abbr[abbreviation_index].isdigit():
-                    abbreviation_number = abbreviation_number * 10 + int(abbr[abbreviation_index])
-                    abbreviation_index += 1
-                wordIndex += abbreviation_number
-                if wordIndex > len(word):
-                    return False
+                j += 1
             else:
-                if char != word[wordIndex]:
+                i += number
+                if i >= len(word) or word[i] != abbr[j]:
                     return False
-                elif char == word[wordIndex]:
-                    wordIndex += 1
-                    abbreviation_index += 1
-        return wordIndex == len(word) and abbreviation_index == len(abbr)
+                number = 0
+                i += 1
+                j += 1
+
+        i += number
+        return i == len(word) and j == len(abbr)
+

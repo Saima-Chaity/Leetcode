@@ -25,19 +25,15 @@ Then 4 is the first bad version.'''
 # def isBadVersion(version):
 
 class Solution:
-    def firstBadVersion(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        low = 0
-        high = n
-        while low < high:
-            mid = low + (high-low) // 2
+    def firstBadVersion(self, n: int) -> int:
+        left = 1
+        right = n
+        while left < right:
+            mid = left + (right -left) // 2
             _isBadVersion = isBadVersion(mid)
             if not _isBadVersion:
-                low = mid + 1
+                left = mid + 1
             else:
-                high = mid
-        return low
+                right = mid
+        return left
                 

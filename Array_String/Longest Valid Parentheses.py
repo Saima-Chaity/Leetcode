@@ -30,9 +30,10 @@ class Solution:
                 left += 1
             else:
                 right += 1
+
             if left == right:
-                maxLength = max(maxLength, 2 * right)
-            elif right >= left:
+                maxLength = max(maxLength, 2 * left)
+            elif right > left:
                 left = right = 0
 
         left = 0
@@ -42,9 +43,10 @@ class Solution:
                 left += 1
             else:
                 right += 1
+
             if left == right:
                 maxLength = max(maxLength, 2 * left)
-            elif right <= left:
+            elif left > right:
                 left = right = 0
         return maxLength
 
