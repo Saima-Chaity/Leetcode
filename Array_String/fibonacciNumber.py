@@ -24,3 +24,16 @@ class Solution:
         for i in range(2, N+1):
             memo[i] = memo[i-1] + memo[i-2]
         return memo[N]
+
+
+# Space optimization
+class Solution:
+    def fib(self, n: int) -> int:
+
+        if n < 3:
+            return 1 if n else 0
+
+        x, y, = 0, 1
+        for i in range(2, n + 1):
+            x, y = y, x + y
+        return y
