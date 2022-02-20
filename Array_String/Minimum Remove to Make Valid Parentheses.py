@@ -45,3 +45,25 @@ class Solution:
             s[index] = ""
 
         return "".join(s)
+
+
+# Without stack
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+
+        def removeInvalid(s, open_parentheses, close_parentheses):
+            output = []
+            invalidCount = 0
+            for i in range(len(s)):
+                if s[i] == open_parentheses:
+                    invalidCount += 1
+                elif s[i] == close_parentheses:
+                    if invalidCount == 0:
+                        continue
+                    invalidCount -= 1
+                output.append(s[i])
+            return "".join(output)
+
+        s = removeInvalid(s, "(", ")")
+        s = removeInvalid(s[::-1], ")", "(")
+        return s[::-1]
