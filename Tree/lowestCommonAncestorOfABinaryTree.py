@@ -60,7 +60,7 @@ class Solution:
                 return root
 
             if not left and not right:
-                return None
+                return False
             return left or right
 
 

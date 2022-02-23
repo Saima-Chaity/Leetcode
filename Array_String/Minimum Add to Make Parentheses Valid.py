@@ -43,16 +43,13 @@ class Solution:
 class Solution:
     def minAddToMakeValid(self, s: str) -> int:
 
-        count = 0
-        balance = 0
+        opening, closing = 0, 0
         for i in range(len(s)):
             if s[i] == "(":
-                balance += 1
+                opening += 1
             elif s[i] == ")":
-                if balance:
-                    balance -= 1
+                if opening:
+                    opening -= 1
                 else:
-                    count += 1
-
-        count += balance
-        return count
+                    closing += 1
+        return opening + closing

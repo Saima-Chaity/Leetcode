@@ -27,8 +27,7 @@ class Solution:
         stack = []
         for char in s:
             if stack and stack[-1] == char:
-                while stack and stack[-1] == char:
-                    stack.pop()
+                stack.pop()
             else:
                 stack.append(char)
         return "".join(stack)
@@ -63,20 +62,19 @@ class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
 
         stack = []
-        for index, char in enumerate(s):
+        for char in s:
             if stack and stack[-1][0] == char:
-                topChar, count = stack.pop()
-                if count < k:
-                    stack.append((topChar, count + 1))
-                else:
+                if stack[-1][1] == k:
                     stack.pop()
+                else:
+                    stack[-1] = (char, stack[-1][1] + 1)
+                    if stack[-1][1] == k:
+                        stack.pop()
             else:
                 stack.append((char, 1))
 
-            while stack and stack[-1][0] == char and stack[-1][1] == k:
-                stack.pop()
-
         result = ""
-        for char, count in stack:
-            result += char * count
-        return result
+        while stack:
+            char, freq = stack.pop()
+            result += char * freq
+        return result[::-1]

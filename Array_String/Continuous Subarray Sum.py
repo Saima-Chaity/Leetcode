@@ -18,6 +18,20 @@ Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and su
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
 
+        '''
+           /*
+            ->  Idea is simple,if we want sum between index (3,5)
+                we can get is using prefix concept ,means (0,5)-(0,2) means sum1-sum2
+           ->   now we want (sum1-sum2)%k==0
+                we can also say sum1%k-sum2%k=0
+                sum1%k=sum2%k means rem1=rem2
+            ->. if at jth index we are getting rem2 and it is eaual to rem1 which is at ith index
+                mean we can  say sum1%k=sum2%k
+
+                 final conclusion is that we have seen this remainder before.
+            */
+        '''
+
         mapping = {}
         mapping[0] = -1 # using -1 because for [1, 5] and k =6 at i = 1 sum will be sum % k = 0.
                         # So we need a key 0 in the map.Now i - map[sum] > 1 will return true

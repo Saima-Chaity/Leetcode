@@ -64,36 +64,28 @@ class Node:
         self.left = left
         self.right = right
 """
-
-
 class Solution:
-    def treeToDoublyList(self, root: 'Node') -> 'Node':
-
-        def helper(node):
-            nonlocal firstNode, lastNode
-            if node:
-                helper(node.left)
-
-                if not firstNode:
-                    firstNode = node
-
-                if lastNode:
-                    lastNode.right = node
-                    node.left = lastNode
-
-                lastNode = node
-                helper(node.right)
+    def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
 
         if not root:
             return None
 
-        firstNode = None
-        lastNode = None
-        helper(root)
+        def convertToDoublyList(root):
+            nonlocal dummy, prev
+            if root:
+                convertToDoublyList(root.left)
+                if prev:
+                    prev.right = root
+                    root.left = prev
 
-        firstNode.left = lastNode
-        lastNode.right = firstNode
-        return firstNode
+                prev = root
+                convertToDoublyList(root.right)
+
+        dummy = prev = Node(0)
+        convertToDoublyList(root)
+        dummy.right.left = prev
+        prev.right = dummy.right
+        return dummy.right
 
 
 # Another approach

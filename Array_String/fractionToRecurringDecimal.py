@@ -13,16 +13,18 @@ Output: "0.(6)"
 
 class Solution:
     def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+
         output = []
         if numerator * denominator < 0:
             output.append("-")
+
         numerator = abs(numerator)
         denominator = abs(denominator)
-        result = (numerator // denominator)
-        remainder = numerator % denominator
+        result, remainder = divmod(numerator, denominator)
         output.append(str(result))
         if not remainder:
             return "".join(output)
+
         output.append(".")
         mapping = {}
         while remainder:
