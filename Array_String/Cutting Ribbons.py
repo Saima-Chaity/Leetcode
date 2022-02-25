@@ -27,6 +27,7 @@ Explanation:
 Now you have 3 ribbons of length 5.
 '''
 
+'''binary search : Time complexity: O(n*logK)'''
 class Solution:
     def maxLength(self, ribbons: List[int], k: int) -> int:
 

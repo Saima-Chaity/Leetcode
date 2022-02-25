@@ -14,17 +14,15 @@ In the above grid, the diagonals are:
 In each diagonal all elements are the same, so the answer is True.
 '''
 
-from collections import defaultdict
 class Solution:
     def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
 
-        summation = defaultdict(list)
+        mapping = {}
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
-                summation[i - j].append(matrix[i][j])
-                values = summation[i - j]
-                if len(values) > 1 and values[-1] != values[-2]:
+                if (i - j) in mapping and mapping[i - j] != matrix[i][j]:
                     return False
+                mapping[i - j] = matrix[i][j]
         return True
 
 
