@@ -41,7 +41,7 @@ class Solution:
         s_count = Counter(s)
         # If the number of characters with odd number of occurences exceeds 1, 
         # it indicates that no palindromic permutation is possible for s
-        mid = [char for char, freq in s_count.items() if freq%2]
+        mid = [char for char, freq in s_count.items() if freq%2==1]
         if len(mid) > 1:
             return []
         mid = "" if mid == [] else mid[0]

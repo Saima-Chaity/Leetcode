@@ -18,6 +18,10 @@ Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] =>
 '''
 
 
+'''
+we also sort decreasing on the second dimension, so two envelopes that are equal in the first dimension 
+can never be in the same increasing subsequence'''
+
 class Solution:
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
 

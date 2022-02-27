@@ -44,6 +44,7 @@ class Solution:
 
 # Level order traversal
 # Definition for a Node.
+from collections import deque
 class Node:
     def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
         self.val = val
@@ -56,17 +57,18 @@ class Solution:
         if not root:
             return None
 
-        queue = collections.deque([root])
-        while queue:
-            queueLength = len(queue)
-            for i in range(queueLength):
-                node = queue.popleft()
-                if i < queueLength - 1:
-                    node.next = queue[0]
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
+        q = deque([root])
+        while q:
+            qLength = len(q)
+            for i in range(qLength):
+                node = q.popleft()
+                if node:
+                    if i < qLength-1:
+                        node.next = q[0]
+                    if node.left:
+                        q.append(node.left)
+                    if node.right:
+                        q.append(node.right)
         return root
 
 
@@ -100,18 +102,18 @@ class Solution:
         if not root:
             return None
 
-        queue = deque([root])
-        nextLevel = deque([])
-        while queue:
-            node = queue.popleft()
-            if node.left:
-                nextLevel.append(node.left)
-            if node.right:
-                nextLevel.append(node.right)
-            if queue:
-                node.next = queue[0]
-            if not queue and nextLevel:
-                queue, nextLevel = nextLevel, queue
+        q = deque([root])
+        while q:
+            qLength = len(q)
+            for i in range(qLength):
+                node = q.popleft()
+                if node:
+                    if i < qLength-1:
+                        node.next = q[0]
+                    if node.left:
+                        q.append(node.left)
+                    if node.right:
+                        q.append(node.right)
         return root
 
 
