@@ -34,3 +34,36 @@ class Solution:
 
         memo = {}
         return _isPalindrome(0, len(s) - 1, k)
+
+
+# Bottom-up 2D
+class Solution:
+    def isValidPalindrome(self, s: str, k: int) -> bool:
+
+        dp = [[0 for _ in range(len(s)+1)] for _ in range(len(s)+1)]
+        for i in range(len(s)-2, -1, -1):
+            for j in range(i+1, len(s)):
+                if s[i] == s[j]:
+                    dp[i][j] = dp[i+1][j-1]
+                else:
+                    dp[i][j] = 1 + min(dp[i+1][j], dp[i][j-1])
+        return dp[0][len(s)-1] <= k
+
+
+# Bottom - up 1D
+class Solution:
+    def isValidPalindrome(self, s: str, k: int) -> bool:
+
+        memo = [0 for _ in range(len(s)+1)]
+        temp = 0
+        prev = 0
+        for i in range(len(s)-2, -1, -1):
+            prev = 0
+            for j in range(i+1, len(s)):
+                temp = memo[j]
+                if s[i] == s[j]:
+                    memo[j] = prev
+                else:
+                    memo[j] = 1 + min(memo[j], memo[j-1])
+                prev = temp
+        return memo[len(s)-1] <= k

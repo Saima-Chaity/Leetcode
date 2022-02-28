@@ -28,43 +28,39 @@ from collections import defaultdict
 class FileSystem:
 
     def __init__(self):
-        self.fileStructure = defaultdict(str)
+        self.filesPath = defaultdict(str)
         self.trie = {}
 
     def ls(self, path: str) -> List[str]:
         if len(path) == 1:
             return sorted(self.trie.keys())
-        if path in self.fileStructure:
+        if path in self.filesPath:
             return path.split("/")[-1:]
         else:
             t = self.trie
-            splitedPath = path.split("/")
-            for i in range(len(splitedPath)):
-                current = splitedPath[i]
-                if current == "":
+            for char in path.split("/"):
+                if char == "":
                     continue
-                if current in t:
-                    t = t[current]
+                if char in t:
+                    t = t[char]
             return sorted(t.keys())
 
     def mkdir(self, path: str) -> None:
         t = self.trie
-        if path not in self.fileStructure:
-            splitedPath = path.split("/")
-            for name in splitedPath:
-                current = name
-                if current == "":
-                    continue
-                if current not in t:
-                    t[current] = {}
-                t = t[current]
+        for char in path.split("/"):
+            if char == "":
+                continue
+            if char not in t:
+                t[char] = {}
+            t = t[char]
 
     def addContentToFile(self, filePath: str, content: str) -> None:
-        self.mkdir(filePath)
-        self.fileStructure[filePath] += content
+        if filePath not in self.filesPath:
+            self.mkdir(filePath)
+        self.filesPath[filePath] += content
 
     def readContentFromFile(self, filePath: str) -> str:
-        return self.fileStructure[filePath]
+        return self.filesPath[filePath]
 
 # Your FileSystem object will be instantiated and called as such:
 # obj = FileSystem()
