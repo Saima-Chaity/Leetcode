@@ -22,7 +22,7 @@ class Solution:
         def dfs(nums, index, targetSum):
             if targetSum == 0:
                 return True
-            if targetSum < 0 or index == 0:
+            if targetSum < 0 or (targetSum > 0 and index == 0):
                 return False
             if targetSum in memo:
                 return memo[targetSum]
