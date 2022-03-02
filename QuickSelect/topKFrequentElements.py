@@ -33,14 +33,15 @@ class Solution:
 
         count = Counter(nums)
         bucket = [[] for _ in range(len(nums) + 1)]
-        for key, value in count.items():
-            bucket[value].append(key)
+        for num, freq in count.items():
+            bucket[freq].append(num)
 
         output = []
-        for item in bucket:
-            for num in item:
+        for i in range(len(bucket) - 1, -1, -1):
+            for num in bucket[i]:
                 output.append(num)
-        return output[::-1][:k]
+                if len(output) == k:
+                    return output
 
 
 # Quickselect

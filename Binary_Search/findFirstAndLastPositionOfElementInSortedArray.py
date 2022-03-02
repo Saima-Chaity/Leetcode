@@ -12,26 +12,46 @@ Example 1:
 Input: nums = [5,7,7,8,8,10], target = 8
 Output: [3,4]'''
 
+
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
 
-        def search(nums, target, isLeft):
-
-            low = 0
-            high = len(nums)
-            while low < high:
-                mid = low + (high - low) // 2
-                if nums[mid] > target or (isLeft and nums[mid] == target):
-                    high = mid
+        def findLeftMostIndex():
+            left = 0
+            right = len(nums) - 1
+            leftMost = -1
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] < target:
+                    left = mid + 1
+                elif nums[mid] > target:
+                    right = mid - 1
                 else:
-                    low = mid + 1
-            return low
+                    leftMost = mid
+                    right = mid - 1
+            return leftMost
 
-        leftIndex = search(nums, target, True)
-        if leftIndex == len(nums) or nums[leftIndex] != target:
+        def findRightMostIndex():
+            left = 0
+            right = len(nums) - 1
+            rightMost = -1
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] < target:
+                    left = mid + 1
+                elif nums[mid] > target:
+                    right = mid - 1
+                else:
+                    rightMost = mid
+                    left = mid + 1
+            return rightMost
+
+        left = findLeftMostIndex()
+        if left == -1:
             return [-1, -1]
-        rightIndex = search(nums, target, False)
-        return [leftIndex, rightIndex - 1]
+        right = findRightMostIndex()
+        return [left, right]
+
 
 # Another approach
 class Solution:
