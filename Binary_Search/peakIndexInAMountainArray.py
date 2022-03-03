@@ -27,3 +27,21 @@ class Solution:
             if i > 0 and arr[i] > arr[i-1] and arr[i] > arr[i+1]:
                 peakIndex = i
         return peakIndex
+
+
+# Binary search
+class Solution:
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+
+        left = 0
+        right = len(arr) - 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if (mid == 0 or arr[mid] > arr[mid - 1]) and (mid == len(arr) - 1 or arr[mid] > arr[mid + 1]):
+                return mid
+            elif mid > 0 and arr[mid] < arr[mid - 1]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
+

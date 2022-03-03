@@ -25,6 +25,14 @@ class Solution:
         rows = len(grid)
         cols = len(grid[0])
         q = deque([(0, 0, 1)])
+        '''Another way to generate direction
+        direction = []
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == 0 and j == 0:
+                    continue
+                direction.append((i, j))
+        '''
         directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
         grid[0][0] = 1
 
