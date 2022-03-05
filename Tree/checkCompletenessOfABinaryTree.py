@@ -12,26 +12,24 @@ Output: true
 Explanation: Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last
 level ({4, 5, 6}) are as far left as possible.'''
 
-
+from collections import deque
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def isCompleteTree(self, root: TreeNode) -> bool:
-        if not root:
-            return False
+    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
 
-        q = [root]
-        while q[0] != None:
-            node = q.pop(0)
+        q = deque([root])
+        while q[0] is not None:
+            node = q.popleft()
             q.append(node.left)
             q.append(node.right)
 
-        while len(q) > 0 and q[0] == None:
-            q.pop(0)
+        while q and q[0] == None:
+            q.popleft()
         return len(q) == 0
+
 

@@ -15,6 +15,7 @@ Output: 4'''
 from collections import deque
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
+
         direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         row = len(grid)
         col = len(grid[0])
@@ -25,7 +26,7 @@ class Solution:
             for j in range(col):
                 if grid[i][j] == 2:
                     q.append((i, j))
-                    grid[i][j] = -1 #Visited cell
+                    grid[i][j] = -1  # Visited cell
                 if grid[i][j] == 1:
                     freshOrange += 1
 
@@ -36,10 +37,9 @@ class Solution:
                 for dx, dy in direction:
                     x = i + dx
                     y = j + dy
-                    if 0 <= x < row and 0 <= y < col and grid[x][y] != -1 and grid[x][y] == 1:
-                        grid[x][y] = 2
+                    if 0 <= x < row and 0 <= y < col and grid[x][y] == 1:
                         q.append((x, y))
-                        grid[x][y] = -1 #Visited cell
+                        grid[x][y] = -1  # Visited cell
                         freshOrange -= 1
                         if not updated:
                             minuteRequired += 1

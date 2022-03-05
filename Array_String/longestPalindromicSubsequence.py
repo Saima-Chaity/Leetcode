@@ -20,27 +20,28 @@ One possible longest palindromic subsequence is "bb".'''
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
 
-        memo = {}
-        def helper(s):
-            if s in memo:
-                return memo[s]
-            
-            if not s:
-                return 0
-            
-            if len(s) == 1:
-                return 1
-            
-            if s[0] == s[-1]: # first and last character are same
-                output = 2 + helper(s[1:-1])
-            else: # first and last character are not same, branches off into 2 paths
-                output = max(helper(s[1:]), helper(s[:-1]))
-            
-            memo[s] = output
-            return output
-            
-        return helper(s)
+        if len(s) == 1:
+            return 1
 
+        def backTrack(i, j):
+            if i > j:
+                return 0
+
+            if i == j:
+                return 1
+
+            if (i, j) in memo:
+                return memo[(i, j)]
+
+            if s[i] == s[j]: # first and last character are same
+                memo[(i, j)] = 2 + backTrack(i + 1, j - 1)
+            else: # first and last character are not same, branches off into 2 paths
+                memo[(i, j)] = max(backTrack(i + 1, j), backTrack(i, j - 1))
+            return memo[(i, j)]
+
+        self.length = 0
+        memo = {}
+        return backTrack(0, len(s) - 1)
 
 # DP
 class Solution:
