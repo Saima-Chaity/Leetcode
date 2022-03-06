@@ -12,52 +12,31 @@ class ListNode:
         self.val = val
         self.next = next
 
-'''The steps we need to do are:
-
-Find the end of the first half.
-Reverse the second half.
-Determine whether or not there is a palindrome.
-Restore the list.
-Return the result.'''
-
 class Solution:
-    def isPalindrome(self, head: ListNode) -> bool:
-        if not head:
-            return True
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
 
-        firstHalf = self.endOfFirstHalf(head)
-        secondHalf = self.reverse(firstHalf.next)
+        def reverse(node):
+            prev = None
+            while node:
+                nextNode = node.next
+                node.next = prev
+                prev = node
+                node = nextNode
+            return prev
 
-        result = True
-        firstPosition = head
-        secondPosition = secondHalf
+        def find(node):
+            slow = node
+            fast = node
+            while fast and fast.next:
+                slow = slow.next
+                fast = fast.next.next
+            return slow
 
-        while result and secondPosition is not None:
-            if firstPosition.val != secondPosition.val:
-                result = False
-            firstPosition = firstPosition.next
-            secondPosition = secondPosition.next
-
-        firstHalf.next = self.reverse(secondHalf)
-        return result
-
-    def endOfFirstHalf(self, head):
-        slow = head
-        fast = head
-
-        while fast.next and fast.next.next:
-            slow = slow.next
-            fast = fast.next.next
-        return slow
-
-    def reverse(self, head):
-        prevNode = None
-        currentNode = head
-
-        while currentNode is not None:
-            nextNode = currentNode.next
-            currentNode.next = prevNode
-            prevNode = currentNode
-            currentNode = nextNode
-        return prevNode
-
+        secondHalf = find(head)
+        reverseSecondHalf = reverse(secondHalf)
+        while reverseSecondHalf:
+            if head.val != reverseSecondHalf.val:
+                return False
+            reverseSecondHalf = reverseSecondHalf.next
+            head = head.next
+        return True

@@ -21,13 +21,13 @@ class Solution:
 
         if k <= arr[0] - 1:
             return k
-        k -= arr[0] - 1
-        for i in range(len(arr) - 1):
-            current_missing = arr[i + 1] - arr[i] - 1
-            if k <= current_missing:
-                return arr[i] + k
-            k -= current_missing
-        return arr[-1] + k
+        k -= arr[0] -1
+        for i in range(1, len(arr)):
+            diff = arr[i] - arr[i-1] - 1
+            if diff >= k:
+                return arr[i-1] + k
+            k -= diff
+        return arr[len(arr)-1] + k
 
 
 # Binary Search

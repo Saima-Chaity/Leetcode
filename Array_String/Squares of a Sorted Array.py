@@ -13,22 +13,22 @@ Example 2:
 Input: nums = [-7,-3,2,3,11]
 Output: [4,9,9,49,121]'''
 
+
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
 
         start = 0
-        end = len(nums)-1
-        i = end
-        output = [0] * (end+1)
+        end = len(nums) - 1
+        lastIndex = end
+        result = [0] * len(nums)
         while start <= end:
-            startNumber = nums[start] * nums[start]
-            endNumber = nums[end] * nums[end]
-            if startNumber > endNumber:
-                output[i] = startNumber
-                i -= 1
+            start_square = nums[start] * nums[start]
+            end_square = nums[end] * nums[end]
+            if start_square > end_square:
+                result[lastIndex] = start_square
                 start += 1
             else:
-                output[i] = endNumber
-                i -= 1
+                result[lastIndex] = end_square
                 end -= 1
-        return output
+            lastIndex -= 1
+        return result

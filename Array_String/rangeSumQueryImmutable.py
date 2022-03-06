@@ -32,9 +32,9 @@ class NumArray(object):
         initialize data structure here.
         :type nums: List[int]
         """
-        self.accu = [0]
-        for num in nums:
-            self.accu += self.accu[-1] + num,
+        self.accu = [0] * (len(nums)+1)
+        for i in range(len(nums)):
+            self.accu[i+1] = self.accu[i] + nums[i]
 
     def sumRange(self, i, j):
         """
