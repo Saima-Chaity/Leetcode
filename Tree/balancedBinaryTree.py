@@ -27,7 +27,7 @@ class Solution:
             return True
         self.output = True
         def getDepth(root):
-            if not root or not self.output:
+            if not root:
                 return 0
             left = getDepth(root.left)
             right = getDepth(root.right)

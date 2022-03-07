@@ -70,77 +70,44 @@ words = ["oath","pea","eat","rain"]
 
 Output: ["eat","oath"]'''
 
-
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        trie = {}
+
+        self.trie = {}
         for word in words:
-            t = trie
+            t = self.trie
             for char in word:
                 if char not in t:
                     t[char] = {}
                 t = t[char]
-            t["#"] = "#"
+            t["#"] = word
 
-        row = len(board)
-        col = len(board[0])
-        self.output = set()
-
-        for i in range(row):
-            for j in range(col):
-                self.checkNeighbor(i, j, board, trie, "")
+        self.direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        self.output = []
+        self.row = len(board)
+        self.col = len(board[0])
+        self.board = board
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] in self.trie:
+                    self.dfs(i, j, self.trie)
         return self.output
 
-    def checkNeighbor(self, i, j, board, trie, path):
-        if "#" in trie:
-            self.output.add(path)
-        if i < 0 or j < 0 or i >= len(board) or j >= len(board[0]) or board[i][j] not in trie:
-            return
-        temp = board[i][j]
-        board[i][j] = "@"
-        self.checkNeighbor(i + 1, j, board, trie[temp], path + temp)
-        self.checkNeighbor(i - 1, j, board, trie[temp], path + temp)
-        self.checkNeighbor(i, j + 1, board, trie[temp], path + temp)
-        self.checkNeighbor(i, j - 1, board, trie[temp], path + temp)
-        board[i][j] = temp
+    def dfs(self, i, j, trie):
 
+        temp = self.board[i][j]
+        current = trie[temp]
+        word_match = current.pop("#", False)
+        if word_match:
+            self.output.append(word_match)
 
-# Modified previous solution
-class Solution:
-    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        self.board[i][j] = "@"
+        for dx, dy in self.direction:
+            x = i + dx
+            y = j + dy
+            if 0 <= x < self.row and 0 <= y < self.col and self.board[x][y] != "@" and self.board[x][y] in current:
+                self.dfs(x, y, current)
 
-        def dfs(x, y, trie, path):
-            if "#" in trie:
-                output.add(path)
-
-            for dx, dy in directions:
-                xi = x + dx
-                yj = y + dy
-                if 0 <= xi < rows and 0 <= yj < cols and board[xi][yj] != "@" and board[xi][yj] in trie:
-                    temp = board[xi][yj]
-                    board[xi][yj] = '@'
-                    dfs(xi, yj, trie[temp], path + temp)
-                    board[xi][yj] = temp
-
-        rows = len(board)
-        cols = len(board[0])
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        output = set()
-        trie = {}
-
-        for word in words:
-            t = trie
-            for char in word:
-                if char not in t:
-                    t[char] = {}
-                t = t[char]
-            t["#"] = "#"
-
-        for i in range(rows):
-            for j in range(cols):
-                if board[i][j] in trie:
-                    temp = board[i][j]
-                    board[i][j] = '@'
-                    dfs(i, j, trie[temp], temp)
-                    board[i][j] = temp
-        return output
+        self.board[i][j] = temp
+        if not current:
+            trie.pop(temp)

@@ -27,3 +27,23 @@ class Solution:
             if increasing and decreasing:
                 return False
         return True
+
+# Return count
+class Solution:
+    def isMonotonic(self, nums: List[int]) -> bool:
+
+        increasing = False
+        decreasing = False
+        count = 0
+        for i in range(len(nums) - 1):
+            if nums[i] < nums[i + 1]:
+                if decreasing:
+                    count += 1
+                    decreasing = False
+                increasing = True
+            elif nums[i] > nums[i + 1]:
+                decreasing = True
+                if increasing:
+                    increasing = False
+                    count += 1
+        return count
