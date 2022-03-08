@@ -57,3 +57,30 @@ class Solution:
                 stack.append((node.left, currentDepth + 1))
                 stack.append((node.right, currentDepth + 1))
         return depth
+
+
+# Another approach
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+        if not root:
+            return 0
+        self.max_depth = float('-inf')
+
+        def getMaxDepth(root):
+            if not root:
+                return 0
+
+            leftDepth = getMaxDepth(root.left)
+            rightDepth = getMaxDepth(root.right)
+            self.max_depth = max(self.max_depth, max(leftDepth, rightDepth) + 1)
+            return max(leftDepth, rightDepth) + 1
+
+        getMaxDepth(root)
+        return self.max_depth

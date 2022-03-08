@@ -61,7 +61,7 @@ class Solution:
                 for dx, dy in direction:
                     next_x = i + dx
                     next_y = j + dy
-                    if 0 <= next_x < len(grid) and 0 <= next_y < len(grid[0]):
+                    if 0 <= next_x < len(grid) and 0 <= next_y < len(grid[0]) and grid[next_x][next_y] > 1:
                         neighbors.add(grid[next_x][next_y])
                 result = max(result, sum(islands[i] for i in neighbors) + 1)
 

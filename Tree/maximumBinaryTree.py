@@ -27,18 +27,17 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def constructMaximumBinaryTree(self, nums: List[int]) -> TreeNode:
+    def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
         if not nums:
             return None
 
         def constructTree(nums):
             if len(nums) == 0:
                 return None
-            while len(nums) > 0:
-                maxIndex = nums.index(max(nums))
-                root = TreeNode(nums[maxIndex])
-                nums.remove(nums[maxIndex])
-                root.left = constructTree(nums[:maxIndex])
-                root.right = constructTree(nums[maxIndex:])
-                return root
+            maxIndex = nums.index(max(nums))
+            root = TreeNode(nums[maxIndex])
+            nums.remove(nums[maxIndex])
+            root.left = constructTree(nums[:maxIndex])
+            root.right = constructTree(nums[maxIndex:])
+            return root
         return constructTree(nums)

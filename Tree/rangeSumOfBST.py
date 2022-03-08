@@ -41,24 +41,19 @@ class Solution:
 #         self.left = left
 #         self.right = right
 class Solution:
-    def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
 
-        if not root:
-            return 0
-        rangeSum = 0
+        self.result = 0
 
-        def getSum(node):
-            nonlocal rangeSum
-            if node:
-                if node.val >= low and node.val <= high:
-                    rangeSum += node.val
-                if node.val > low:
-                    getSum(node.left)
-                if node.val < high:
-                    getSum(node.right)
+        def inorder(root):
+            if root:
+                inorder(root.left)
+                if root.val >= low and root.val <= high:
+                    self.result += root.val
+                inorder(root.right)
 
-        getSum(root)
-        return rangeSum
+        inorder(root)
+        return self.result
 
 
 
