@@ -14,19 +14,16 @@ class Solution:
     def maxSubArrayLen(self, nums: List[int], k: int) -> int:
         if not nums:
             return 0
-        mapping = collections.defaultdict(int)
+
+        largest = 0
         sum_so_far = 0
-        result = float('-inf')
-        for index, num in enumerate(nums):
-            sum_so_far += num
-            if sum_so_far not in mapping:
-                mapping[sum_so_far] = index
-            
+        mapping = {}
+        for i in range(len(nums)):
+            sum_so_far += nums[i]
             if sum_so_far == k:
-                result = max(result, index - 0 + 1) #everything from 0, to i has been aggregated to add up to k. Length = i-0+1
-            
-            #The idea is that if there is a number in a map where sum less k equals to a number already in a table,
-            # there must be a contiguous section from that point (mp[acc - k]) to current point (i) where the sum of all items is k.
-            elif sum_so_far - k in mapping:
-                result = max(result, index - mapping[sum_so_far - k])
-        return result if result != float('-inf') else 0
+                largest = i + 1
+            if sum_so_far - k in mapping:
+                largest = max(largest, i - mapping[sum_so_far - k])
+            if sum_so_far not in mapping:
+                mapping[sum_so_far] = i
+        return largest

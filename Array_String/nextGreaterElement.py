@@ -110,3 +110,57 @@ class Solution:
                     result[i] = copyArray[j]
                     break
         return result
+
+
+'''Next Greater Element III - https://leetcode.com/problems/next-greater-element-iii/
+Given a positive integer n, find the smallest integer which has exactly the same digits existing in the integer n 
+and is greater in value than n. If no such positive integer exists, return -1.
+
+Note that the returned integer should fit in 32-bit integer, if there is a valid answer but it does not fit in 
+32-bit integer, return -1.
+
+Example 1:
+
+Input: n = 12
+Output: 21
+Example 2:
+
+Input: n = 21
+Output: -1
+'''
+class Solution:
+    def nextGreaterElement(self, n: int) -> int:
+
+        if n >= 2 ** 31 - 1:
+            return -1
+
+        nums = list(str(n))
+
+        def reverse(nums, start):
+            i = start
+            j = len(nums) - 1
+
+            while i < j:
+                swap(nums, i, j)
+                i += 1
+                j -= 1
+
+        def swap(nums, i, j):
+            nums[i], nums[j] = nums[j], nums[i]
+
+        i = len(nums) - 2
+        while i >= 0 and nums[i] >= nums[i + 1]:  # Find first decreasing number
+            i -= 1
+
+        if i < 0:
+            return -1
+
+        if i >= 0:
+            j = len(nums) - 1
+            while j >= 0 and nums[j] <= nums[i]:  # Find increasing number greater than number at i
+                j -= 1
+            swap(nums, i, j)
+        reverse(nums, i + 1)
+
+        result = int("".join(nums))
+        return -1 if result > 2 ** 31 - 1 or result < n else result

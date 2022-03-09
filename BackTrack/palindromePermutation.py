@@ -11,15 +11,16 @@ Output: true'''
 
 class Solution:
     def canPermutePalindrome(self, s: str) -> bool:
-        output = []
+
+        oddCount = 0
+        mapping = {}
         for char in s:
-            if char not in output:
-                output.append(char)
+            mapping[char] = mapping.get(char, 0) + 1
+            if mapping[char] % 2 == 0:
+                oddCount -= 1
             else:
-                output.remove(char)
-        return len(output) == 0 or len(output) == 1
-
-
+                oddCount += 1
+        return oddCount <= 1
 
 # Palindrome Permutation II - https://leetcode.com/problems/palindrome-permutation-ii/
 '''Given a string s, return all the palindromic permutations (without duplicates) of it. 
