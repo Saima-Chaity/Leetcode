@@ -30,10 +30,10 @@ class Solution:
         q = deque([0])
         while q:
             node = q.popleft()
+            visited.add(node)
             for neighbour in graph[node]:
                 if neighbour not in visited:
                     q.append(neighbour)
-                    visited.add(neighbour)
         return len(visited) == n
 
 

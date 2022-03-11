@@ -35,18 +35,17 @@ class Solution:
         if not s or not k:
             return 0
         
-        freq = defaultdict()
-        right = 0
+        freq = defaultdict(int)
         left = 0
-        maxLength = 1
-
+        right = 0
+        result = 0
         while right < len(s):
-            char = s[right]
-            freq[char] = right
+            freq[s[right]] = freq.get(s[right], 0) + 1
             right += 1
-            if len(freq) == k+1:
-                lowestIndex = min(freq.values())
-                left = lowestIndex + 1
-                del freq[s[lowestIndex]] 
-            maxLength = max(maxLength, right-left)
-        return maxLength
+            if len(freq) > k:
+                freq[s[left]] -= 1
+                if freq[s[left]] == 0:
+                    del freq[s[left]]
+                left += 1
+            result = max(result, right-left)
+        return result
