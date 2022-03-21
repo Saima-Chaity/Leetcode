@@ -17,28 +17,6 @@ A solution set is:
   [2,2,3]
 ]'''
 
-class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        dp = {}
-        for candidate in candidates:
-            for i in range(candidate, target + 1):
-                if i == candidate:
-                    if i not in dp:
-                        dp[i] = [[candidate]]
-                    else:
-                        dp[i] += [[candidate]]
-                else:
-                    if i - candidate > 0 and i - candidate in dp:
-                        for numSet in dp[i - candidate]:
-                            x = numSet + [candidate]
-                            if i not in dp:
-                                dp[i] = [x]
-                            else:
-                                dp[i].append(x)
-        if target not in dp:
-            return []
-        return dp[target]
-
 # BackTracking
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
@@ -143,14 +121,19 @@ Output: [[1,2,4]]'''
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
 
-        def backTrack(K, target, currentList, index):
-            if K == 0 and target == 0:
-                output.append(currentList[:])
+        def backTrack(index, path, target):
+            if len(path) > k:
+                return
+            if target < 0:
+                return
+            if target == 0 and len(path) == k:
+                output.append(path)
                 return
             for i in range(index, 10):
-                backTrack(K - 1, target - i, currentList + [i], i + 1) # next_index will be i+1 to Avoid duplicate
+                backTrack(i + 1, path + [i], target - i)
+
         output = []
-        backTrack(k, n, [], 1)
+        backTrack(1, [], n)
         return output
 
 
@@ -173,20 +156,19 @@ Therefore the output is 7.'''
 
 class Solution:
     def combinationSum4(self, nums: List[int], target: int) -> int:
-    
-        mapping = {}
-        def backTrack(currentSum, combination):
-            if currentSum > target:
+
+        def backTrack(target):
+            if target < 0:
                 return 0
-            if currentSum == target:
+            if target == 0:
                 return 1
-            if currentSum in mapping:
-                return mapping[currentSum]
+            if target in mapping:
+                return mapping[target]
             result = 0
-            for i in range(0, len(nums)):
-                result += backTrack(currentSum+nums[i], combination+[nums[i]])
-            mapping[currentSum] = result
-            return mapping[currentSum]
-        return backTrack(0, [])   
-    
-            
+            for i in range(len(nums)):
+                result += backTrack(target - nums[i])
+            mapping[target] = result
+            return mapping[target]
+
+        mapping = {}
+        return backTrack(target)

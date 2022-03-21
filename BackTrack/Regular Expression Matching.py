@@ -31,27 +31,26 @@ class Solution:
             remove one char from s and remove one char from p
         '''
 
-        def helper(s, p):
-            if (s, p) in memo:
-                return memo[(s, p)]
+        class Solution:
+            def isMatch(self, s: str, p: str) -> bool:
 
-            if not s and not p:
-                memo[(s, p)] = True
+                def _isMatch(s, p):
+                    if (s, p) in memo:
+                        return memo[(s, p)]
+                    if s == p:
+                        memo[(s, p)] = True
+                    elif s and not p:
+                        memo[(s, p)] = False
+                    elif p[-1] == "*":
+                        if s and (s[-1] == p[-2] or p[-2] == "."):
+                            memo[(s, p)] = _isMatch(s[:-1], p) or _isMatch(s, p[:-2])
+                        else:
+                            memo[(s, p)] = _isMatch(s, p[:-2])
+                    elif s and (s[-1] == p[-1] or p[-1] == "."):
+                        memo[(s, p)] = _isMatch(s[:-1], p[:-1])
+                    else:
+                        memo[(s, p)] = False
+                    return memo[(s, p)]
 
-            elif not p and s:
-                memo[(s, p)] = False
-
-            elif p[-1] == "*":
-                if s and (s[-1] == p[-2] or p[-2] == "."):
-                    memo[(s, p)] = helper(s[:-1], p) or helper(s, p[:-2])
-                else:
-                    memo[(s, p)] = helper(s, p[:-2])
-
-            elif s and (p[-1] == s[-1] or p[-1] == "."):
-                memo[(s, p)] = helper(s[:-1], p[:-1])
-            else:
-                memo[(s, p)] = False
-            return memo[(s, p)]
-
-        memo = {}
-        return helper(s, p)
+                memo = {}
+                return _isMatch(s, p)

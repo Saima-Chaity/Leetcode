@@ -18,30 +18,29 @@ Note:
 class Solution:
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
 
-        def dfs(index, currentSum, k):
+        def backTrack(index, target, k, sum_so_far):
+            visited_mapping = "".join(visited)
+            if visited_mapping in memo:
+                return memo[visited_mapping]
             if k == 0:
                 return True
-
-            if currentSum == targetSum:
-                return dfs(0, 0, k - 1)
-
+            if target == sum_so_far:
+                memo[visited_mapping] = backTrack(0, target, k - 1, 0)
+                return memo[visited_mapping]
             for i in range(index, len(nums)):
-                if not visited[i] and currentSum + nums[i] <= targetSum:
-                    visited[i] = True
-                    if dfs(i + 1, currentSum + nums[i], k):
+                if visited[i] == "0" and sum_so_far + nums[i] <= target:
+                    visited[i] = "1"
+                    if backTrack(i + 1, target, k, sum_so_far + nums[i]):
                         return True
-                    visited[i] = False
+                    visited[i] = "0"
+            memo[visited_mapping] = False
+            return memo[visited_mapping]
+
+        total = sum(nums)
+        max_num = max(nums)
+        if total % k != 0 or max_num > total // k:
             return False
 
-        total = 0
-        maxNumber = -1
-        for i in range(len(nums)):
-            total += nums[i]
-            maxNumber = max(maxNumber, nums[i])
-
-        if total % k != 0 or maxNumber > total // k:
-            return False
-
-        targetSum = total // k
-        visited = [False] * len(nums)
-        return dfs(0, 0, k)
+        visited = ["0"] * len(nums)
+        memo = {}
+        return backTrack(0, total // k, k, 0)

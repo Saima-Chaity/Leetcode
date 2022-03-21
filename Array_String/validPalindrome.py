@@ -45,25 +45,18 @@ Example 1:
 Input: "aba"
 Output: True'''
 
-
 class Solution:
     def validPalindrome(self, s: str) -> bool:
-        
-        if s == s[::-1]:
-            return True
 
         left = 0
         right = len(s) - 1
-
         while left < right:
-            if s[left] == s[right]:
+            if s[left] != s[right]:
+                leftStr = s[:left] + s[left + 1:]
+                rightStr = s[:right] + s[right + 1:]
+                return leftStr == leftStr[::-1] or rightStr == rightStr[::-1]
+            else:
                 left += 1
                 right -= 1
-            elif s[left] != s[right]:
-                s_Left = s[:left] + s[left + 1:]
-                s_Right = s[:right] + s[right + 1:]
-                return s_Left == s_Left[::-1] or s_Right == s_Right[::-1]
         return True
-
-
 
