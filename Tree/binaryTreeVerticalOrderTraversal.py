@@ -84,3 +84,39 @@ class Solution:
         for i in range(minX, maxX + 1):
             result.append(group[i])
         return result
+
+
+# DFS
+from collections import defaultdict
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+
+        if not root:
+            return []
+
+        groups = defaultdict(list)
+        min_x = float('inf')
+        max_x = float('-inf')
+
+        def getVerticalOrder(node, x, y):
+            nonlocal max_x, min_x
+            if node:
+                groups[x].append((y, node.val))
+                min_x = min(min_x, x)
+                max_x = max(max_x, x)
+                getVerticalOrder(node.left, x - 1, y + 1)
+                getVerticalOrder(node.right, x + 1, y + 1)
+
+        getVerticalOrder(root, 0, 0)
+        result = []
+        for x in range(min_x, max_x + 1):
+            groups[x].sort(key=lambda x: x[0])
+            result.append(value for row, value in groups[x])
+        return result
+

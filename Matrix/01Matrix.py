@@ -13,28 +13,28 @@ The distance between two adjacent cells is 1.'''
 #  [0,1,0],
 #  [1,2,1]]
 
+from collections import deque
 class Solution:
-  def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
 
-    if not matrix:
-      return []
-    rows = len(matrix)
-    cols = len(matrix[0])
-    q = []
-    visited = set()
-    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    for i in range(rows):
-      for j in range(cols):
-        if matrix[i][j] == 0:
-          q.append((i, j))
-          visited.add((i, j))
-    while q:
-      x, y = q.pop(0)
-      for dx, dy in directions:
-        xi = x + dx
-        yj = y + dy
-        if 0 <= xi < rows and 0 <= yj < cols and (xi, yj) not in visited:
-          matrix[xi][yj] = matrix[x][y] + 1
-          q.append((xi, yj))
-          visited.add((xi, yj))
-    return matrix
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        row = len(mat)
+        col = len(mat[0])
+        visited = set()
+        q = deque()
+        for i in range(row):
+            for j in range(col):
+                if mat[i][j] == 0:
+                    visited.add((i, j))
+                    q.append((i, j))
+
+        while q:
+            i, j = q.popleft()
+            for dx, dy in direction:
+                x = i + dx
+                y = j + dy
+                if 0 <= x < row and 0 <= y < col and (x, y) not in visited:
+                    mat[x][y] = mat[i][j] + 1
+                    visited.add((x, y))
+                    q.append((x, y))
+        return mat

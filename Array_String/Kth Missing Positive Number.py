@@ -42,4 +42,4 @@ class Solution:
                 left = mid + 1
             else:
                 right = mid - 1
-        return left + k
+        return left + k # left == right + 1, so arr[right] + k - (arr[right] - right - 1) == k + right + 1 == k + left

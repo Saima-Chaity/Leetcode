@@ -23,6 +23,31 @@ Input: n = 5 and edges = [[0, 1], [1, 2], [2, 3], [3, 4]]
 
 Output:  1'''
 
+#DFS
+from collections import defaultdict
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+
+        def dfs(node):
+            visited.add(node)
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    dfs(neighbor)
+
+        graph = defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        visited = set()
+        count = 0
+        for i in range(n):
+            if i not in visited:
+                dfs(i)
+                count += 1
+        return count
+
+# BFS
 from collections import defaultdict, deque
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:

@@ -24,18 +24,22 @@ import heapq
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
 
+        q = []
+        heapq.heappush(q, (grid[0][0], 0, 0))
+        row = len(grid)
+        col = len(grid[0])
         direction = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        heap = [(grid[0][0], 0, 0)]
-        visited = set()
+        visited = set([0, 0])
         result = 0
-        while heap:
-            depth, i, j = heapq.heappop(heap)
-            result = max(result, depth)
-            if i == len(grid) - 1 and j == len(grid[0]) - 1:
+        while q:
+            time, i, j = heapq.heappop(q)
+            result = max(result, time)
+            if i == row - 1 and j == col - 1:
                 return result
             for dx, dy in direction:
                 x = dx + i
                 y = dy + j
-                if 0 <= x < len(grid) and 0 <= y < len(grid[0]) and (x, y) not in visited:
-                    heapq.heappush(heap, (grid[x][y], x, y))
+                if 0 <= x < row and 0 <= y < col and (x, y) not in visited:
                     visited.add((x, y))
+                    heapq.heappush(q, (grid[x][y], x, y))
+        return result

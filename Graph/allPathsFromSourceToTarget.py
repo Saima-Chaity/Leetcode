@@ -11,13 +11,17 @@ Explanation: There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.'''
 
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        output = []
-        target = len(graph) - 1
-        def backTrack(currentNode, path):
-            if currentNode == target:
+
+        def backTrack(node, path):
+            if node == len(graph) - 1:
                 output.append(path)
                 return
-            for nextNode in graph[currentNode]:
-                backTrack(nextNode, path+[nextNode])
+            for neighbor in graph[node]:
+                visited[node] = True
+                backTrack(neighbor, path + [neighbor])
+                visited[node] = False
+
+        output = []
+        visited = [False] * len(graph)
         backTrack(0, [0])
         return output

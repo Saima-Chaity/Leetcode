@@ -25,12 +25,7 @@ class Solution:
             if len(heap) > K:
                 heapq.heappop(heap)
 
-        output = []
-        while K > 0:
-            distance, point = heapq.heappop(heap)
-            output.append(point)
-            K -= 1
-        return output
+        return [heapq.heappop(heap)[1] for _ in range(k)]
 
 
 # Using min-heap - O(N) to build a heap + O(Klog(N)) to extract.

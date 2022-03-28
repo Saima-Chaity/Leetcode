@@ -35,20 +35,21 @@ class Solution:
 class Solution:
     def missingElement(self, nums: List[int], k: int) -> int:
 
-        n = len(nums) - 1
-
         def getMissingCount(index):
+            # all missing count from 0 to the current index
             return nums[index] - nums[0] - index
 
+        n = len(nums) - 1
         if k > getMissingCount(n):
             return nums[-1] + k - getMissingCount(n)
 
         left = 0
-        right = len(nums) - 1
+        right = n
         while left < right:
             mid = (left + right) // 2
             if getMissingCount(mid) < k:
                 left = mid + 1
             else:
                 right = mid
-        return nums[right - 1] + k - getMissingCount(right - 1)
+        return nums[left - 1] + k - getMissingCount(left - 1)  # result lies between left-1 to left
+                                                               # remove all the missing count before left - 1

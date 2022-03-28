@@ -16,22 +16,27 @@ Time O(log(N - K)) to binary research and find result
 Space O(K) to create the returned list.'''
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        
+
         if arr[0] > x:
             return arr[:k]
-        
-        if arr[len(arr)-1] < x:
+        if arr[-1] < x:
             return arr[-k:]
-        
-        low = 0
-        high = len(arr)-k
-        while low < high:
-            mid = low + (high-low) // 2
-            if x - arr[mid] > arr[mid+k] - x:
-                low = mid + 1
+
+        left = 0
+        right = len(arr) - k
+        while left < right:
+            mid = (left + right) // 2
+            if arr[mid] == arr[mid + k]:
+                if x > arr[mid]:
+                    left = mid + 1
+                else:
+                    right = mid
             else:
-                high = mid
-        return arr[low:low+k]
+                if abs(x - arr[mid]) > abs(arr[mid + k] - x):
+                    left = mid + 1
+                else:
+                    right = mid
+        return arr[left:left + k]
 
 # Reference -
 # https://leetcode.com/problems/find-k-closest-elements/discuss/462664/Python-binary-search-with-detailed-explanation
