@@ -30,14 +30,10 @@ class Solution:
     and mod by 26. So, (26 + 122 - 97) % 26 and (26 + 79 - 80) % 26 both equal (25,)'''
     def groupStrings(self, strings: List[str]) -> List[List[str]]:
 
-        def getAsciiValue(string):
-            totalValue = []
-            for i in range(len(string) - 1):
-                totalValue.append(str((ord(string[i + 1]) - ord(string[i])) % 26))
-            return "".join(totalValue)
-
         mapping = defaultdict(list)
-        for item in strings:
-            asciiValue = getAsciiValue(item)
-            mapping[asciiValue].append(item)
+        for word in strings:
+            count = [0] * 26
+            for i in range(1, len(word)):
+                count[(ord(word[i]) - ord(word[i-1]))%26] += 1
+            mapping[tuple(count)].append(word)
         return mapping.values()

@@ -44,6 +44,10 @@ class Solution:
 import random
 class Solution:
     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+
+        if len(points) <= K:
+            return points
+
         self.findKthCloset(0, len(points) - 1, K, points)
         return points[:K]
 

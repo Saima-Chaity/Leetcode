@@ -132,3 +132,16 @@ class Solution:
                 output[i] = max(output[i - 1], current)
         return output[-1]
 
+# Another approach
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        if not k:
+            return 0
+
+        min_buy = [float('inf')] * (k + 1)
+        max_profit = [0] * (k + 1)
+        for i in range(len(prices)):
+            for j in range(k):
+                min_buy[j + 1] = min(min_buy[j + 1], prices[i] - max_profit[j])
+                max_profit[j + 1] = max(max_profit[j + 1], prices[i] - min_buy[j + 1])
+        return max_profit[k]

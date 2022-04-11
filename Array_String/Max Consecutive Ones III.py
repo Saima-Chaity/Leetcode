@@ -21,3 +21,22 @@ class Solution:
                 k += 1 - nums[left]
                 left += 1
         return right - left + 1
+
+
+# Another approach
+class Solution:
+    def longestOnes(self, nums: List[int], k: int) -> int:
+
+        left = 0
+        maxLength = -1
+        zeros = 0
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                zeros += 1
+
+            while left <= i and zeros > k:
+                if nums[left] == 0:
+                    zeros -= 1
+                left += 1
+            maxLength = max(maxLength, i - left + 1)
+        return maxLength

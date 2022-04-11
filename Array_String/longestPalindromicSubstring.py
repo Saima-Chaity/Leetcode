@@ -9,7 +9,6 @@ Note: "aba" is also a valid answer.
 Input: "cbbd"
 Output: "bb"'''
 
-
 class Solution:
     def longestPalindrome(self, s: str) -> str:
 
@@ -18,9 +17,9 @@ class Solution:
 
         p = ""
 
-        for i in range(1, len(s)):
-            p1 = self.getSubstr(i - 1, i + 1, s)
-            p2 = self.getSubstr(i - 1, i, s)
+        for i in range(len(s)):
+            p1 = self.getSubstr(i, i + 1, s)
+            p2 = self.getSubstr(i, i, s)
             p = max([p, p1, p2], key=lambda x: len(x))
         return p
 
@@ -29,7 +28,6 @@ class Solution:
             left -= 1
             right += 1
         return s[left + 1:right]
-
 
 
 # Palindromic Substrings - https://leetcode.com/problems/palindromic-substrings/

@@ -13,28 +13,26 @@ Output: "world"
 Explanation: The word "world" can be built one character at a time by "w", "wo", "wor", and "worl".
 '''
 
+
 class Solution:
     def longestWord(self, words: List[str]) -> str:
-        def check_words(word):
+
+        def checkWord(word):
             new_word = ""
             for char in word:
-                if not new_word and char not in word_dict:
+                new_word += char
+                if new_word not in word_dict:
                     return ""
-                else:
-                    new_word += char
-                    if new_word not in word_dict:
-                        return ""
             output.append(new_word)
 
-        word_dict = set(words)
         output = []
+        word_dict = set(words)
         for i in range(len(words) - 1, -1, -1):
             if output and len(output[-1]) > len(words[i]):
                 continue
-            check_words(words[i])
+            checkWord(words[i])
 
         if not output:
             return ""
-
         output.sort(key=lambda x: (-len(x), x))
         return output[0]

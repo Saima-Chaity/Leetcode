@@ -71,3 +71,33 @@ class Solution:
 
 sol = Solution()
 print(sol.mergeKLists([[1,4,5,5,6],[2,3,4,5],[1,2,7,8]]))  #[1,2,3,4,5,6,7,8]
+
+
+'''Given two arrays of integers a and b of the same length, find the number of pairs (i, j) such that i <=j
+and a[i] - b[j] = a[j] - b[i].
+
+Example:
+
+. For a= [2, -2, 5, 3] and b= [1, 5, -1, 1], the output should be solution (a, b) = 6.
+
+. For (1,5) = (0, 0) equality holds: a [0] b[0] = 2 = 1 = 1 and a[0] - b[0] =2-1=1
+
+. For (1, 3) = (0, 1) equality holds: a [0] b[1]= 2 - 5 = -3 and - b[0]= (-2) - 1 = -3,
+
+. For (1, 3) = (0, 2) equality doesn't hold: a[0] - b[2] 2 - (-1) = 3 and a [2] b[0] = 5-1-4.
+'''
+
+class Solution:
+    def getPairs(self, num1, num2):
+
+        mapping = {}
+        for a, b in zip(num1, num2):
+            mapping[(a+b)] = mapping.get((a+b), 0) + 1
+
+        result = 0
+        for key, value in mapping.items():
+            result += (value * (value-1))//2
+        return result + len(num1)
+
+pairs = Solution()
+print(pairs.getPairs([2, -2, 5, 3], [1, 5, -1, 1]))

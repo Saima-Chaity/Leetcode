@@ -41,3 +41,28 @@ class Solution:
                 if node.right:
                     q.append((node.right, level + 1))
         return output
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+
+        if not root:
+            return []
+
+        def helper(root, level):
+            if level == len(result):
+                result.append(root.val)
+
+            for child in [root.right, root.left]:
+                if child:
+                    helper(child, level + 1)
+
+        result = []
+        helper(root, 0)
+        return result
